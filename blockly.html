@@ -6,9 +6,10 @@
   <script src="js/blockly_compressed.js"></script>
   <script src="js/blocks_compressed.js"></script>
   <script src="js/python_compressed.js"></script>
+  <!--script src="js/v24.js"></script-->
+  <script src="js/v30.js"></script>
   <script src="js/en.js"></script>
   <script>
-
 
 Blockly.Blocks['imread'] = {
   init: function() {
@@ -48,6 +49,32 @@ Blockly.Python['imshow'] = function(block) {
   var windowname = block.getFieldValue('windowname');
   var code = "cv2.imshow('" + windowname + "',"+ image +")\r\n";
   return code;
+};
+
+
+Blockly.Blocks['forRange'] = {
+  init: function() {
+    this.setColour(135);
+    this.setInputsInline(true);
+    this.appendDummyInput()
+        .appendField("for");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldVariable('i'), 'i')
+        .appendField("in range")
+    this.appendValueInput("rend")
+        .setCheck("Number");
+    this.appendStatementInput("statement");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+Blockly.Python['forRange'] = function(block) {
+  var i = block.getFieldValue('i');
+  var stop = Blockly.Python.valueToCode(block, 'rend', Blockly.Python.ORDER_ATOMIC);
+  var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
+  var code = "for ("+i+" in range("+stop+"):\n"+s;
+  return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Blocks['waitkey'] = {
@@ -112,7 +139,6 @@ Blockly.Python['onmouse'] = function(block) {
   var code = "def onmouse(button, x, y, flags, param):\n" +s + "\n" + "cv2.setMouseCallback('"+w+"', onmouse)\n";
   return code;
 };
-
 
 Blockly.Blocks['cascade'] = {
   init: function() {
@@ -278,6 +304,51 @@ Blockly.Python['cvtcolor'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+
+Blockly.Blocks['drawcontours'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField("drawcontours")
+    this.appendValueInput("img")
+        .appendField("image")
+        .setCheck("image");
+    this.appendValueInput("contours")
+        .appendField("contours")
+    this.appendValueInput("color")
+        .appendField("color")
+        .setCheck("Colour");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  },
+};
+Blockly.Python['drawcontours'] = function(block) {
+  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  var cont = Blockly.Python.valueToCode(block, 'contours', Blockly.Python.ORDER_ATOMIC);
+  var col = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
+  var code = "cv2.drawContours("+img+","+cont+",-1,"+col+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks['boundingrect'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField("boundingrect");
+    this.appendValueInput("contour")
+        .appendField("contour")
+        .setCheck("contour");
+    this.setOutput(true, "rect");
+    this.setTooltip('');
+  },
+};
+Blockly.Python['boundingrect'] = function(block) {
+  var cont = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
+  var code = "cv2.boundingRect("+cont+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Blocks['threshold'] = {
   init: function() {
     this.setColour(65);
@@ -297,7 +368,7 @@ Blockly.Python['threshold'] = function(block) {
   var dropdown_flag = block.getFieldValue('flag');
   var text_thresh_val = block.getFieldValue('thresh_val');
   var text_thresh_to = block.getFieldValue('thresh_to');
-  var code = "cv2.threshold("+value_img+","+dropdown_flag+","+text_thresh_val+","+text_thresh_to+")";
+  var code = "cv2.threshold("+value_img+","+text_thresh_val+","+text_thresh_to+","+dropdown_flag+")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -436,7 +507,6 @@ Blockly.Python['point_br'] = function(block) {
       clearInterval(the_timer_id);
       the_timer_id=-1;
     }
-
   </script>
   <style>
     body {
@@ -447,7 +517,7 @@ Blockly.Python['point_br'] = function(block) {
       font-weight: normal;
       font-size: 140%;
     }
-    button {
+    button,input {
       border-style:solid;  border-width:4;      border-color: #666; 
       font-size: 120%; font-family: Arial, "MS Trebuchet",
     }
@@ -455,7 +525,7 @@ Blockly.Python['point_br'] = function(block) {
 </head>
 <body>
    <p>
-    <button onclick="runPy()">Run Python Code</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="runPy()">Run Python Code</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button onclick="savePrj()">Save</button>
     <button onclick="loadPrj()">Load</button>
   </p>
@@ -479,6 +549,11 @@ Blockly.Python['point_br'] = function(block) {
     <category name="Detect">
       <block type="cascade"></block>
       <block type="findobjects"></block>
+    </category>
+    <category name="Contours">
+      <block type="findcontours"></block>
+      <block type="drawcontours"></block>
+      <block type="boundingrect"></block>
     </category>
     <category name="Drawing">
       <block type="rectangle"></block>
@@ -510,7 +585,7 @@ Blockly.Python['point_br'] = function(block) {
         </value>
       </block>
       <block type="controls_whileUntil"></block>
-      <block type="controls_for">
+      <!--block type="controls_for"-->
         <value name="FROM">
           <block type="math_number">
             <field name="NUM">1</field>
@@ -528,6 +603,7 @@ Blockly.Python['point_br'] = function(block) {
         </value>
       </block>
       <block type="controls_forEach"></block>
+      <block type="forRange"></block>
       <block type="controls_flow_statements"></block>
     </category>
     <category name="Math">

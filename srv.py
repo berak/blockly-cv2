@@ -34,7 +34,6 @@ def load(environ):
     code = ""
     try:
         name = postdata(environ)
-        print "loading",name
         f = open("prj/"+name +"/code.xml", "rb")
         code = f.read()
         f.close()
