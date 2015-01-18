@@ -13,7 +13,7 @@ Blockly.Python.scrub_=function(a,b){var c="";if(!a.outputConnection||!a.outputCo
 Blockly.Python.colour={};
 Blockly.Python.colour_picker=function(a){
 	var c = a.getFieldValue("COLOUR");
-	return["(0x"+c[1]+c[2]+",0x"+c[3]+c[4]+",0x"+c[5]+c[6]+")",Blockly.Python.ORDER_ATOMIC]
+	return["(0x"+c[5]+c[6]+",0x"+c[3]+c[4]+",0x"+c[1]+c[2]+")",Blockly.Python.ORDER_ATOMIC]
 };Blockly.Python.colour_random=function(a){Blockly.Python.definitions_.import_random="import random";return["'#%06x' % random.randint(0, 2**24 - 1)",Blockly.Python.ORDER_FUNCTION_CALL]};
 Blockly.Python.colour_rgb=function(a){var b=Blockly.Python.provideFunction_("colour_rgb",["def "+Blockly.Python.FUNCTION_NAME_PLACEHOLDER_+"(r, g, b):","  r = round(min(100, max(0, r)) * 2.55)","  g = round(min(100, max(0, g)) * 2.55)","  b = round(min(100, max(0, b)) * 2.55)","  return '#%02x%02x%02x' % (r, g, b)"]),c=Blockly.Python.valueToCode(a,"RED",Blockly.Python.ORDER_NONE)||0,d=Blockly.Python.valueToCode(a,"GREEN",Blockly.Python.ORDER_NONE)||0;a=Blockly.Python.valueToCode(a,"BLUE",Blockly.Python.ORDER_NONE)||
 0;return[b+"("+c+", "+d+", "+a+")",Blockly.Python.ORDER_FUNCTION_CALL]};
