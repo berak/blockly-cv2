@@ -34,7 +34,8 @@ Blockly.Blocks['imshow'] = {
     this.setColour(45);
     this.appendDummyInput()
         .appendField("imshow")
-        .appendField(new Blockly.FieldTextInput("mywin"), "windowname");
+        .appendField(new Blockly.FieldVariable('mywin'), 'windowname')
+        //.appendField(new Blockly.FieldTextInput("mywin"), "windowname");
     this.appendValueInput("image")
         .setCheck("image");
     this.setPreviousStatement(true);
@@ -71,7 +72,44 @@ Blockly.Python['waitkey'] = function(block) {
   var m = block.getFieldValue('millis');
   var k = block.getFieldValue('key');
   var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
-  var code = "if cv2.waitKey("+m+")&0xff == "+k+":\r\n"+s;
+  var code = "if cv2.waitKey("+m+")&0xff == "+k+":\n"+s;
+  return code;
+};
+
+Blockly.Blocks['onmouse'] = {
+  init: function() {
+    this.setColour(45);
+    this.setInputsInline(true);
+    this.appendDummyInput()
+        .appendField("onmouse")
+        .appendField(new Blockly.FieldVariable('mywin'), 'windowname')
+        .appendField(new Blockly.FieldVariable('button'), 'button')
+        .appendField(new Blockly.FieldVariable('x'), 'x')
+        .appendField(new Blockly.FieldVariable('y'), 'y');
+    this.appendStatementInput("statement");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  },
+  getVars: function() {
+    return [
+      this.getFieldValue('windowname'),
+      this.getFieldValue('button'),
+      this.getFieldValue('x'),
+      this.getFieldValue('y')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('windowname'))) { this.setFieldValue(newName, 'windowname'); }
+    if (Blockly.Names.equals(oldName, this.getFieldValue('button'))) { this.setFieldValue(newName, 'button'); }
+    if (Blockly.Names.equals(oldName, this.getFieldValue('x'))) { this.setFieldValue(newName, 'x'); }
+    if (Blockly.Names.equals(oldName, this.getFieldValue('y'))) { this.setFieldValue(newName, 'y'); }
+  },
+};
+Blockly.Python['onmouse'] = function(block) {
+  var w = block.getFieldValue('windowname');
+  var k = block.getFieldValue('key');
+  var s = Blockly.Python.statementToCode(block, 'statement') || '  pass\n';
+  var code = "def onmouse(button, x, y, flags, param):\n" +s + "\n" + "cv2.setMouseCallback('"+w+"', onmouse)\n";
   return code;
 };
 
@@ -355,7 +393,7 @@ Blockly.Python['point_br'] = function(block) {
 
     function pyCode() {
       var code = Blockly.Python.workspaceToCode();
-      return code + "cv2.destroyAllWindows()"
+      return "\nimport cv2\nimport numpy as np\n\n" + code + "cv2.destroyAllWindows()"
     }
 
     function showPy() {
@@ -380,8 +418,8 @@ Blockly.Python['point_br'] = function(block) {
     }
     function savePrj() {
       var name = prompt("Please enter the project name");
-      ajax("/save_code",name + "\nimport cv2\nimport numpy as np" + pyCode());
-      ajax("/save_xml",name + "\n" + toXml());
+      ajax("/save_code",name + "\n" + pyCode());
+      ajax("/save_xml", name + "\n" + toXml());
     }
     function loadPrj()
     {
@@ -430,6 +468,7 @@ Blockly.Python['point_br'] = function(block) {
       <block type="imread"></block>
       <block type="imshow"></block>
       <block type="waitkey"></block>
+      <block type="onmouse"></block>
       <block type="cvtcolor"></block>
       <block type="threshold"></block>
     </category>

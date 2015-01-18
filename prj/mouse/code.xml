@@ -1,0 +1,54 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="imshow" id="75" inline="false" x="2" y="139">
+    <field name="windowname">mywin</field>
+    <value name="image">
+      <block type="imread" id="67">
+        <field name="grey">FALSE</field>
+        <field name="filename">media/lena.jpg</field>
+      </block>
+    </value>
+    <next>
+      <block type="onmouse" id="16">
+        <field name="windowname">mywin</field>
+        <field name="button">button</field>
+        <field name="x">x</field>
+        <field name="y">y</field>
+        <statement name="statement">
+          <block type="text_print" id="34" inline="false">
+            <value name="TEXT">
+              <block type="lists_create_with" id="193" inline="false">
+                <mutation items="4"></mutation>
+                <value name="ADD0">
+                  <block type="text" id="137">
+                    <field name="TEXT">x: </field>
+                  </block>
+                </value>
+                <value name="ADD1">
+                  <block type="variables_get" id="45">
+                    <field name="VAR">x</field>
+                  </block>
+                </value>
+                <value name="ADD2">
+                  <block type="text" id="177">
+                    <field name="TEXT"> y: </field>
+                  </block>
+                </value>
+                <value name="ADD3">
+                  <block type="variables_get" id="178">
+                    <field name="VAR">y</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="waitkey" id="83">
+            <field name="millis">0</field>
+            <field name="key">27</field>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
