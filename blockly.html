@@ -264,6 +264,36 @@ Blockly.Python['threshold'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Blocks['newimage'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField("new image")
+        .appendField(new Blockly.FieldTextInput("100"), "w")
+        .appendField(new Blockly.FieldTextInput("100"), "h")
+        .appendField(new Blockly.FieldDropdown([["bgr", "bgr"], ["gray","gray"], ["float", "float"]]), "type")
+    this.appendValueInput("color")
+        .appendField("color")
+        //.setCheck("Colour");
+    this.setOutput(true, "image");
+    this.setTooltip('make a new, empty image');
+  }
+};
+Blockly.Python['newimage'] = function(block) {
+  var w = block.getFieldValue('w');
+  var h = block.getFieldValue('h');
+  var t = block.getFieldValue('type');
+  var c = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
+  code = "np.ones(("+h+","+w+"),np.uint8)";
+  if (t=="bgr")
+    code = "np.ones(("+h+","+w+","+3+"),np.uint8)";
+  if (t=="float")
+    code = "np.ones(("+h+","+w+"),np.float)";
+  if (c)
+    code += " * " + c;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Blocks['point'] = {
   init: function() {
     this.setColour(65);
@@ -318,7 +348,7 @@ Blockly.Python['point_br'] = function(block) {
 function toXml() {
   var output = document.getElementById('blocklyCode');
   var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-  var txt = Blockly.Xml.domToPrettyText(xml) + "<hr>" + xml.innerHTML;
+  var txt = Blockly.Xml.domToText(xml) + "<hr>" + xml.innerHTML;
   output.innerHTML += "<p><br><hr><pre><code>" + txt + "</code></pre>";
 }
 
@@ -337,14 +367,21 @@ function pyCode() {
 function showPy() {
   var out = document.getElementById("blocklyCode");
   out.innerHTML = "<pre><code>" + pyCode() + "</code></pre>";
-  //toXml();
+  toXml();
 }
 
-function runPy() {
+function ajax(url,data) {
   var req = new XMLHttpRequest();
-  req.open('POST', "/code", false);
+  req.open('POST', url, false);
   req.setRequestHeader('Content-Type', 'text/plain;');
-  req.send(pyCode());
+  req.send(data);
+}
+function runPy() {
+  ajax("/code",pyCode());
+}
+function savePy() {
+  var name = prompt("Please enter the project name")
+  ajax("/save",name + "\nimport cv2\nimport numpy as np" + pyCode());
 }
 
 var the_timer_id=-1;
@@ -371,11 +408,11 @@ function timer_off() {
 <body>
    <p>
     <button onclick="runPy()">Run Python Code</button>
-    <!--button onclick="toXml()">Show xml</button-->
+    <button onclick="savePy()">Save it</button>
   </p>
 
 <table><tr><td>
-  <div id="blocklyDiv" style="height: 640px; width: 640px;" onClick="timer_on();"></div>
+  <div id="blocklyDiv" style="height: 640px; width: 640px;" onClick="timer_on();" class="content"></div>
 </td><td>
   <div id="blocklyCode" style="height: 640px; width: 640px;" onClick="timer_off();"></div>
 </td></tr></table>
@@ -402,6 +439,7 @@ function timer_off() {
       <block type="point"></block>
       <block type="point_tl"></block>
       <block type="point_br"></block>
+      <block type="newimage"></block>
     </category>
     <hr>
 

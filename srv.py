@@ -13,21 +13,35 @@ import numpy as np
         #~ #    print e
 
 
+def postdata(environ):
+    request_body_size = int(environ['CONTENT_LENGTH'])
+    return environ['wsgi.input'].read(request_body_size)
+
 def application(environ, start_response):
+        
     url = environ['PATH_INFO'];
     data = "hi ;)"
     if url == "/":
         url = "/Blockly.html"
     if url.startswith('/code'):
         try:
-            request_body_size = int(environ['CONTENT_LENGTH'])
-            request_body = environ['wsgi.input'].read(request_body_size)
             #MyThread(request_body).start()
-            exec( compile(request_body, "lala", "exec") )
+            exec( compile( postdata(environ), "lala", "exec" ) )
         except Exception,e:
             print e
-            pass
-    else:
+    if url.startswith('/save'):
+        try:
+            lr = postdata(environ).split("\n")
+            name = lr[0]
+            code = "\n".join(lr[1:])
+            try: os.mkdir("prj/"+name);
+            except: pass
+            f = open("prj/"+name +"/code.py", "wb")
+            f.write(code)
+            f.close()
+        except Exception,e:
+            print e
+    else: # load html/js/resources
         try:
             f = open(url[1:])
             data = f.read()
