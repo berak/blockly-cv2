@@ -17,6 +17,31 @@ def postdata(environ):
     request_body_size = int(environ['CONTENT_LENGTH'])
     return environ['wsgi.input'].read(request_body_size)
 
+def save(ext,environ):
+    try:
+        lr = postdata(environ).split("\n")
+        name = lr[0]
+        code = "\n".join(lr[1:])
+        try: os.mkdir("prj/"+name);
+        except: pass
+        f = open("prj/"+name +"/code"+ext, "wb")
+        f.write(code)
+        f.close()
+    except Exception,e:
+        print e
+
+def load(environ):
+    code = ""
+    try:
+        name = postdata(environ)
+        print "loading",name
+        f = open("prj/"+name +"/code.xml", "rb")
+        code = f.read()
+        f.close()
+    except Exception,e:
+        print e
+    return code
+
 def application(environ, start_response):
         
     url = environ['PATH_INFO'];
@@ -29,18 +54,12 @@ def application(environ, start_response):
             exec( compile( postdata(environ), "lala", "exec" ) )
         except Exception,e:
             print e
-    if url.startswith('/save'):
-        try:
-            lr = postdata(environ).split("\n")
-            name = lr[0]
-            code = "\n".join(lr[1:])
-            try: os.mkdir("prj/"+name);
-            except: pass
-            f = open("prj/"+name +"/code.py", "wb")
-            f.write(code)
-            f.close()
-        except Exception,e:
-            print e
+    elif url.startswith('/save_code'):
+        save(".py",environ)
+    elif url.startswith('/save_xml'):
+        save(".xml",environ)
+    elif url.startswith('/load'):
+        data = load(environ)
     else: # load html/js/resources
         try:
             f = open(url[1:])
