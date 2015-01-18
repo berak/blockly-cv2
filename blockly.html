@@ -356,19 +356,19 @@ Blockly.Blocks['threshold'] = {
         .setCheck("image")
         .appendField("threshold");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["BINARY","cv2.THRESH_BINARY"], ["option", "OPTIONNAME"], ["option", "OPTIONNAME"]]), "flag")
         .appendField(new Blockly.FieldTextInput("30"), "thresh_val")
-        .appendField(new Blockly.FieldTextInput("255"), "thresh_to");
+        .appendField(new Blockly.FieldTextInput("255"), "thresh_to")
+        .appendField(new Blockly.FieldDropdown([["BINARY","cv2.THRESH_BINARY"], ["BINARY_INV", "cv2.THRESH_BINARY_INV"], ["OTSU", "cv2.THRESH_OTSU"]]), "flag");
     this.setOutput(true, "image");
     this.setTooltip('');
   }
 };
 Blockly.Python['threshold'] = function(block) {
-  var value_img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  var dropdown_flag = block.getFieldValue('flag');
-  var text_thresh_val = block.getFieldValue('thresh_val');
-  var text_thresh_to = block.getFieldValue('thresh_to');
-  var code = "cv2.threshold("+value_img+","+text_thresh_val+","+text_thresh_to+","+dropdown_flag+")";
+  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  var flag = block.getFieldValue('flag');
+  var thresh_val = block.getFieldValue('thresh_val');
+  var thresh_to = block.getFieldValue('thresh_to');
+  var code = "cv2.threshold("+img+","+thresh_val+","+thresh_to+","+flag+")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
