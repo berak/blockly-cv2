@@ -1,0 +1,27 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="videocapture" id="8" x="1" y="1">
+    <field name="input">0</field>
+    <field name="img">img</field>
+    <statement name="statements">
+      <block type="imshow" id="16" inline="false">
+        <field name="windowname">mywin</field>
+        <value name="image">
+          <block type="variables_get" id="29">
+            <field name="VAR">img</field>
+          </block>
+        </value>
+        <next>
+          <block type="waitkey" id="24">
+            <field name="millis">100</field>
+            <field name="key">27</field>
+            <statement name="statement">
+              <block type="controls_flow_statements" id="36">
+                <field name="FLOW">BREAK</field>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

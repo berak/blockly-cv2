@@ -298,9 +298,25 @@ Blockly.Blocks['cvtcolor'] = {
   }
 };
 Blockly.Python['cvtcolor'] = function(block) {
-  var value_img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  var dropdown_flag = block.getFieldValue('flag');
-  var code = "cv2.cvtColor("+value_img+","+dropdown_flag+")";
+  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  var flag = block.getFieldValue('flag');
+  var code = "cv2.cvtColor("+img+","+flag+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks['contourarea'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendValueInput("contour")
+        .setCheck("contour")
+        .appendField("contourarea");
+    this.setOutput(true, "Number");
+    this.setTooltip('');
+  }
+};
+Blockly.Python['contourarea'] = function(block) {
+  var contour = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
+  var code = "cv2.contourArea("+contour+")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -314,7 +330,7 @@ Blockly.Blocks['drawcontours'] = {
         .appendField("image")
         .setCheck("image");
     this.appendValueInput("contours")
-        .appendField("contours")
+        .appendField("contours");
     this.appendValueInput("color")
         .appendField("color")
         .setCheck("Colour");
@@ -327,7 +343,7 @@ Blockly.Python['drawcontours'] = function(block) {
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var cont = Blockly.Python.valueToCode(block, 'contours', Blockly.Python.ORDER_ATOMIC);
   var col = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.drawContours("+img+","+cont+",-1,"+col+")";
+  var code = "cv2.drawContours("+img+","+cont+",-1,"+col+")\r\n";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -353,12 +369,15 @@ Blockly.Blocks['threshold'] = {
   init: function() {
     this.setColour(65);
     this.appendValueInput("img")
-        .setCheck("image")
-        .appendField("threshold");
+        .appendField("threshold")
+        .setCheck("image");
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput("30"), "thresh_val")
         .appendField(new Blockly.FieldTextInput("255"), "thresh_to")
-        .appendField(new Blockly.FieldDropdown([["BINARY","cv2.THRESH_BINARY"], ["BINARY_INV", "cv2.THRESH_BINARY_INV"], ["OTSU", "cv2.THRESH_OTSU"]]), "flag");
+        .appendField(new Blockly.FieldDropdown([
+          ["BINARY","cv2.THRESH_BINARY"],
+          ["BINARY_INV", "cv2.THRESH_BINARY_INV"],
+          ["OTSU", "cv2.THRESH_OTSU"]]), "flag");
     this.setOutput(true, "image");
     this.setTooltip('');
   }
@@ -368,7 +387,7 @@ Blockly.Python['threshold'] = function(block) {
   var flag = block.getFieldValue('flag');
   var thresh_val = block.getFieldValue('thresh_val');
   var thresh_to = block.getFieldValue('thresh_to');
-  var code = "cv2.threshold("+img+","+thresh_val+","+thresh_to+","+flag+")";
+  var code = "cv2.threshold("+img+","+thresh_val+","+thresh_to+","+flag+")[1]";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -497,6 +516,10 @@ Blockly.Python['point_br'] = function(block) {
       var name = prompt("Please enter the project name");
       var txt = ajax("/load", name, fromXml);
     }
+    function clearPrj()
+    {
+      fromXml("");
+    }
 
     var the_timer_id=-1;
     function timer_on() {
@@ -518,7 +541,7 @@ Blockly.Python['point_br'] = function(block) {
       font-size: 140%;
     }
     button,input {
-      border-style:solid;  border-width:4;      border-color: #666; 
+      border-style:solid;  border-width:4;      border-color: #666;
       font-size: 120%; font-family: Arial, "MS Trebuchet",
     }
   </style>
@@ -528,6 +551,7 @@ Blockly.Python['point_br'] = function(block) {
     <button onclick="runPy()">Run Python Code</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button onclick="savePrj()">Save</button>
     <button onclick="loadPrj()">Load</button>
+    <!--button onclick="clearPrj()">Clear</button-->
   </p>
 
 <table><tr><td>
@@ -552,6 +576,7 @@ Blockly.Python['point_br'] = function(block) {
     </category>
     <category name="Contours">
       <block type="findcontours"></block>
+      <block type="contourarea"></block>
       <block type="drawcontours"></block>
       <block type="boundingrect"></block>
     </category>
