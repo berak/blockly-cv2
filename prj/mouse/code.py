@@ -1,15 +1,17 @@
 
 import cv2
 import numpy as np
+
 mywin = None
 button = None
 x = None
 y = None
+state = None
 
 
 cv2.imshow('mywin',cv2.imread('media/lena.jpg',1))
-def onmouse(button, x, y, flags, param):
-  print(['x: ', x, ' y: ', y])
+def onmouse(button, x, y, state, param):
+  print(['but: ', button, 'x: ', x, ' y: ', y, 'state:', state])
 
 cv2.setMouseCallback('mywin', onmouse)
 if cv2.waitKey(0)&0xff == 27:

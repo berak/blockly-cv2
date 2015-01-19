@@ -15,11 +15,12 @@ Blockly.Blocks['findcontours'] = {
           ["tc89_kcos", "cv2.CV_CHAIN_APPROX_TC89_KCOS"],]), "approx");
     this.appendValueInput("img")
         .setCheck("image");
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldVariable('contours'), 'contours')
-        .appendField(new Blockly.FieldVariable('hierarchy'), 'hierarchy');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+    //this.appendDummyInput()
+    //    .appendField(new Blockly.FieldVariable('contours'), 'contours')
+    //    .appendField(new Blockly.FieldVariable('hierarchy'), 'hierarchy');
+    this.setOutput(true,"contours")
+    //this.setPreviousStatement(true);
+    //this.setNextStatement(true);
     this.setTooltip('');
   },
   getVars: function() {
@@ -33,9 +34,9 @@ Blockly.Blocks['findcontours'] = {
 Blockly.Python['findcontours'] = function(block) {
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   var mode = block.getFieldValue('mode');
-  var contours = block.getFieldValue('contours');
-  var hierarchy = block.getFieldValue('hierarchy');
+  //var contours = block.getFieldValue('contours');
+  //var hierarchy = block.getFieldValue('hierarchy');
   var approx = block.getFieldValue('approx');
-  var code = "(" + contours+ ","+ hierarchy+") = cv2.findContours("+img+","+mode+","+approx+")\n"
+  var code = "cv2.findContours("+img+","+mode+","+approx+")[0]\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
