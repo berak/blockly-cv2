@@ -224,6 +224,61 @@ Blockly.Python['mserdetect'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+/*
+Blockly.Blocks['people'] = {
+  init: function() {
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("create")
+        .appendField(new Blockly.FieldVariable('people'), 'people');
+    this.setTooltip('create an peopledetector object');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+  },
+  getVars: function() {
+    return [this.getFieldValue('people')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('people'))) {
+      this.setFieldValue(newName, 'people');
+    }
+  },
+};
+Blockly.Python['people'] = function(block) {
+  var people = block.getFieldValue('people');
+  var code = people + " = cv2.HOGDescriptor()\n" +
+             people + ".setSVMDetector( cv2.HOGDescriptor_getDefaultPeopleDetector() )\n"
+  return code;
+};
+
+Blockly.Blocks['peopledetect'] = {
+  init: function() {
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField("detect");
+    this.appendValueInput("image")
+        .setCheck("image")
+        .appendField(new Blockly.FieldVariable('people'), 'people');
+    this.setOutput(true);
+    this.setTooltip('find people in an image, return a list of bounding boxes');
+  },
+  getVars: function() {
+    return [this.getFieldValue('people')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('people'))) {
+      this.setFieldValue(newName, 'people');
+    }
+  },
+};
+Blockly.Python['peopledetect'] = function(block) {
+  var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
+  var people = block.getFieldValue('people');
+  var code = people + ".detect("+image+")[0]"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+*/
+
 Blockly.Blocks['rectangle'] = {
   init: function() {
     this.setColour(290);
@@ -318,29 +373,6 @@ Blockly.Python['videocapture'] = function(block) {
   return code;
 };
 
-Blockly.Blocks['cvtcolor'] = {
-  init: function() {
-    this.setColour(65);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-          ["BGR2GRAY","cv2.COLOR_BGR2GRAY"],
-          ["GRAY2BGR","cv2.COLOR_GRAY2BGR"],
-          ["BGR2HSV", "cv2.COLOR_BGR2HSV"],
-          ["HSV2BGR", "cv2.COLOR_HSV2BGR"],]), "flag");
-    this.appendValueInput("img")
-        .setCheck("image")
-        .appendField("cvtColor");
-    this.setOutput(true, "image");
-    this.setTooltip('');
-  }
-};
-Blockly.Python['cvtcolor'] = function(block) {
-  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  var flag = block.getFieldValue('flag');
-  var code = "cv2.cvtColor("+img+","+flag+")";
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
 Blockly.Blocks['contourarea'] = {
   init: function() {
     this.setColour(65);
@@ -402,6 +434,50 @@ Blockly.Blocks['boundingrect'] = {
 Blockly.Python['boundingrect'] = function(block) {
   var cont = Blockly.Python.valueToCode(block, 'contour', Blockly.Python.ORDER_ATOMIC);
   var code = "cv2.boundingRect("+cont+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks['cvtcolor'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          ["BGR2GRAY","cv2.COLOR_BGR2GRAY"],
+          ["GRAY2BGR","cv2.COLOR_GRAY2BGR"],
+          ["BGR2HSV", "cv2.COLOR_BGR2HSV"],
+          ["HSV2BGR", "cv2.COLOR_HSV2BGR"],]), "flag");
+    this.appendValueInput("img")
+        .setCheck("image")
+        .appendField("cvtColor");
+    this.setOutput(true, "image");
+    this.setTooltip('');
+  }
+};
+Blockly.Python['cvtcolor'] = function(block) {
+  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  var flag = block.getFieldValue('flag');
+  var code = "cv2.cvtColor("+img+","+flag+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks['canny'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("0"), "thresh1")
+        .appendField(new Blockly.FieldTextInput("50"), "thresh2")
+    this.appendValueInput("img")
+        .setCheck("image")
+        .appendField("canny");
+    this.setOutput(true, "image");
+    this.setTooltip('Canny edge filter');
+  }
+};
+Blockly.Python['canny'] = function(block) {
+  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  var thresh1 = block.getFieldValue('thresh1');
+  var thresh2 = block.getFieldValue('thresh2');
+  var code = "cv2.Canny("+img+","+thresh1+","+thresh2+")";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -510,7 +586,6 @@ Blockly.Python['point_br'] = function(block) {
   var code = "("+r+"[0]+" + r + "[2],"+r+"[1]+"+r+"[3])";
   return [code, Blockly.Python.ORDER_NONE];
 };
-
 
 Blockly.Blocks['forRange'] = {
   init: function() {
@@ -665,14 +740,19 @@ Blockly.Python['forEnum'] = function(block) {
       <block type="imshow"></block>
       <block type="waitkey"></block>
       <block type="onmouse"></block>
+    </category>
+    <category name="ImageOps">
       <block type="cvtcolor"></block>
       <block type="threshold"></block>
+      <block type="canny"></block>
     </category>
     <category name="Detect">
       <block type="cascade"></block>
       <block type="findobjects"></block>
       <block type="mser"></block>
       <block type="mserdetect"></block>
+      <!--block type="people"></block>
+      <block type="peopledetect"></block-->
     </category>
     <category name="Contours">
       <block type="findcontours"></block>
