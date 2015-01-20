@@ -1,0 +1,44 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="variables_set" id="15" inline="true" x="31" y="229">
+    <field name="VAR">img</field>
+    <value name="VALUE">
+      <block type="imread" id="4">
+        <field name="grey">FALSE</field>
+        <field name="filename">media/lena.jpg</field>
+      </block>
+    </value>
+    <next>
+      <block type="VideoWriter_VideoWriter" id="1" inline="true">
+        <field name="writer">writer</field>
+        <field name="filename">my.asf</field>
+        <field name="fourcc">XVID</field>
+        <field name="fps">24</field>
+        <value name="frameSize">
+          <block type="size" id="2">
+            <field name="w">512</field>
+            <field name="h">512</field>
+          </block>
+        </value>
+        <next>
+          <block type="controls_repeat_ext" id="30" inline="true">
+            <value name="TIMES">
+              <block type="math_number" id="31">
+                <field name="NUM">100</field>
+              </block>
+            </value>
+            <statement name="DO">
+              <block type="VideoWriter_write" id="3" inline="false">
+                <field name="writer">writer</field>
+                <value name="image">
+                  <block type="variables_get" id="22">
+                    <field name="VAR">img</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

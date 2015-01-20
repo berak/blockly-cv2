@@ -1,0 +1,65 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="variables_set" id="24" inline="true" x="-12" y="99">
+    <field name="VAR">img</field>
+    <value name="VALUE">
+      <block type="newimage" id="25" inline="false">
+        <field name="w">100</field>
+        <field name="h">100</field>
+        <field name="type">bgr</field>
+      </block>
+    </value>
+    <next>
+      <block type="imshow" id="31" inline="false">
+        <field name="windowname">mywin</field>
+        <value name="image">
+          <block type="imgproc_rectangle" id="141" inline="false">
+            <value name="img">
+              <block type="imgproc_circle" id="249" inline="true">
+                <field name="radius">20</field>
+                <value name="img">
+                  <block type="variables_get" id="27">
+                    <field name="VAR">img</field>
+                  </block>
+                </value>
+                <value name="center">
+                  <block type="point" id="256">
+                    <field name="x">60</field>
+                    <field name="y">60</field>
+                  </block>
+                </value>
+                <value name="color">
+                  <block type="colour_picker" id="263">
+                    <field name="COLOUR">#ff0000</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="pt1">
+              <block type="point" id="28">
+                <field name="x">10</field>
+                <field name="y">10</field>
+              </block>
+            </value>
+            <value name="pt2">
+              <block type="point" id="29">
+                <field name="x">30</field>
+                <field name="y">30</field>
+              </block>
+            </value>
+            <value name="color">
+              <block type="colour_picker" id="30">
+                <field name="COLOUR">#ffcc66</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="waitkey" id="33">
+            <field name="millis">0</field>
+            <field name="key">27</field>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
