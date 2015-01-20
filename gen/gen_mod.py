@@ -1,6 +1,6 @@
 
 moduleroot="e:/code/opencv/modules"
-modules=["core","features2d","imgproc","photo","video","videoio","imgcodecs", "calib3d"] # ,"flann","optim"
+modules=["core","features2d","imgproc","photo","video","imgcodecs", "calib3d"] # ,"flann","optim"
 extras = ["core=e:/code/opencv/modules/core/include/opencv2/core/base.hpp",
           "core=e:/code/opencv/modules/core/include/opencv2/core/types.hpp",
           "core=e:/code/opencv/modules/core/include/opencv2/core/utility.hpp",
