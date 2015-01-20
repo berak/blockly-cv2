@@ -21,6 +21,7 @@ Blockly.Blocks['findcontours'] = {
     //    .appendField(new Blockly.FieldVariable('hierarchy'), 'hierarchy');
     //this.setPreviousStatement(true);
     //this.setNextStatement(true);
+    this.setInputsInline(true);
     this.setOutput(true,"contours")
     this.setTooltip('');
   },

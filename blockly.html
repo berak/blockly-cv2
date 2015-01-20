@@ -13,6 +13,28 @@
   <script src="js/en.js"></script>
   <script>
 
+Blockly.Blocks['convertTo'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendValueInput("input")
+        .setCheck("image")
+        .appendField("convertTo")
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          ["float","np.float"],
+          ["uchar","np.uint8"],
+          ["int", "np.uint32"],]), "flag")
+    this.setOutput(true, "image")
+    this.setInputsInline(true)
+    this.setTooltip('')
+  }
+};
+Blockly.Python['convertTo'] = function(block) {
+  var input = Blockly.Python.valueToCode(block, 'input', Blockly.Python.ORDER_ATOMIC);
+  var flag = block.getFieldValue('flag');
+  var code = "np.asarray(" + input + ", dtype="+flag+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
 
 Blockly.Blocks['roi'] = {
   init: function() {
@@ -63,6 +85,26 @@ Blockly.Python['indexed'] = function(block) {
   var input = Blockly.Python.valueToCode(block, 'input', Blockly.Python.ORDER_ATOMIC);
   var code = input + "[" + index + "]";
   return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Blocks['lists_append'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendDummyInput()
+        .appendField("append")
+    this.appendValueInput("list")
+    this.appendValueInput("item")
+        .appendField("item")
+    this.setInputsInline(true);
+    this.setTooltip('append items to a list');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+  }
+};
+Blockly.Python['lists_append'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'list', Blockly.Python.ORDER_ATOMIC);
+  var item = Blockly.Python.valueToCode(block, 'item', Blockly.Python.ORDER_ATOMIC);
+  var code = list + ".append(" + item + ")\n";
+  return code;
 };
 
 Blockly.Blocks['imgsize'] = {
@@ -674,33 +716,34 @@ Blockly.Python['forEnum'] = function(block) {
       font-size: 140%;
     }
     button,input {
-      border-style:solid;  border-width:4;      border-color: #666;
-      font-size: 120%; font-family: Arial, "MS Trebuchet",
+      border-style:solid;  border-width:4; border-color: #666;
+      font-size: 120%; font-family: sans-serif;
+      background-color: #ccc;
     }
-#container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
+    #container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
 
-#blocklyDiv {
-    width: 100%;
-    height: 90%;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    opacity: 50%;
-}
-#blocklyCode {
-    position: absolute;
-    top: 30px;
-    left: 680px;
-    opacity: 50%;
-}
+    #blocklyDiv {
+        width: 100%;
+        height: 90%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        opacity: 50%;
+    }
+    #blocklyCode {
+        position: absolute;
+        top: 30px;
+        left: 680px;
+        opacity: 50%;
+    }
 
-#blocklyCode {
-    z-index: 10;
-}
+    #blocklyCode {
+        z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -728,6 +771,7 @@ Blockly.Python['forEnum'] = function(block) {
   <block type="roi"></block>
   <block type="indexed"></block>
   <block type="imgsize"></block>
+  <block type="convertTo"></block>
   <block type="cascade"></block>
   <block type="findobjects"></block>
   <block type="VideoWriter_VideoWriter"></block>
@@ -1402,13 +1446,7 @@ Blockly.Python['forEnum'] = function(block) {
     <category name="Lists">
       <block type="lists_create_empty"></block>
       <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM">
-          <block type="math_number">
-            <field name="NUM">5</field>
-          </block>
-        </value>
-      </block>
+      <block type="lists_append"></block>
       <block type="lists_length"></block>
       <block type="lists_isEmpty"></block>
       <block type="lists_indexOf">
