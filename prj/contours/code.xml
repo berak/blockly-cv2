@@ -1,0 +1,80 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="variables_set" id="55" inline="true" x="4" y="48">
+    <field name="VAR">img</field>
+    <value name="VALUE">
+      <block type="imread" id="2">
+        <field name="grey">FALSE</field>
+        <field name="filename">media/lena.jpg</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_set" id="65" inline="true">
+        <field name="VAR">binary</field>
+        <value name="VALUE">
+          <block type="threshold" id="105" inline="false">
+            <field name="thresh_val">90</field>
+            <field name="thresh_to">255</field>
+            <field name="flag">cv2.THRESH_OTSU</field>
+            <value name="img">
+              <block type="cvtcolor" id="85" inline="false">
+                <field name="flag">cv2.COLOR_BGR2GRAY</field>
+                <value name="img">
+                  <block type="variables_get" id="106">
+                    <field name="VAR">img</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="136" inline="true">
+            <field name="VAR">contours</field>
+            <value name="VALUE">
+              <block type="findcontours" id="41" inline="false">
+                <field name="mode">cv2.RETR_EXTERNAL</field>
+                <field name="approx">cv2.CHAIN_APPROX_NONE</field>
+                <value name="img">
+                  <block type="variables_get" id="129">
+                    <field name="VAR">binary</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="imshow" id="1" inline="false">
+                <field name="windowname">mywin</field>
+                <value name="image">
+                  <block type="imgproc_drawContours" id="52" inline="true">
+                    <field name="contourIdx">-1</field>
+                    <value name="image">
+                      <block type="variables_get" id="60">
+                        <field name="VAR">img</field>
+                      </block>
+                    </value>
+                    <value name="contours">
+                      <block type="variables_get" id="145">
+                        <field name="VAR">contours</field>
+                      </block>
+                    </value>
+                    <value name="color">
+                      <block type="colour_picker" id="122">
+                        <field name="COLOUR">#333399</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="waitkey" id="3">
+                    <field name="millis">0</field>
+                    <field name="key">27</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
