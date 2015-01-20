@@ -508,10 +508,10 @@ Blockly.Blocks['core_inRange'] = {
         .setCheck('image');
     this.appendValueInput('lowerb')
         .appendField('lowerb')
-        .setCheck('image');
+        .setCheck('Colour');
     this.appendValueInput('upperb')
         .appendField('upperb')
-        .setCheck('image');
+        .setCheck('Colour');
     this.setOutput(true,'image');
     this.setTooltip('core_inRange');
   }
@@ -1115,10 +1115,8 @@ Blockly.Blocks['core_randu'] = {
         .setCheck('image');
     this.appendValueInput('low')
         .appendField('low')
-        .setCheck('image');
     this.appendValueInput('high')
         .appendField('high')
-        .setCheck('image');
     this.setOutput(true,'image');
     this.setTooltip('core_randu');
   }
@@ -1133,10 +1131,8 @@ Blockly.Blocks['core_randn'] = {
         .setCheck('image');
     this.appendValueInput('mean')
         .appendField('mean')
-        .setCheck('image');
     this.appendValueInput('stddev')
         .appendField('stddev')
-        .setCheck('image');
     this.setOutput(true,'image');
     this.setTooltip('core_randn');
   }

@@ -598,6 +598,26 @@ Blockly.Python['size'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Blocks['tuple'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField("tuple")
+        .appendField(new Blockly.FieldTextInput("0"), "a")
+        .appendField(new Blockly.FieldTextInput("0"), "b")
+        .appendField(new Blockly.FieldTextInput("0"), "c")
+    this.setOutput(true, "Colour");
+    this.setTooltip('');
+  }
+};
+Blockly.Python['tuple'] = function(block) {
+  var a = block.getFieldValue('a');
+  var b = block.getFieldValue('b');
+  var c = block.getFieldValue('c');
+  var code = "("+a+","+b+","+c+")";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Blocks['forRange'] = {
   init: function() {
     this.setColour(135);
@@ -763,6 +783,7 @@ Blockly.Python['forEnum'] = function(block) {
   <block type="waitkey"></block>
   <block type="onmouse"></block>
   <block type="colour_picker"></block>
+  <block type="tuple"></block>
   <block type="size"></block>
   <block type="point"></block>
   <block type="point_tl"></block>
@@ -1007,70 +1028,82 @@ Blockly.Python['forEnum'] = function(block) {
   </category>
 </category>
 <category name="photo">
-  <block type="photo_inpaint"></block>
-  <block type="photo_fastNlMeansDenoising"></block>
-  <block type="photo_fastNlMeansDenoisingColored"></block>
-  <block type="photo_fastNlMeansDenoisingMulti"></block>
-  <block type="photo_fastNlMeansDenoisingColoredMulti"></block>
-  <block type="photo_denoise_TVL1"></block>
-  <block type="photo_createTonemap"></block>
-  <block type="photo_createTonemapDrago"></block>
-  <block type="photo_createTonemapDurand"></block>
-  <block type="photo_createTonemapReinhard"></block>
-  <block type="photo_createTonemapMantiuk"></block>
-  <block type="photo_createAlignMTB"></block>
-  <block type="photo_createCalibrateDebevec"></block>
-  <block type="photo_createCalibrateRobertson"></block>
-  <block type="photo_createMergeDebevec"></block>
-  <block type="photo_createMergeMertens"></block>
-  <block type="photo_createMergeRobertson"></block>
-  <block type="photo_decolor"></block>
-  <block type="photo_seamlessClone"></block>
-  <block type="photo_colorChange"></block>
-  <block type="photo_illuminationChange"></block>
-  <block type="photo_textureFlattening"></block>
-  <block type="photo_edgePreservingFilter"></block>
-  <block type="photo_detailEnhance"></block>
-  <block type="photo_pencilSketch"></block>
-  <block type="photo_stylization"></block>
-  <block type="photo_CalibrateRobertson_getMaxIter"></block>
-  <block type="photo_CalibrateRobertson_setMaxIter"></block>
-  <block type="photo_CalibrateRobertson_getThreshold"></block>
-  <block type="photo_CalibrateRobertson_setThreshold"></block>
-  <block type="photo_CalibrateRobertson_getRadiance"></block>
-  <block type="photo_TonemapMantiuk_setScale"></block>
-  <block type="photo_TonemapMantiuk_setSaturation"></block>
-  <block type="photo_TonemapDurand_setSaturation"></block>
-  <block type="photo_TonemapDurand_setContrast"></block>
-  <block type="photo_TonemapDurand_setSigmaSpace"></block>
-  <block type="photo_TonemapDurand_setSigmaColor"></block>
-  <block type="photo_AlignExposures_process"></block>
-  <block type="photo_CalibrateDebevec_setLambda"></block>
-  <block type="photo_CalibrateDebevec_setSamples"></block>
-  <block type="photo_CalibrateDebevec_setRandom"></block>
-  <block type="photo_TonemapReinhard_setIntensity"></block>
-  <block type="photo_TonemapReinhard_setLightAdaptation"></block>
-  <block type="photo_TonemapReinhard_setColorAdaptation"></block>
-  <block type="photo_MergeRobertson_process"></block>
-  <block type="photo_CalibrateCRF_process"></block>
-  <block type="photo_TonemapDrago_setSaturation"></block>
-  <block type="photo_TonemapDrago_setBias"></block>
-  <block type="photo_AlignMTB_process"></block>
-  <block type="photo_AlignMTB_calculateShift"></block>
-  <block type="photo_AlignMTB_shiftMat"></block>
-  <block type="photo_AlignMTB_computeBitmaps"></block>
-  <block type="photo_AlignMTB_setMaxBits"></block>
-  <block type="photo_AlignMTB_setExcludeRange"></block>
-  <block type="photo_AlignMTB_setCut"></block>
-  <block type="photo_MergeDebevec_process"></block>
-  <block type="photo_MergeMertens_process"></block>
-  <block type="photo_MergeMertens_setContrastWeight"></block>
-  <block type="photo_MergeMertens_setSaturationWeight"></block>
-  <block type="photo_MergeMertens_setExposureWeight"></block>
-  <block type="photo_MergeExposures_process"></block>
-  <block type="photo_Tonemap_process"></block>
-  <block type="photo_Tonemap_getGamma"></block>
-  <block type="photo_Tonemap_setGamma"></block>
+  <category name="Inpainting">
+    <block type="photo_inpaint"></block>
+  </category>
+  <category name="Denoising">
+    <block type="photo_fastNlMeansDenoising"></block>
+    <block type="photo_fastNlMeansDenoisingColored"></block>
+    <block type="photo_fastNlMeansDenoisingMulti"></block>
+    <block type="photo_fastNlMeansDenoisingColoredMulti"></block>
+    <block type="photo_denoise_TVL1"></block>
+  </category>
+  <category name="HDR Imaging">
+    <block type="photo_createTonemap"></block>
+    <block type="photo_createTonemapDrago"></block>
+    <block type="photo_createTonemapDurand"></block>
+    <block type="photo_createTonemapReinhard"></block>
+    <block type="photo_createTonemapMantiuk"></block>
+    <block type="photo_createAlignMTB"></block>
+    <block type="photo_createCalibrateDebevec"></block>
+    <block type="photo_createCalibrateRobertson"></block>
+    <block type="photo_createMergeDebevec"></block>
+    <block type="photo_createMergeMertens"></block>
+    <block type="photo_createMergeRobertson"></block>
+    <block type="photo_CalibrateRobertson_getMaxIter"></block>
+    <block type="photo_CalibrateRobertson_setMaxIter"></block>
+    <block type="photo_CalibrateRobertson_getThreshold"></block>
+    <block type="photo_CalibrateRobertson_setThreshold"></block>
+    <block type="photo_CalibrateRobertson_getRadiance"></block>
+    <block type="photo_TonemapMantiuk_setScale"></block>
+    <block type="photo_TonemapMantiuk_setSaturation"></block>
+    <block type="photo_TonemapDurand_setSaturation"></block>
+    <block type="photo_TonemapDurand_setContrast"></block>
+    <block type="photo_TonemapDurand_setSigmaSpace"></block>
+    <block type="photo_TonemapDurand_setSigmaColor"></block>
+    <block type="photo_AlignExposures_process"></block>
+    <block type="photo_CalibrateDebevec_setLambda"></block>
+    <block type="photo_CalibrateDebevec_setSamples"></block>
+    <block type="photo_CalibrateDebevec_setRandom"></block>
+    <block type="photo_TonemapReinhard_setIntensity"></block>
+    <block type="photo_TonemapReinhard_setLightAdaptation"></block>
+    <block type="photo_TonemapReinhard_setColorAdaptation"></block>
+    <block type="photo_MergeRobertson_process"></block>
+    <block type="photo_CalibrateCRF_process"></block>
+    <block type="photo_TonemapDrago_setSaturation"></block>
+    <block type="photo_TonemapDrago_setBias"></block>
+    <block type="photo_AlignMTB_process"></block>
+    <block type="photo_AlignMTB_calculateShift"></block>
+    <block type="photo_AlignMTB_shiftMat"></block>
+    <block type="photo_AlignMTB_computeBitmaps"></block>
+    <block type="photo_AlignMTB_setMaxBits"></block>
+    <block type="photo_AlignMTB_setExcludeRange"></block>
+    <block type="photo_AlignMTB_setCut"></block>
+    <block type="photo_MergeDebevec_process"></block>
+    <block type="photo_MergeMertens_process"></block>
+    <block type="photo_MergeMertens_setContrastWeight"></block>
+    <block type="photo_MergeMertens_setSaturationWeight"></block>
+    <block type="photo_MergeMertens_setExposureWeight"></block>
+    <block type="photo_MergeExposures_process"></block>
+    <block type="photo_Tonemap_process"></block>
+    <block type="photo_Tonemap_getGamma"></block>
+    <block type="photo_Tonemap_setGamma"></block>
+  </category>
+  <category name="Decolor">
+    <block type="photo_decolor"></block>
+  </category>
+  <category name="Seamless">
+    <block type="photo_seamlessClone"></block>
+    <block type="photo_colorChange"></block>
+    <block type="photo_illuminationChange"></block>
+    <block type="photo_textureFlattening"></block>
+  </category>
+  <category name="NPR">
+    <block type="photo_edgePreservingFilter"></block>
+    <block type="photo_detailEnhance"></block>
+    <block type="photo_pencilSketch"></block>
+    <block type="photo_stylization"></block>
+  </category>
 </category>
 <category name="imgcodecs">
   <block type="imgcodecs_imread"></block>
@@ -1080,63 +1113,67 @@ Blockly.Python['forEnum'] = function(block) {
   <block type="imgcodecs_imencode"></block>
 </category>
 <category name="calib3d">
-  <block type="calib3d_Rodrigues"></block>
-  <block type="calib3d_findHomography"></block>
-  <block type="calib3d_RQDecomp3x3"></block>
-  <block type="calib3d_decomposeProjectionMatrix"></block>
-  <block type="calib3d_matMulDeriv"></block>
-  <block type="calib3d_composeRT"></block>
-  <block type="calib3d_projectPoints"></block>
-  <block type="calib3d_solvePnP"></block>
-  <block type="calib3d_solvePnPRansac"></block>
-  <block type="calib3d_initCameraMatrix2D"></block>
-  <block type="calib3d_findChessboardCorners"></block>
-  <block type="calib3d_drawChessboardCorners"></block>
-  <block type="calib3d_findCirclesGrid"></block>
-  <block type="calib3d_calibrateCamera"></block>
-  <block type="calib3d_calibrationMatrixValues"></block>
-  <block type="calib3d_stereoCalibrate"></block>
-  <block type="calib3d_stereoRectify"></block>
-  <block type="calib3d_stereoRectifyUncalibrated"></block>
-  <block type="calib3d_rectify3Collinear"></block>
-  <block type="calib3d_getOptimalNewCameraMatrix"></block>
-  <block type="calib3d_convertPointsToHomogeneous"></block>
-  <block type="calib3d_convertPointsFromHomogeneous"></block>
-  <block type="calib3d_findFundamentalMat"></block>
-  <block type="calib3d_findEssentialMat"></block>
-  <block type="calib3d_decomposeEssentialMat"></block>
-  <block type="calib3d_recoverPose"></block>
-  <block type="calib3d_computeCorrespondEpilines"></block>
-  <block type="calib3d_triangulatePoints"></block>
-  <block type="calib3d_correctMatches"></block>
-  <block type="calib3d_filterSpeckles"></block>
-  <block type="calib3d_getValidDisparityROI"></block>
-  <block type="calib3d_validateDisparity"></block>
-  <block type="calib3d_reprojectImageTo3D"></block>
-  <block type="calib3d_estimateAffine3D"></block>
-  <block type="calib3d_decomposeHomographyMat"></block>
-  <block type="calib3d_StereoBM_create"></block>
-  <block type="calib3d_StereoBM_setPreFilterType"></block>
-  <block type="calib3d_StereoBM_setPreFilterSize"></block>
-  <block type="calib3d_StereoBM_setPreFilterCap"></block>
-  <block type="calib3d_StereoBM_setTextureThreshold"></block>
-  <block type="calib3d_StereoBM_setUniquenessRatio"></block>
-  <block type="calib3d_StereoBM_setSmallerBlockSize"></block>
-  <block type="calib3d_StereoBM_setROI1"></block>
-  <block type="calib3d_StereoBM_setROI2"></block>
-  <block type="calib3d_StereoSGBM_create"></block>
-  <block type="calib3d_StereoSGBM_setPreFilterCap"></block>
-  <block type="calib3d_StereoSGBM_setUniquenessRatio"></block>
-  <block type="calib3d_StereoSGBM_setP1"></block>
-  <block type="calib3d_StereoSGBM_setP2"></block>
-  <block type="calib3d_StereoSGBM_setMode"></block>
-  <block type="calib3d_StereoMatcher_compute"></block>
-  <block type="calib3d_StereoMatcher_setMinDisparity"></block>
-  <block type="calib3d_StereoMatcher_setNumDisparities"></block>
-  <block type="calib3d_StereoMatcher_setBlockSize"></block>
-  <block type="calib3d_StereoMatcher_setSpeckleWindowSize"></block>
-  <block type="calib3d_StereoMatcher_setSpeckleRange"></block>
-  <block type="calib3d_StereoMatcher_setDisp12MaxDiff"></block>
+  <category name="Math3d">
+    <block type="calib3d_Rodrigues"></block>
+    <block type="calib3d_findHomography"></block>
+    <block type="calib3d_RQDecomp3x3"></block>
+    <block type="calib3d_decomposeProjectionMatrix"></block>
+    <block type="calib3d_matMulDeriv"></block>
+    <block type="calib3d_composeRT"></block>
+    <block type="calib3d_projectPoints"></block>
+    <block type="calib3d_solvePnP"></block>
+    <block type="calib3d_solvePnPRansac"></block>
+    <block type="calib3d_initCameraMatrix2D"></block>
+    <block type="calib3d_findChessboardCorners"></block>
+    <block type="calib3d_drawChessboardCorners"></block>
+    <block type="calib3d_findCirclesGrid"></block>
+    <block type="calib3d_calibrateCamera"></block>
+    <block type="calib3d_calibrationMatrixValues"></block>
+    <block type="calib3d_stereoCalibrate"></block>
+    <block type="calib3d_stereoRectify"></block>
+    <block type="calib3d_stereoRectifyUncalibrated"></block>
+    <block type="calib3d_rectify3Collinear"></block>
+    <block type="calib3d_getOptimalNewCameraMatrix"></block>
+    <block type="calib3d_convertPointsToHomogeneous"></block>
+    <block type="calib3d_convertPointsFromHomogeneous"></block>
+    <block type="calib3d_findFundamentalMat"></block>
+    <block type="calib3d_findEssentialMat"></block>
+    <block type="calib3d_decomposeEssentialMat"></block>
+    <block type="calib3d_recoverPose"></block>
+    <block type="calib3d_computeCorrespondEpilines"></block>
+    <block type="calib3d_triangulatePoints"></block>
+    <block type="calib3d_correctMatches"></block>
+    <block type="calib3d_filterSpeckles"></block>
+    <block type="calib3d_getValidDisparityROI"></block>
+    <block type="calib3d_validateDisparity"></block>
+    <block type="calib3d_reprojectImageTo3D"></block>
+    <block type="calib3d_estimateAffine3D"></block>
+    <block type="calib3d_decomposeHomographyMat"></block>
+  </category>
+  <category name="Disparity">
+    <block type="calib3d_StereoBM_create"></block>
+    <block type="calib3d_StereoBM_setPreFilterType"></block>
+    <block type="calib3d_StereoBM_setPreFilterSize"></block>
+    <block type="calib3d_StereoBM_setPreFilterCap"></block>
+    <block type="calib3d_StereoBM_setTextureThreshold"></block>
+    <block type="calib3d_StereoBM_setUniquenessRatio"></block>
+    <block type="calib3d_StereoBM_setSmallerBlockSize"></block>
+    <block type="calib3d_StereoBM_setROI1"></block>
+    <block type="calib3d_StereoBM_setROI2"></block>
+    <block type="calib3d_StereoSGBM_create"></block>
+    <block type="calib3d_StereoSGBM_setPreFilterCap"></block>
+    <block type="calib3d_StereoSGBM_setUniquenessRatio"></block>
+    <block type="calib3d_StereoSGBM_setP1"></block>
+    <block type="calib3d_StereoSGBM_setP2"></block>
+    <block type="calib3d_StereoSGBM_setMode"></block>
+    <block type="calib3d_StereoMatcher_compute"></block>
+    <block type="calib3d_StereoMatcher_setMinDisparity"></block>
+    <block type="calib3d_StereoMatcher_setNumDisparities"></block>
+    <block type="calib3d_StereoMatcher_setBlockSize"></block>
+    <block type="calib3d_StereoMatcher_setSpeckleWindowSize"></block>
+    <block type="calib3d_StereoMatcher_setSpeckleRange"></block>
+    <block type="calib3d_StereoMatcher_setDisp12MaxDiff"></block>
+  </category>
 </category>
 <category name="shape">
   <block type="shape_createNormHistogramCostExtractor"></block>
