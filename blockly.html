@@ -6,11 +6,11 @@
   <script src="js/blockly_compressed.js"></script>
   <script src="js/blocks_compressed.js"></script>
   <script src="js/python_compressed.js"></script>
-  <script src="gen/python.js"></script>
-  <script src="gen/blocks.js"></script>
   <!--script src="js/v24.js"></script-->
   <script src="js/v30.js"></script>
   <script src="js/en.js"></script>
+  <script src="js/gen/python.js"></script>
+  <script src="js/gen/blocks.js"></script>
   <script>
 
 Blockly.Blocks['convertTo'] = {
@@ -21,9 +21,9 @@ Blockly.Blocks['convertTo'] = {
         .appendField("convertTo")
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-          ["float","np.float"],
+          ["float","np.float32"],
           ["uchar","np.uint8"],
-          ["int", "np.uint32"],]), "flag")
+          ["int", "np.int32"],]), "flag")
     this.setOutput(true, "image")
     this.setInputsInline(true)
     this.setTooltip('')

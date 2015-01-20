@@ -232,6 +232,9 @@ Blockly.Blocks['core_norm'] = {
     this.appendValueInput('src1')
         .appendField('src1')
         .setCheck('image');
+    this.appendValueInput('src2')
+        .appendField('src2')
+        .setCheck('image');
     this.setOutput(true,'Number');
     this.setTooltip('core_norm');
   }
@@ -276,9 +279,6 @@ Blockly.Blocks['core_normalize'] = {
         .appendField('normalize')
     this.appendValueInput('src')
         .appendField('src')
-        .setCheck('image');
-    this.appendValueInput('dst')
-        .appendField('dst')
         .setCheck('image');
     this.setOutput(true,'image');
     this.setTooltip('core_normalize');

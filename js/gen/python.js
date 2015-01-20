@@ -93,7 +93,8 @@ Blockly.Python['core_meanStdDev'] = function(block) {
 };
 Blockly.Python['core_norm'] = function(block) {
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.norm("+src1+")"
+  var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
+  var code = "cv2.norm("+src1+","+src1+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_PSNR'] = function(block) {
@@ -111,8 +112,7 @@ Blockly.Python['core_batchDistance'] = function(block) {
 };
 Blockly.Python['core_normalize'] = function(block) {
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
-  var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.normalize("+src+","+dst+")"
+  var code = "cv2.normalize("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_reduce'] = function(block) {
