@@ -156,6 +156,8 @@ class CWrapperGenerator(object):
             body += self.js_input(a)
         if this == method.name:
             body += "  var code =  \"" + method.name +"("
+        elif this and method.name == "create":
+            body += "  var code = \"cv2." + this + "_create"("
         elif this and this != method.name:
             body += "  var code = that + \"." + method.name +"("
         else:
