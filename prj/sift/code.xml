@@ -1,0 +1,63 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="variables_set" id="82" inline="true" x="-18" y="2">
+    <field name="VAR">img</field>
+    <value name="VALUE">
+      <block type="imread" id="18">
+        <field name="grey">FALSE</field>
+        <field name="filename">media/lena.jpg</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_set" id="83" inline="true">
+        <field name="VAR">gray</field>
+        <value name="VALUE">
+          <block type="cvtcolor" id="104" inline="false">
+            <field name="flag">cv2.COLOR_BGR2GRAY</field>
+            <value name="img">
+              <block type="variables_get" id="114">
+                <field name="VAR">img</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="imshow" id="17" inline="false">
+            <field name="windowname">mywin</field>
+            <value name="image">
+              <block type="features2d_drawKeypoints" id="79" inline="false">
+                <value name="image">
+                  <block type="variables_get" id="182">
+                    <field name="VAR">img</field>
+                  </block>
+                </value>
+                <value name="keypoints">
+                  <block type="features2d_Feature2D_detect" id="181" inline="false">
+                    <value name="that">
+                      <block type="xfeatures2d_SIFT_create" id="16"></block>
+                    </value>
+                    <value name="image">
+                      <block type="variables_get" id="121">
+                        <field name="VAR">gray</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="outImage">
+                  <block type="variables_get" id="183">
+                    <field name="VAR">img</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="waitkey" id="19">
+                <field name="millis">0</field>
+                <field name="key">27</field>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
