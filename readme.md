@@ -11,3 +11,5 @@ if you're using opencv2.4.x, you will have to toggle the comments in blockly.htm
 <img src=https://github.com/berak/blockly-cv2/raw/master/media/blockly1.jpg>
 
 (no, i did not type all of this, most of it was generated the same way the python api is.)
+
+look at the prj folder for demos.

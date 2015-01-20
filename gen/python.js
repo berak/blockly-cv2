@@ -3458,7 +3458,7 @@ Blockly.Python['video_DenseOpticalFlow_collectGarbage'] = function(block) {
   return code;
 };
 Blockly.Python['xfeatures2d_SURF_create'] = function(block) {
-  var code = that + ".create()"
+  var code = "cv2.xfeatures2d.SURF_create()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SURF_setHessianThreshold'] = function(block) {
@@ -3517,6 +3517,6 @@ Blockly.Python['xfeatures2d_SURF_getUpright'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SIFT_create'] = function(block) {
-  var code = that + ".create()"
+  var code = "cv2.xfeatures2d.SIFT_create()"
   return [code, Blockly.Python.ORDER_NONE];
 };
