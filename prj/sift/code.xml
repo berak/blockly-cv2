@@ -1,45 +1,44 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
-  <block type="variables_set" id="82" inline="true" x="-6" y="131">
-    <field name="VAR">img</field>
-    <value name="VALUE">
-      <block type="imread" id="18">
-        <field name="grey">TRUE</field>
-        <field name="filename">media/lena.jpg</field>
-      </block>
-    </value>
+  <block type="xfeatures2d_SIFT_create" id="67" x="15" y="47">
+    <field name="SIFT">SIFT</field>
     <next>
-      <block type="imshow" id="17" inline="false">
-        <field name="windowname">mywin</field>
-        <value name="image">
-          <block type="features2d_drawKeypoints" id="79" inline="false">
+      <block type="load" id="1">
+        <field name="image">image</field>
+        <field name="filename">media/lena.jpg</field>
+        <field name="grey">TRUE</field>
+        <next>
+          <block type="imshow" id="2" inline="false">
+            <field name="windowname">bgr</field>
             <value name="image">
-              <block type="variables_get" id="182">
-                <field name="VAR">img</field>
-              </block>
-            </value>
-            <value name="keypoints">
-              <block type="features2d_Feature2D_detect" id="181" inline="false">
-                <value name="that">
-                  <block type="xfeatures2d_SIFT_create" id="16"></block>
-                </value>
+              <block type="features2d_drawKeypoints" id="91" inline="false">
                 <value name="image">
-                  <block type="variables_get" id="369">
-                    <field name="VAR">img</field>
+                  <block type="variables_get" id="100">
+                    <field name="VAR">image</field>
+                  </block>
+                </value>
+                <value name="keypoints">
+                  <block type="features2d_Feature2D_detect" id="79" inline="false">
+                    <field name="Feature2D">SIFT</field>
+                    <value name="image">
+                      <block type="variables_get" id="101">
+                        <field name="VAR">image</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="outImage">
+                  <block type="variables_get" id="102">
+                    <field name="VAR">image</field>
                   </block>
                 </value>
               </block>
             </value>
-            <value name="outImage">
-              <block type="variables_get" id="183">
-                <field name="VAR">img</field>
+            <next>
+              <block type="waitkey" id="4">
+                <field name="millis">0</field>
+                <field name="key">27</field>
               </block>
-            </value>
-          </block>
-        </value>
-        <next>
-          <block type="waitkey" id="19">
-            <field name="millis">0</field>
-            <field name="key">27</field>
+            </next>
           </block>
         </next>
       </block>

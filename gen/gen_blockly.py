@@ -57,34 +57,30 @@ class CWrapperGenerator(object):
 
     def block_tc(self,t):
         if t=="string" or t=="String":
-            return "\n        .setCheck('String');\n"
+            return "\n        .setCheck('String')"
         if t=="Size":
-            return "\n        .setCheck('size');\n"
+            return "\n        .setCheck('size')"
         if t=="Point":
-            return "\n        .setCheck('point');\n"
+            return "\n        .setCheck('point')"
         if t=="Scalar":
-            return "\n        .setCheck('Colour');\n"
+            return "\n        .setCheck('Colour')"
         if t=="Mat":
-            return "\n        .setCheck('image');\n"
+            return "\n        .setCheck('image')"
         if t=="int" or t=="double" or t=="float": 
-            return "\n        .setCheck('Number');\n"
-        return ';\n'
+            return "\n        .setCheck('Number')"
+        return ''
 
     def block_input(self,a,this):
         s = ""
-        can_inline=True
         if a.tp=="int" or a.tp=="double" or a.tp=="float": 
             s += "    this.appendDummyInput()\n" 
-            s += "        .appendField(new Blockly.FieldTextInput('0'), '" + a.name + "');\n"
+            s += "        .appendField('" + a.name + "')\n"
+            s += "        .appendField(new Blockly.FieldTextInput('0'), '" + a.name + "')"
         else:
-            can_inline=False
             s += "    this.appendValueInput('" + a.name + "')\n"
-            if this and a.name=="that":
-                s += "        .appendField('" + this + "')"
-            else:
-                s += "        .appendField('" + a.name + "')"
+            s += "        .appendField('" + a.name + "')"
             s += self.block_tc(a.tp)
-        return s, can_inline
+        return s + ";\n"
 
     def js_input(self,a):
         if a.tp=="int" or a.tp=="double" or a.tp=="float": 
@@ -94,49 +90,79 @@ class CWrapperGenerator(object):
     colors = { "core": 99,
      "highgui": 199,
      "videoio": 22,
-     "photo": 44,
+     "photo": 34,
      "imgproc": 12,
      "imgcodecs": 55,
      "features2d": 222,
-     "shape": 280,
+     "shape": 180,
      "video": 243,
      "xfeatures2d": 320,
      "calib3d": 177,
      "objdetect": 38,
+     "bgsegm": 347,
+     "bioinspired":244,
+     "stitching":135,
+     "optflow":231,
      }
- 
-    def gen_method(self,method,arghs,this,namespace,doc):
-        if  this == method.name or method.static:
-            arghs = arghs[1:]
 
+    contribs=["bioinspired","bgsegm","xphoto","xfeatures2d","optflow","ximgproc"]
+
+    def internal_var(self,name):
+        s =  "  getVars: function(){return [this.getFieldValue('"+name+"')]},\n"
+        s += "  renameVar: function(oldName,newName) {if (Blockly.Names.equals(oldName,this.getFieldValue('"+name+"'))){this.setFieldValue(newName,'"+name+"');}},\n"
+        return s
+        
+
+    def gen_method(self,method,this,namespace,doc):
+
+        arghs = method.req
+        
         longname = namespace + "_"
         if this: longname += this + "_"
         longname += method.name
-
-        smname = method.name
-        if this: smname = this + "_" + smname
         
         c=45
         if namespace in self.colors:
             c = self.colors[namespace]
             
+        is_ctor = (this == method.name) or (method.name.find("create")>=0)
+        if is_ctor and (this==None):
+            if method.name.find("create")==0:
+                this = method.name.split("create")[1]
+                print "\t",this,"\t",method.name
+        
+        has_ret = (method.rtp != "void") and (is_ctor == False)
+        ret_tp = method.rtp
+        if not is_ctor:
+            for a in arghs:
+                if a.O: 
+                    has_ret = True
+                    ret_tp = a.tp
+        can_inline = arghs.count < 4
+
+        msig=method.name
+        if method.name == "create":
+            msig = this + "_" +method.name
+               
+        print has_ret,"\t",is_ctor,"\t", this!=None, "\t", msig
+        
+        #~ if this:
+            #~ this = this.lower()
+
         sig = "Blockly.Blocks['"+longname+"'] = {\n"
         sig +="  init: function() {\n"
         sig +="    this.setColour("+str(c)+");\n"
         sig +="    this.appendDummyInput()\n"
-        sig +="        .appendField('"+smname+"')\n"
+        sig +="        .appendField('"+msig+"');\n"
 
-        has_ret = (method.rtp != "void" and method.rtp) or this == method.name
-        ret_tp = method.rtp
+        if this:
+            sig += "    this.appendDummyInput()\n" 
+            sig += "        .appendField(new Blockly.FieldVariable('"+this+"'), '"+this+"');\n"
+
         for a in arghs:
-            if a.O: 
-                has_ret = True
-                ret_tp = a.tp
-        can_inline = False
-        for a in arghs:
+            print "  ARG ",a.O,"\t",a.I,"\t",a.tp,"\t",a.name
             if a.O and not a.I: continue
-            s,i = self.block_input(a,this) 
-            can_inline |=i
+            s = self.block_input(a,this) 
             sig += s
         if has_ret:
             sig += "    this.setOutput(true"+self.block_rtp(ret_tp)+");\n"
@@ -146,30 +172,41 @@ class CWrapperGenerator(object):
         if can_inline:
             sig += "    this.setInputsInline(true);\n"
         sig += "    this.setTooltip('"+longname+"');\n"
-        sig += "  }\n};\n"
+        sig += "  },\n"
+        if is_ctor or this:
+            sig += self.internal_var(this)
+        sig += "};\n"
 
         self.buf_decl.write(sig)
 
         body = "Blockly.Python['"+longname+"'] = function(block) {\n"
+        if this:
+            body += "  var " + this + " = block.getFieldValue('" + this + "');\n" 
         for a in arghs:
             if a.O and not a.I: continue
             body += self.js_input(a)
-        if this == method.name:
-            body += "  var code =  \"" + method.name +"("
-        elif this and method.name == "create":
-            body += "  var code = \"cv2." + this + "_create"("
+            
+        body += "  var code = "
+        if is_ctor:
+            body += this + " + \" = cv2."
+            if namespace in self.contribs:
+                body += namespace + "."
+            body += msig +"("
         elif this and this != method.name:
-            body += "  var code = that + \"." + method.name +"("
+            body += this + " + \"." + method.name +"("
         else:
-            body += "  var code = \"cv2." + method.name +"("
+            body +=  "\"cv2." + method.name +"("
         for i,a in enumerate(arghs):
             if a.O and not a.I: continue
-            if a.name=="that" : continue
+            if a.name==this : continue
             body += "\"+" + a.name + "+\","
         if len(arghs):
             body=body[:-1]
-        body += ")\"\n"
-        if has_ret:
+        body += ")"
+        if not has_ret:
+            body += "\\n"
+        body += "\"\n"
+        if has_ret or is_ctor:
             body += "  return [code, Blockly.Python.ORDER_NONE];\n"
         else:
             body += "  return code;\n"
@@ -238,10 +275,7 @@ class CWrapperGenerator(object):
                 longname = namespace.name+"_"+method.name
                 if self.overload(longname): continue
                                
-                args = method.req
-                #~ for a in method.opt:
-                    #~ args.append(a)
-                self.gen_method(method,args,None,namespace.name,"")
+                self.gen_method(method,None,namespace.name,"")
                 
                 self.buf_xml.write("  <block type=\""+longname+"\"></block>\n")
             # classes
@@ -255,12 +289,7 @@ class CWrapperGenerator(object):
                     longname = namespace.name+"_"+clss.name+"_"+method.name
                     if self.overload(longname): continue
                         
-                    inst = Argument(name='that', tp=clss.name)
-                    args = method.req
-                    args.insert(0,inst)
-                    #~ for a in method.opt:
-                        #~ args.append(a)
-                    self.gen_method(method,args,clss.name,namespace.name,"")
+                    self.gen_method(method,clss.name,namespace.name,"")
                     self.buf_xml.write("  <block type=\""+longname+"\"></block>\n")
             self.buf_xml.write("</category>\n")
 
@@ -345,4 +374,4 @@ if __name__ == "__main__":
               #~ "video=e:/code/opencv/modules/video/include/opencv2/video/background_segm.hpp"]
 
     cg = CWrapperGenerator()
-    cg.gen(moduleroot, modules, extras, "gen", "blocks.js", "python.js", "blocks.xml")
+    cg.gen(moduleroot, modules, extras, "js/gen", "blocks.js", "python.js", "blocks.xml")

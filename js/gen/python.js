@@ -93,8 +93,7 @@ Blockly.Python['core_meanStdDev'] = function(block) {
 };
 Blockly.Python['core_norm'] = function(block) {
   var src1 = Blockly.Python.valueToCode(block, 'src1', Blockly.Python.ORDER_ATOMIC);
-  var src2 = Blockly.Python.valueToCode(block, 'src2', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.norm("+src1+","+src1+")"
+  var code = "cv2.norm("+src1+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_PSNR'] = function(block) {
@@ -112,7 +111,8 @@ Blockly.Python['core_batchDistance'] = function(block) {
 };
 Blockly.Python['core_normalize'] = function(block) {
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.normalize("+src+")"
+  var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
+  var code = "cv2.normalize("+src+","+dst+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_reduce'] = function(block) {
@@ -511,7 +511,7 @@ Blockly.Python['core_getNumberOfCPUs'] = function(block) {
 };
 Blockly.Python['core_setUseOptimized'] = function(block) {
   var onoff = Blockly.Python.valueToCode(block, 'onoff', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.setUseOptimized("+onoff+")"
+  var code = "cv2.setUseOptimized("+onoff+")\n"
   return code;
 };
 Blockly.Python['core_useOptimized'] = function(block) {
@@ -519,26 +519,31 @@ Blockly.Python['core_useOptimized'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_DMatch_DMatch'] = function(block) {
-  var code =  "DMatch()"
+  var DMatch = block.getFieldValue('DMatch');
+  var code = DMatch + " = cv2.DMatch()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_KeyPoint_KeyPoint'] = function(block) {
-  var code =  "KeyPoint()"
+  var KeyPoint = block.getFieldValue('KeyPoint');
+  var code = KeyPoint + " = cv2.KeyPoint()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_KeyPoint_convert'] = function(block) {
+  var KeyPoint = block.getFieldValue('KeyPoint');
   var keypoints = Blockly.Python.valueToCode(block, 'keypoints', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".convert("+keypoints+")"
+  var code = KeyPoint + ".convert("+keypoints+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['core_KeyPoint_overlap'] = function(block) {
+  var KeyPoint = block.getFieldValue('KeyPoint');
   var kp1 = Blockly.Python.valueToCode(block, 'kp1', Blockly.Python.ORDER_ATOMIC);
   var kp2 = Blockly.Python.valueToCode(block, 'kp2', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".overlap("+kp1+","+kp2+")"
+  var code = KeyPoint + ".overlap("+kp1+","+kp2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_createLineSegmentDetector'] = function(block) {
-  var code = "cv2.createLineSegmentDetector()"
+  var LineSegmentDetector = block.getFieldValue('LineSegmentDetector');
+  var code = LineSegmentDetector + " = cv2.createLineSegmentDetector()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_getGaussianKernel'] = function(block) {
@@ -855,9 +860,10 @@ Blockly.Python['imgproc_accumulateWeighted'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_createHanningWindow'] = function(block) {
+  var HanningWindow = block.getFieldValue('HanningWindow');
   var winSize = Blockly.Python.valueToCode(block, 'winSize', Blockly.Python.ORDER_ATOMIC);
   var type = block.getFieldValue('type');
-  var code = "cv2.createHanningWindow("+winSize+","+type+")"
+  var code = HanningWindow + " = cv2.createHanningWindow("+winSize+","+type+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_threshold'] = function(block) {
@@ -1108,7 +1114,8 @@ Blockly.Python['imgproc_rotatedRectangleIntersection'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_createCLAHE'] = function(block) {
-  var code = "cv2.createCLAHE()"
+  var CLAHE = block.getFieldValue('CLAHE');
+  var code = CLAHE + " = cv2.createCLAHE()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_applyColorMap'] = function(block) {
@@ -1218,105 +1225,305 @@ Blockly.Python['imgproc_putText'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_LineSegmentDetector_detect'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var LineSegmentDetector = block.getFieldValue('LineSegmentDetector');
   var _image = Blockly.Python.valueToCode(block, '_image', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".detect("+_image+")"
+  var code = LineSegmentDetector + ".detect("+_image+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_LineSegmentDetector_drawSegments'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var LineSegmentDetector = block.getFieldValue('LineSegmentDetector');
   var _image = Blockly.Python.valueToCode(block, '_image', Blockly.Python.ORDER_ATOMIC);
   var lines = Blockly.Python.valueToCode(block, 'lines', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".drawSegments("+_image+","+lines+")"
+  var code = LineSegmentDetector + ".drawSegments("+_image+","+lines+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_LineSegmentDetector_compareSegments'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var LineSegmentDetector = block.getFieldValue('LineSegmentDetector');
   var size = Blockly.Python.valueToCode(block, 'size', Blockly.Python.ORDER_ATOMIC);
   var lines1 = Blockly.Python.valueToCode(block, 'lines1', Blockly.Python.ORDER_ATOMIC);
   var lines2 = Blockly.Python.valueToCode(block, 'lines2', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".compareSegments("+size+","+lines1+","+lines2+")"
+  var code = LineSegmentDetector + ".compareSegments("+size+","+lines1+","+lines2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_CLAHE_apply'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CLAHE = block.getFieldValue('CLAHE');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".apply("+src+")"
+  var code = CLAHE + ".apply("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_CLAHE_setClipLimit'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CLAHE = block.getFieldValue('CLAHE');
   var clipLimit = block.getFieldValue('clipLimit');
-  var code = that + ".setClipLimit("+clipLimit+")"
+  var code = CLAHE + ".setClipLimit("+clipLimit+")\n"
   return code;
 };
 Blockly.Python['imgproc_CLAHE_getClipLimit'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getClipLimit)"
+  var CLAHE = block.getFieldValue('CLAHE');
+  var code = CLAHE + ".getClipLimit()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_CLAHE_setTilesGridSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CLAHE = block.getFieldValue('CLAHE');
   var tileGridSize = Blockly.Python.valueToCode(block, 'tileGridSize', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setTilesGridSize("+tileGridSize+")"
+  var code = CLAHE + ".setTilesGridSize("+tileGridSize+")\n"
   return code;
 };
 Blockly.Python['imgproc_CLAHE_getTilesGridSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getTilesGridSize)"
+  var CLAHE = block.getFieldValue('CLAHE');
+  var code = CLAHE + ".getTilesGridSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['imgproc_CLAHE_collectGarbage'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".collectGarbage)"
+  var CLAHE = block.getFieldValue('CLAHE');
+  var code = CLAHE + ".collectGarbage()\n"
   return code;
 };
-Blockly.Python['videoio_VideoCapture_VideoCapture'] = function(block) {
-  var code =  "VideoCapture()"
+Blockly.Python['bioinspired_RETINA_COLOR_RANDOM_createRetina'] = function(block) {
+  var RETINA_COLOR_RANDOM = block.getFieldValue('RETINA_COLOR_RANDOM');
+  var inputSize = Blockly.Python.valueToCode(block, 'inputSize', Blockly.Python.ORDER_ATOMIC);
+  var code = RETINA_COLOR_RANDOM + " = cv2.bioinspired.createRetina("+inputSize+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_open'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".open("+filename+")"
+Blockly.Python['bioinspired_RETINA_COLOR_RANDOM_createRetinaFastToneMapping'] = function(block) {
+  var RETINA_COLOR_RANDOM = block.getFieldValue('RETINA_COLOR_RANDOM');
+  var inputSize = Blockly.Python.valueToCode(block, 'inputSize', Blockly.Python.ORDER_ATOMIC);
+  var code = RETINA_COLOR_RANDOM + " = cv2.bioinspired.createRetinaFastToneMapping("+inputSize+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_isOpened'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".isOpened)"
+Blockly.Python['bioinspired_RETINA_COLOR_RANDOM_createTransientAreasSegmentationModule'] = function(block) {
+  var RETINA_COLOR_RANDOM = block.getFieldValue('RETINA_COLOR_RANDOM');
+  var inputSize = Blockly.Python.valueToCode(block, 'inputSize', Blockly.Python.ORDER_ATOMIC);
+  var code = RETINA_COLOR_RANDOM + " = cv2.bioinspired.createTransientAreasSegmentationModule("+inputSize+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_release'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".release)"
+Blockly.Python['bioinspired_RetinaFastToneMapping_applyFastToneMapping'] = function(block) {
+  var RetinaFastToneMapping = block.getFieldValue('RetinaFastToneMapping');
+  var inputImage = Blockly.Python.valueToCode(block, 'inputImage', Blockly.Python.ORDER_ATOMIC);
+  var code = RetinaFastToneMapping + ".applyFastToneMapping("+inputImage+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_RetinaFastToneMapping_setup'] = function(block) {
+  var RetinaFastToneMapping = block.getFieldValue('RetinaFastToneMapping');
+  var code = RetinaFastToneMapping + ".setup()\n"
   return code;
 };
-Blockly.Python['videoio_VideoCapture_grab'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".grab)"
+Blockly.Python['bioinspired_Retina_getInputSize'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getInputSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_retrieve'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".retrieve)"
+Blockly.Python['bioinspired_Retina_getOutputSize'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getOutputSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_read'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".read)"
+Blockly.Python['bioinspired_Retina_setup'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".setup()\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_getParameters'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getParameters()"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_set'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var propId = block.getFieldValue('propId');
-  var value = block.getFieldValue('value');
-  var code = that + ".set("+propId+","+value+")"
+Blockly.Python['bioinspired_Retina_printSetup'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".printSetup()"
   return [code, Blockly.Python.ORDER_NONE];
 };
-Blockly.Python['videoio_VideoCapture_get'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var propId = block.getFieldValue('propId');
-  var code = that + ".get("+propId+")"
+Blockly.Python['bioinspired_Retina_write'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var fs = Blockly.Python.valueToCode(block, 'fs', Blockly.Python.ORDER_ATOMIC);
+  var code = Retina + ".write("+fs+")\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_setupOPLandIPLParvoChannel'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".setupOPLandIPLParvoChannel()\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_setupIPLMagnoChannel'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".setupIPLMagnoChannel()\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_run'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var inputImage = Blockly.Python.valueToCode(block, 'inputImage', Blockly.Python.ORDER_ATOMIC);
+  var code = Retina + ".run("+inputImage+")\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_applyFastToneMapping'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var inputImage = Blockly.Python.valueToCode(block, 'inputImage', Blockly.Python.ORDER_ATOMIC);
+  var code = Retina + ".applyFastToneMapping("+inputImage+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_Retina_getParvo'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getParvo)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_Retina_getParvoRAW'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getParvoRAW)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_Retina_getMagno'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getMagno)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_Retina_getMagnoRAW'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".getMagnoRAW)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_Retina_setColorSaturation'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".setColorSaturation()\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_clearBuffers'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var code = Retina + ".clearBuffers()\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_activateMovingContoursProcessing'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var activate = Blockly.Python.valueToCode(block, 'activate', Blockly.Python.ORDER_ATOMIC);
+  var code = Retina + ".activateMovingContoursProcessing("+activate+")\n"
+  return code;
+};
+Blockly.Python['bioinspired_Retina_activateContoursProcessing'] = function(block) {
+  var Retina = block.getFieldValue('Retina');
+  var activate = Blockly.Python.valueToCode(block, 'activate', Blockly.Python.ORDER_ATOMIC);
+  var code = Retina + ".activateContoursProcessing("+activate+")\n"
+  return code;
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_getSize'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var code = TransientAreasSegmentationModule + ".getSize()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_setup'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var code = TransientAreasSegmentationModule + ".setup()\n"
+  return code;
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_getParameters'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var code = TransientAreasSegmentationModule + ".getParameters()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_printSetup'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var code = TransientAreasSegmentationModule + ".printSetup()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_write'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var fs = Blockly.Python.valueToCode(block, 'fs', Blockly.Python.ORDER_ATOMIC);
+  var code = TransientAreasSegmentationModule + ".write("+fs+")\n"
+  return code;
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_run'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var inputToSegment = Blockly.Python.valueToCode(block, 'inputToSegment', Blockly.Python.ORDER_ATOMIC);
+  var code = TransientAreasSegmentationModule + ".run("+inputToSegment+")\n"
+  return code;
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_getSegmentationPicture'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var code = TransientAreasSegmentationModule + ".getSegmentationPicture)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bioinspired_TransientAreasSegmentationModule_clearAllBuffers'] = function(block) {
+  var TransientAreasSegmentationModule = block.getFieldValue('TransientAreasSegmentationModule');
+  var code = TransientAreasSegmentationModule + ".clearAllBuffers()\n"
+  return code;
+};
+Blockly.Python['stitching_createStitcher'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + " = cv2.createStitcher()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_registrationResol'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".registrationResol()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_setRegistrationResol'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var resol_mpx = block.getFieldValue('resol_mpx');
+  var code = Stitcher + ".setRegistrationResol("+resol_mpx+")\n"
+  return code;
+};
+Blockly.Python['stitching_Stitcher_seamEstimationResol'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".seamEstimationResol()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_setSeamEstimationResol'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var resol_mpx = block.getFieldValue('resol_mpx');
+  var code = Stitcher + ".setSeamEstimationResol("+resol_mpx+")\n"
+  return code;
+};
+Blockly.Python['stitching_Stitcher_compositingResol'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".compositingResol()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_setCompositingResol'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var resol_mpx = block.getFieldValue('resol_mpx');
+  var code = Stitcher + ".setCompositingResol("+resol_mpx+")\n"
+  return code;
+};
+Blockly.Python['stitching_Stitcher_panoConfidenceThresh'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".panoConfidenceThresh()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_setPanoConfidenceThresh'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var conf_thresh = block.getFieldValue('conf_thresh');
+  var code = Stitcher + ".setPanoConfidenceThresh("+conf_thresh+")\n"
+  return code;
+};
+Blockly.Python['stitching_Stitcher_waveCorrection'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".waveCorrection()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_setWaveCorrection'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var flag = Blockly.Python.valueToCode(block, 'flag', Blockly.Python.ORDER_ATOMIC);
+  var code = Stitcher + ".setWaveCorrection("+flag+")\n"
+  return code;
+};
+Blockly.Python['stitching_Stitcher_estimateTransform'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var images = Blockly.Python.valueToCode(block, 'images', Blockly.Python.ORDER_ATOMIC);
+  var code = Stitcher + ".estimateTransform("+images+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_composePanorama'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".composePanorama)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_stitch'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var images = Blockly.Python.valueToCode(block, 'images', Blockly.Python.ORDER_ATOMIC);
+  var code = Stitcher + ".stitch("+images+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['stitching_Stitcher_workScale'] = function(block) {
+  var Stitcher = block.getFieldValue('Stitcher');
+  var code = Stitcher + ".workScale()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_inpaint'] = function(block) {
@@ -1354,51 +1561,62 @@ Blockly.Python['photo_fastNlMeansDenoisingColoredMulti'] = function(block) {
 Blockly.Python['photo_denoise_TVL1'] = function(block) {
   var observations = Blockly.Python.valueToCode(block, 'observations', Blockly.Python.ORDER_ATOMIC);
   var result = Blockly.Python.valueToCode(block, 'result', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.denoise_TVL1("+observations+","+result+")"
+  var code = "cv2.denoise_TVL1("+observations+","+result+")\n"
   return code;
 };
 Blockly.Python['photo_createTonemap'] = function(block) {
-  var code = "cv2.createTonemap()"
+  var Tonemap = block.getFieldValue('Tonemap');
+  var code = Tonemap + " = cv2.createTonemap()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createTonemapDrago'] = function(block) {
-  var code = "cv2.createTonemapDrago()"
+  var TonemapDrago = block.getFieldValue('TonemapDrago');
+  var code = TonemapDrago + " = cv2.createTonemapDrago()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createTonemapDurand'] = function(block) {
-  var code = "cv2.createTonemapDurand()"
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
+  var code = TonemapDurand + " = cv2.createTonemapDurand()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createTonemapReinhard'] = function(block) {
-  var code = "cv2.createTonemapReinhard()"
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
+  var code = TonemapReinhard + " = cv2.createTonemapReinhard()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createTonemapMantiuk'] = function(block) {
-  var code = "cv2.createTonemapMantiuk()"
+  var TonemapMantiuk = block.getFieldValue('TonemapMantiuk');
+  var code = TonemapMantiuk + " = cv2.createTonemapMantiuk()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createAlignMTB'] = function(block) {
-  var code = "cv2.createAlignMTB()"
+  var AlignMTB = block.getFieldValue('AlignMTB');
+  var code = AlignMTB + " = cv2.createAlignMTB()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createCalibrateDebevec'] = function(block) {
-  var code = "cv2.createCalibrateDebevec()"
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
+  var code = CalibrateDebevec + " = cv2.createCalibrateDebevec()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createCalibrateRobertson'] = function(block) {
-  var code = "cv2.createCalibrateRobertson()"
+  var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
+  var code = CalibrateRobertson + " = cv2.createCalibrateRobertson()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createMergeDebevec'] = function(block) {
-  var code = "cv2.createMergeDebevec()"
+  var MergeDebevec = block.getFieldValue('MergeDebevec');
+  var code = MergeDebevec + " = cv2.createMergeDebevec()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createMergeMertens'] = function(block) {
-  var code = "cv2.createMergeMertens()"
+  var MergeMertens = block.getFieldValue('MergeMertens');
+  var code = MergeMertens + " = cv2.createMergeMertens()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_createMergeRobertson'] = function(block) {
-  var code = "cv2.createMergeRobertson()"
+  var MergeRobertson = block.getFieldValue('MergeRobertson');
+  var code = MergeRobertson + " = cv2.createMergeRobertson()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_decolor'] = function(block) {
@@ -1454,344 +1672,344 @@ Blockly.Python['photo_stylization'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateRobertson_getMaxIter'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMaxIter)"
+  var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
+  var code = CalibrateRobertson + ".getMaxIter()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateRobertson_setMaxIter'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
   var max_iter = block.getFieldValue('max_iter');
-  var code = that + ".setMaxIter("+max_iter+")"
+  var code = CalibrateRobertson + ".setMaxIter("+max_iter+")\n"
   return code;
 };
 Blockly.Python['photo_CalibrateRobertson_getThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getThreshold)"
+  var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
+  var code = CalibrateRobertson + ".getThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateRobertson_setThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
   var threshold = block.getFieldValue('threshold');
-  var code = that + ".setThreshold("+threshold+")"
+  var code = CalibrateRobertson + ".setThreshold("+threshold+")\n"
   return code;
 };
 Blockly.Python['photo_CalibrateRobertson_getRadiance'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getRadiance)"
+  var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
+  var code = CalibrateRobertson + ".getRadiance()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapMantiuk_getScale'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getScale)"
+  var TonemapMantiuk = block.getFieldValue('TonemapMantiuk');
+  var code = TonemapMantiuk + ".getScale()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapMantiuk_setScale'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapMantiuk = block.getFieldValue('TonemapMantiuk');
   var scale = block.getFieldValue('scale');
-  var code = that + ".setScale("+scale+")"
+  var code = TonemapMantiuk + ".setScale("+scale+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapMantiuk_getSaturation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSaturation)"
+  var TonemapMantiuk = block.getFieldValue('TonemapMantiuk');
+  var code = TonemapMantiuk + ".getSaturation()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapMantiuk_setSaturation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapMantiuk = block.getFieldValue('TonemapMantiuk');
   var saturation = block.getFieldValue('saturation');
-  var code = that + ".setSaturation("+saturation+")"
+  var code = TonemapMantiuk + ".setSaturation("+saturation+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapDurand_getSaturation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSaturation)"
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
+  var code = TonemapDurand + ".getSaturation()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDurand_setSaturation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
   var saturation = block.getFieldValue('saturation');
-  var code = that + ".setSaturation("+saturation+")"
+  var code = TonemapDurand + ".setSaturation("+saturation+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapDurand_getContrast'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getContrast)"
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
+  var code = TonemapDurand + ".getContrast()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDurand_setContrast'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
   var contrast = block.getFieldValue('contrast');
-  var code = that + ".setContrast("+contrast+")"
+  var code = TonemapDurand + ".setContrast("+contrast+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapDurand_getSigmaSpace'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSigmaSpace)"
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
+  var code = TonemapDurand + ".getSigmaSpace()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDurand_setSigmaSpace'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
   var sigma_space = block.getFieldValue('sigma_space');
-  var code = that + ".setSigmaSpace("+sigma_space+")"
+  var code = TonemapDurand + ".setSigmaSpace("+sigma_space+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapDurand_getSigmaColor'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSigmaColor)"
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
+  var code = TonemapDurand + ".getSigmaColor()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDurand_setSigmaColor'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapDurand = block.getFieldValue('TonemapDurand');
   var sigma_color = block.getFieldValue('sigma_color');
-  var code = that + ".setSigmaColor("+sigma_color+")"
+  var code = TonemapDurand + ".setSigmaColor("+sigma_color+")\n"
   return code;
 };
 Blockly.Python['photo_AlignExposures_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignExposures = block.getFieldValue('AlignExposures');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
   var response = Blockly.Python.valueToCode(block, 'response', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+dst+","+times+","+response+")"
+  var code = AlignExposures + ".process("+src+","+dst+","+times+","+response+")\n"
   return code;
 };
 Blockly.Python['photo_CalibrateDebevec_getLambda'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getLambda)"
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
+  var code = CalibrateDebevec + ".getLambda()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateDebevec_setLambda'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
   var lambda = block.getFieldValue('lambda');
-  var code = that + ".setLambda("+lambda+")"
+  var code = CalibrateDebevec + ".setLambda("+lambda+")\n"
   return code;
 };
 Blockly.Python['photo_CalibrateDebevec_getSamples'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSamples)"
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
+  var code = CalibrateDebevec + ".getSamples()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateDebevec_setSamples'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
   var samples = block.getFieldValue('samples');
-  var code = that + ".setSamples("+samples+")"
+  var code = CalibrateDebevec + ".setSamples("+samples+")\n"
   return code;
 };
 Blockly.Python['photo_CalibrateDebevec_getRandom'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getRandom)"
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
+  var code = CalibrateDebevec + ".getRandom()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateDebevec_setRandom'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
   var random = Blockly.Python.valueToCode(block, 'random', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setRandom("+random+")"
+  var code = CalibrateDebevec + ".setRandom("+random+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapReinhard_getIntensity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getIntensity)"
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
+  var code = TonemapReinhard + ".getIntensity()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapReinhard_setIntensity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
   var intensity = block.getFieldValue('intensity');
-  var code = that + ".setIntensity("+intensity+")"
+  var code = TonemapReinhard + ".setIntensity("+intensity+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapReinhard_getLightAdaptation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getLightAdaptation)"
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
+  var code = TonemapReinhard + ".getLightAdaptation()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapReinhard_setLightAdaptation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
   var light_adapt = block.getFieldValue('light_adapt');
-  var code = that + ".setLightAdaptation("+light_adapt+")"
+  var code = TonemapReinhard + ".setLightAdaptation("+light_adapt+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapReinhard_getColorAdaptation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getColorAdaptation)"
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
+  var code = TonemapReinhard + ".getColorAdaptation()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapReinhard_setColorAdaptation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapReinhard = block.getFieldValue('TonemapReinhard');
   var color_adapt = block.getFieldValue('color_adapt');
-  var code = that + ".setColorAdaptation("+color_adapt+")"
+  var code = TonemapReinhard + ".setColorAdaptation("+color_adapt+")\n"
   return code;
 };
 Blockly.Python['photo_MergeRobertson_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeRobertson = block.getFieldValue('MergeRobertson');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
   var response = Blockly.Python.valueToCode(block, 'response', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+times+","+response+")"
+  var code = MergeRobertson + ".process("+src+","+times+","+response+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_CalibrateCRF_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var CalibrateCRF = block.getFieldValue('CalibrateCRF');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+times+")"
+  var code = CalibrateCRF + ".process("+src+","+times+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDrago_getSaturation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSaturation)"
+  var TonemapDrago = block.getFieldValue('TonemapDrago');
+  var code = TonemapDrago + ".getSaturation()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDrago_setSaturation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapDrago = block.getFieldValue('TonemapDrago');
   var saturation = block.getFieldValue('saturation');
-  var code = that + ".setSaturation("+saturation+")"
+  var code = TonemapDrago + ".setSaturation("+saturation+")\n"
   return code;
 };
 Blockly.Python['photo_TonemapDrago_getBias'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getBias)"
+  var TonemapDrago = block.getFieldValue('TonemapDrago');
+  var code = TonemapDrago + ".getBias()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_TonemapDrago_setBias'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var TonemapDrago = block.getFieldValue('TonemapDrago');
   var bias = block.getFieldValue('bias');
-  var code = that + ".setBias("+bias+")"
+  var code = TonemapDrago + ".setBias("+bias+")\n"
   return code;
 };
 Blockly.Python['photo_AlignMTB_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
   var response = Blockly.Python.valueToCode(block, 'response', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+dst+","+times+","+response+")"
+  var code = AlignMTB + ".process("+src+","+dst+","+times+","+response+")\n"
   return code;
 };
 Blockly.Python['photo_AlignMTB_calculateShift'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var img0 = Blockly.Python.valueToCode(block, 'img0', Blockly.Python.ORDER_ATOMIC);
   var img1 = Blockly.Python.valueToCode(block, 'img1', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".calculateShift("+img0+","+img1+")"
+  var code = AlignMTB + ".calculateShift("+img0+","+img1+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_AlignMTB_shiftMat'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var shift = Blockly.Python.valueToCode(block, 'shift', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".shiftMat("+src+","+shift+")"
+  var code = AlignMTB + ".shiftMat("+src+","+shift+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_AlignMTB_computeBitmaps'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".computeBitmaps("+img+")"
+  var code = AlignMTB + ".computeBitmaps("+img+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_AlignMTB_getMaxBits'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMaxBits)"
+  var AlignMTB = block.getFieldValue('AlignMTB');
+  var code = AlignMTB + ".getMaxBits()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_AlignMTB_setMaxBits'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var max_bits = block.getFieldValue('max_bits');
-  var code = that + ".setMaxBits("+max_bits+")"
+  var code = AlignMTB + ".setMaxBits("+max_bits+")\n"
   return code;
 };
 Blockly.Python['photo_AlignMTB_getExcludeRange'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getExcludeRange)"
+  var AlignMTB = block.getFieldValue('AlignMTB');
+  var code = AlignMTB + ".getExcludeRange()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_AlignMTB_setExcludeRange'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var exclude_range = block.getFieldValue('exclude_range');
-  var code = that + ".setExcludeRange("+exclude_range+")"
+  var code = AlignMTB + ".setExcludeRange("+exclude_range+")\n"
   return code;
 };
 Blockly.Python['photo_AlignMTB_getCut'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getCut)"
+  var AlignMTB = block.getFieldValue('AlignMTB');
+  var code = AlignMTB + ".getCut()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_AlignMTB_setCut'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AlignMTB = block.getFieldValue('AlignMTB');
   var value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setCut("+value+")"
+  var code = AlignMTB + ".setCut("+value+")\n"
   return code;
 };
 Blockly.Python['photo_MergeDebevec_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeDebevec = block.getFieldValue('MergeDebevec');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
   var response = Blockly.Python.valueToCode(block, 'response', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+times+","+response+")"
+  var code = MergeDebevec + ".process("+src+","+times+","+response+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_MergeMertens_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeMertens = block.getFieldValue('MergeMertens');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
   var response = Blockly.Python.valueToCode(block, 'response', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+times+","+response+")"
+  var code = MergeMertens + ".process("+src+","+times+","+response+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_MergeMertens_getContrastWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getContrastWeight)"
+  var MergeMertens = block.getFieldValue('MergeMertens');
+  var code = MergeMertens + ".getContrastWeight()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_MergeMertens_setContrastWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeMertens = block.getFieldValue('MergeMertens');
   var contrast_weiht = block.getFieldValue('contrast_weiht');
-  var code = that + ".setContrastWeight("+contrast_weiht+")"
+  var code = MergeMertens + ".setContrastWeight("+contrast_weiht+")\n"
   return code;
 };
 Blockly.Python['photo_MergeMertens_getSaturationWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSaturationWeight)"
+  var MergeMertens = block.getFieldValue('MergeMertens');
+  var code = MergeMertens + ".getSaturationWeight()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_MergeMertens_setSaturationWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeMertens = block.getFieldValue('MergeMertens');
   var saturation_weight = block.getFieldValue('saturation_weight');
-  var code = that + ".setSaturationWeight("+saturation_weight+")"
+  var code = MergeMertens + ".setSaturationWeight("+saturation_weight+")\n"
   return code;
 };
 Blockly.Python['photo_MergeMertens_getExposureWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getExposureWeight)"
+  var MergeMertens = block.getFieldValue('MergeMertens');
+  var code = MergeMertens + ".getExposureWeight()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_MergeMertens_setExposureWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeMertens = block.getFieldValue('MergeMertens');
   var exposure_weight = block.getFieldValue('exposure_weight');
-  var code = that + ".setExposureWeight("+exposure_weight+")"
+  var code = MergeMertens + ".setExposureWeight("+exposure_weight+")\n"
   return code;
 };
 Blockly.Python['photo_MergeExposures_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MergeExposures = block.getFieldValue('MergeExposures');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
   var times = Blockly.Python.valueToCode(block, 'times', Blockly.Python.ORDER_ATOMIC);
   var response = Blockly.Python.valueToCode(block, 'response', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+","+times+","+response+")"
+  var code = MergeExposures + ".process("+src+","+times+","+response+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_Tonemap_process'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var Tonemap = block.getFieldValue('Tonemap');
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".process("+src+")"
+  var code = Tonemap + ".process("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_Tonemap_getGamma'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getGamma)"
+  var Tonemap = block.getFieldValue('Tonemap');
+  var code = Tonemap + ".getGamma()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['photo_Tonemap_setGamma'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var Tonemap = block.getFieldValue('Tonemap');
   var gamma = block.getFieldValue('gamma');
-  var code = that + ".setGamma("+gamma+")"
+  var code = Tonemap + ".setGamma("+gamma+")\n"
   return code;
 };
 Blockly.Python['imgcodecs_imread'] = function(block) {
@@ -2086,230 +2304,232 @@ Blockly.Python['calib3d_decomposeHomographyMat'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_getPreFilterType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getPreFilterType)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getPreFilterType()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setPreFilterType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var preFilterType = block.getFieldValue('preFilterType');
-  var code = that + ".setPreFilterType("+preFilterType+")"
+  var code = StereoBM + ".setPreFilterType("+preFilterType+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getPreFilterSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getPreFilterSize)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getPreFilterSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setPreFilterSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var preFilterSize = block.getFieldValue('preFilterSize');
-  var code = that + ".setPreFilterSize("+preFilterSize+")"
+  var code = StereoBM + ".setPreFilterSize("+preFilterSize+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getPreFilterCap'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getPreFilterCap)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getPreFilterCap()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setPreFilterCap'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var preFilterCap = block.getFieldValue('preFilterCap');
-  var code = that + ".setPreFilterCap("+preFilterCap+")"
+  var code = StereoBM + ".setPreFilterCap("+preFilterCap+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getTextureThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getTextureThreshold)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getTextureThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setTextureThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var textureThreshold = block.getFieldValue('textureThreshold');
-  var code = that + ".setTextureThreshold("+textureThreshold+")"
+  var code = StereoBM + ".setTextureThreshold("+textureThreshold+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getUniquenessRatio'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getUniquenessRatio)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getUniquenessRatio()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setUniquenessRatio'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var uniquenessRatio = block.getFieldValue('uniquenessRatio');
-  var code = that + ".setUniquenessRatio("+uniquenessRatio+")"
+  var code = StereoBM + ".setUniquenessRatio("+uniquenessRatio+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getSmallerBlockSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSmallerBlockSize)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getSmallerBlockSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setSmallerBlockSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var blockSize = block.getFieldValue('blockSize');
-  var code = that + ".setSmallerBlockSize("+blockSize+")"
+  var code = StereoBM + ".setSmallerBlockSize("+blockSize+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getROI1'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getROI1)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getROI1()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setROI1'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var roi1 = Blockly.Python.valueToCode(block, 'roi1', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setROI1("+roi1+")"
+  var code = StereoBM + ".setROI1("+roi1+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_getROI2'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getROI2)"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + ".getROI2()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoBM_setROI2'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoBM = block.getFieldValue('StereoBM');
   var roi2 = Blockly.Python.valueToCode(block, 'roi2', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setROI2("+roi2+")"
+  var code = StereoBM + ".setROI2("+roi2+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoBM_create'] = function(block) {
-  var code = "cv2.StereoBM_create()"
+  var StereoBM = block.getFieldValue('StereoBM');
+  var code = StereoBM + " = cv2.StereoBM_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoSGBM_getPreFilterCap'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getPreFilterCap)"
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
+  var code = StereoSGBM + ".getPreFilterCap()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoSGBM_setPreFilterCap'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
   var preFilterCap = block.getFieldValue('preFilterCap');
-  var code = that + ".setPreFilterCap("+preFilterCap+")"
+  var code = StereoSGBM + ".setPreFilterCap("+preFilterCap+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoSGBM_getUniquenessRatio'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getUniquenessRatio)"
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
+  var code = StereoSGBM + ".getUniquenessRatio()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoSGBM_setUniquenessRatio'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
   var uniquenessRatio = block.getFieldValue('uniquenessRatio');
-  var code = that + ".setUniquenessRatio("+uniquenessRatio+")"
+  var code = StereoSGBM + ".setUniquenessRatio("+uniquenessRatio+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoSGBM_getP1'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getP1)"
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
+  var code = StereoSGBM + ".getP1()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoSGBM_setP1'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
   var P1 = block.getFieldValue('P1');
-  var code = that + ".setP1("+P1+")"
+  var code = StereoSGBM + ".setP1("+P1+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoSGBM_getP2'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getP2)"
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
+  var code = StereoSGBM + ".getP2()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoSGBM_setP2'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
   var P2 = block.getFieldValue('P2');
-  var code = that + ".setP2("+P2+")"
+  var code = StereoSGBM + ".setP2("+P2+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoSGBM_getMode'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMode)"
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
+  var code = StereoSGBM + ".getMode()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoSGBM_setMode'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
   var mode = block.getFieldValue('mode');
-  var code = that + ".setMode("+mode+")"
+  var code = StereoSGBM + ".setMode("+mode+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoSGBM_create'] = function(block) {
+  var StereoSGBM = block.getFieldValue('StereoSGBM');
   var minDisparity = block.getFieldValue('minDisparity');
   var numDisparities = block.getFieldValue('numDisparities');
   var blockSize = block.getFieldValue('blockSize');
-  var code = that + "cv2.StereoSGBM_create("+minDisparity+","+numDisparities+","+blockSize+")"
+  var code = StereoSGBM + " = cv2.StereoSGBM_create("+minDisparity+","+numDisparities+","+blockSize+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_compute'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
   var right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".compute("+left+","+right+")"
+  var code = StereoMatcher + ".compute("+left+","+right+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_getMinDisparity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMinDisparity)"
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
+  var code = StereoMatcher + ".getMinDisparity()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_setMinDisparity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var minDisparity = block.getFieldValue('minDisparity');
-  var code = that + ".setMinDisparity("+minDisparity+")"
+  var code = StereoMatcher + ".setMinDisparity("+minDisparity+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoMatcher_getNumDisparities'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNumDisparities)"
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
+  var code = StereoMatcher + ".getNumDisparities()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_setNumDisparities'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var numDisparities = block.getFieldValue('numDisparities');
-  var code = that + ".setNumDisparities("+numDisparities+")"
+  var code = StereoMatcher + ".setNumDisparities("+numDisparities+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoMatcher_getBlockSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getBlockSize)"
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
+  var code = StereoMatcher + ".getBlockSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_setBlockSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var blockSize = block.getFieldValue('blockSize');
-  var code = that + ".setBlockSize("+blockSize+")"
+  var code = StereoMatcher + ".setBlockSize("+blockSize+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoMatcher_getSpeckleWindowSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSpeckleWindowSize)"
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
+  var code = StereoMatcher + ".getSpeckleWindowSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_setSpeckleWindowSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var speckleWindowSize = block.getFieldValue('speckleWindowSize');
-  var code = that + ".setSpeckleWindowSize("+speckleWindowSize+")"
+  var code = StereoMatcher + ".setSpeckleWindowSize("+speckleWindowSize+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoMatcher_getSpeckleRange'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getSpeckleRange)"
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
+  var code = StereoMatcher + ".getSpeckleRange()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_setSpeckleRange'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var speckleRange = block.getFieldValue('speckleRange');
-  var code = that + ".setSpeckleRange("+speckleRange+")"
+  var code = StereoMatcher + ".setSpeckleRange("+speckleRange+")\n"
   return code;
 };
 Blockly.Python['calib3d_StereoMatcher_getDisp12MaxDiff'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDisp12MaxDiff)"
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
+  var code = StereoMatcher + ".getDisp12MaxDiff()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['calib3d_StereoMatcher_setDisp12MaxDiff'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var StereoMatcher = block.getFieldValue('StereoMatcher');
   var disp12MaxDiff = block.getFieldValue('disp12MaxDiff');
-  var code = that + ".setDisp12MaxDiff("+disp12MaxDiff+")"
+  var code = StereoMatcher + ".setDisp12MaxDiff("+disp12MaxDiff+")\n"
   return code;
 };
 Blockly.Python['features2d_drawKeypoints'] = function(block) {
@@ -2330,822 +2550,1004 @@ Blockly.Python['features2d_drawMatches'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_BFMatcher_BFMatcher'] = function(block) {
-  var code =  "BFMatcher()"
+  var BFMatcher = block.getFieldValue('BFMatcher');
+  var code = BFMatcher + " = cv2.BFMatcher()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_detect'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var Feature2D = block.getFieldValue('Feature2D');
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".detect("+image+")"
+  var code = Feature2D + ".detect("+image+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_compute'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var Feature2D = block.getFieldValue('Feature2D');
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var keypoints = Blockly.Python.valueToCode(block, 'keypoints', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".compute("+image+","+keypoints+")"
+  var code = Feature2D + ".compute("+image+","+keypoints+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_detectAndCompute'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var Feature2D = block.getFieldValue('Feature2D');
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var mask = Blockly.Python.valueToCode(block, 'mask', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".detectAndCompute("+image+","+mask+")"
+  var code = Feature2D + ".detectAndCompute("+image+","+mask+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_descriptorSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".descriptorSize)"
+  var Feature2D = block.getFieldValue('Feature2D');
+  var code = Feature2D + ".descriptorSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_descriptorType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".descriptorType)"
+  var Feature2D = block.getFieldValue('Feature2D');
+  var code = Feature2D + ".descriptorType()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_defaultNorm'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".defaultNorm)"
+  var Feature2D = block.getFieldValue('Feature2D');
+  var code = Feature2D + ".defaultNorm()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_Feature2D_empty'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".empty)"
+  var Feature2D = block.getFieldValue('Feature2D');
+  var code = Feature2D + ".empty()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_BRISK_create'] = function(block) {
-  var code = "cv2.BRISK_create()"
+  var BRISK = block.getFieldValue('BRISK');
+  var code = BRISK + " = cv2.BRISK_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_create'] = function(block) {
-  var code = "cv2.GFTTDetector_create()"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + " = cv2.GFTTDetector_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_setMaxFeatures'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
   var maxFeatures = block.getFieldValue('maxFeatures');
-  var code = that + ".setMaxFeatures("+maxFeatures+")"
+  var code = GFTTDetector + ".setMaxFeatures("+maxFeatures+")\n"
   return code;
 };
 Blockly.Python['features2d_GFTTDetector_getMaxFeatures'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMaxFeatures)"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + ".getMaxFeatures()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_setQualityLevel'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
   var qlevel = block.getFieldValue('qlevel');
-  var code = that + ".setQualityLevel("+qlevel+")"
+  var code = GFTTDetector + ".setQualityLevel("+qlevel+")\n"
   return code;
 };
 Blockly.Python['features2d_GFTTDetector_getQualityLevel'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getQualityLevel)"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + ".getQualityLevel()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_setMinDistance'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
   var minDistance = block.getFieldValue('minDistance');
-  var code = that + ".setMinDistance("+minDistance+")"
+  var code = GFTTDetector + ".setMinDistance("+minDistance+")\n"
   return code;
 };
 Blockly.Python['features2d_GFTTDetector_getMinDistance'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMinDistance)"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + ".getMinDistance()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_setBlockSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
   var blockSize = block.getFieldValue('blockSize');
-  var code = that + ".setBlockSize("+blockSize+")"
+  var code = GFTTDetector + ".setBlockSize("+blockSize+")\n"
   return code;
 };
 Blockly.Python['features2d_GFTTDetector_getBlockSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getBlockSize)"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + ".getBlockSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_setHarrisDetector'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
   var val = Blockly.Python.valueToCode(block, 'val', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setHarrisDetector("+val+")"
+  var code = GFTTDetector + ".setHarrisDetector("+val+")\n"
   return code;
 };
 Blockly.Python['features2d_GFTTDetector_getHarrisDetector'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getHarrisDetector)"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + ".getHarrisDetector()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_GFTTDetector_setK'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
   var k = block.getFieldValue('k');
-  var code = that + ".setK("+k+")"
+  var code = GFTTDetector + ".setK("+k+")\n"
   return code;
 };
 Blockly.Python['features2d_GFTTDetector_getK'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getK)"
+  var GFTTDetector = block.getFieldValue('GFTTDetector');
+  var code = GFTTDetector + ".getK()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_add'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
   var descriptors = Blockly.Python.valueToCode(block, 'descriptors', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".add("+descriptors+")"
+  var code = DescriptorMatcher + ".add("+descriptors+")\n"
   return code;
 };
 Blockly.Python['features2d_DescriptorMatcher_getTrainDescriptors'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getTrainDescriptors)"
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
+  var code = DescriptorMatcher + ".getTrainDescriptors()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_clear'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".clear)"
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
+  var code = DescriptorMatcher + ".clear()\n"
   return code;
 };
 Blockly.Python['features2d_DescriptorMatcher_empty'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".empty)"
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
+  var code = DescriptorMatcher + ".empty()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_isMaskSupported'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".isMaskSupported)"
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
+  var code = DescriptorMatcher + ".isMaskSupported()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_train'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".train)"
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
+  var code = DescriptorMatcher + ".train()\n"
   return code;
 };
 Blockly.Python['features2d_DescriptorMatcher_match'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
   var queryDescriptors = Blockly.Python.valueToCode(block, 'queryDescriptors', Blockly.Python.ORDER_ATOMIC);
   var trainDescriptors = Blockly.Python.valueToCode(block, 'trainDescriptors', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".match("+queryDescriptors+","+trainDescriptors+")"
+  var code = DescriptorMatcher + ".match("+queryDescriptors+","+trainDescriptors+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_knnMatch'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
   var queryDescriptors = Blockly.Python.valueToCode(block, 'queryDescriptors', Blockly.Python.ORDER_ATOMIC);
   var trainDescriptors = Blockly.Python.valueToCode(block, 'trainDescriptors', Blockly.Python.ORDER_ATOMIC);
   var k = block.getFieldValue('k');
-  var code = that + ".knnMatch("+queryDescriptors+","+trainDescriptors+","+k+")"
+  var code = DescriptorMatcher + ".knnMatch("+queryDescriptors+","+trainDescriptors+","+k+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_DescriptorMatcher_create'] = function(block) {
+  var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
   var descriptorMatcherType = Blockly.Python.valueToCode(block, 'descriptorMatcherType', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".create("+descriptorMatcherType+")"
+  var code = DescriptorMatcher + " = cv2.DescriptorMatcher_create("+descriptorMatcherType+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_create'] = function(block) {
-  var code = "cv2.KAZE_create()"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + " = cv2.KAZE_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_setExtended'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KAZE = block.getFieldValue('KAZE');
   var extended = Blockly.Python.valueToCode(block, 'extended', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setExtended("+extended+")"
+  var code = KAZE + ".setExtended("+extended+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_getExtended'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getExtended)"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + ".getExtended()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_setUpright'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KAZE = block.getFieldValue('KAZE');
   var upright = Blockly.Python.valueToCode(block, 'upright', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setUpright("+upright+")"
+  var code = KAZE + ".setUpright("+upright+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_getUpright'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getUpright)"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + ".getUpright()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_setThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KAZE = block.getFieldValue('KAZE');
   var threshold = block.getFieldValue('threshold');
-  var code = that + ".setThreshold("+threshold+")"
+  var code = KAZE + ".setThreshold("+threshold+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_getThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getThreshold)"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + ".getThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_setNOctaves'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KAZE = block.getFieldValue('KAZE');
   var octaves = block.getFieldValue('octaves');
-  var code = that + ".setNOctaves("+octaves+")"
+  var code = KAZE + ".setNOctaves("+octaves+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_getNOctaves'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNOctaves)"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + ".getNOctaves()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_setNOctaveLayers'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KAZE = block.getFieldValue('KAZE');
   var octaveLayers = block.getFieldValue('octaveLayers');
-  var code = that + ".setNOctaveLayers("+octaveLayers+")"
+  var code = KAZE + ".setNOctaveLayers("+octaveLayers+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_getNOctaveLayers'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNOctaveLayers)"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + ".getNOctaveLayers()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_KAZE_setDiffusivity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KAZE = block.getFieldValue('KAZE');
   var diff = block.getFieldValue('diff');
-  var code = that + ".setDiffusivity("+diff+")"
+  var code = KAZE + ".setDiffusivity("+diff+")\n"
   return code;
 };
 Blockly.Python['features2d_KAZE_getDiffusivity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDiffusivity)"
+  var KAZE = block.getFieldValue('KAZE');
+  var code = KAZE + ".getDiffusivity()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FastFeatureDetector_create'] = function(block) {
-  var code = "cv2.FastFeatureDetector_create()"
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
+  var code = FastFeatureDetector + " = cv2.FastFeatureDetector_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FastFeatureDetector_setThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
   var threshold = block.getFieldValue('threshold');
-  var code = that + ".setThreshold("+threshold+")"
+  var code = FastFeatureDetector + ".setThreshold("+threshold+")\n"
   return code;
 };
 Blockly.Python['features2d_FastFeatureDetector_getThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getThreshold)"
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
+  var code = FastFeatureDetector + ".getThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FastFeatureDetector_setNonmaxSuppression'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
   var f = Blockly.Python.valueToCode(block, 'f', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setNonmaxSuppression("+f+")"
+  var code = FastFeatureDetector + ".setNonmaxSuppression("+f+")\n"
   return code;
 };
 Blockly.Python['features2d_FastFeatureDetector_getNonmaxSuppression'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNonmaxSuppression)"
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
+  var code = FastFeatureDetector + ".getNonmaxSuppression()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FastFeatureDetector_setType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
   var type = block.getFieldValue('type');
-  var code = that + ".setType("+type+")"
+  var code = FastFeatureDetector + ".setType("+type+")\n"
   return code;
 };
 Blockly.Python['features2d_FastFeatureDetector_getType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getType)"
+  var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
+  var code = FastFeatureDetector + ".getType()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_create'] = function(block) {
-  var code = "cv2.AKAZE_create()"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + " = cv2.AKAZE_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setDescriptorType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var dtype = block.getFieldValue('dtype');
-  var code = that + ".setDescriptorType("+dtype+")"
+  var code = AKAZE + ".setDescriptorType("+dtype+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getDescriptorType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDescriptorType)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getDescriptorType()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setDescriptorSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var dsize = block.getFieldValue('dsize');
-  var code = that + ".setDescriptorSize("+dsize+")"
+  var code = AKAZE + ".setDescriptorSize("+dsize+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getDescriptorSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDescriptorSize)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getDescriptorSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setDescriptorChannels'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var dch = block.getFieldValue('dch');
-  var code = that + ".setDescriptorChannels("+dch+")"
+  var code = AKAZE + ".setDescriptorChannels("+dch+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getDescriptorChannels'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDescriptorChannels)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getDescriptorChannels()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var threshold = block.getFieldValue('threshold');
-  var code = that + ".setThreshold("+threshold+")"
+  var code = AKAZE + ".setThreshold("+threshold+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getThreshold)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setNOctaves'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var octaves = block.getFieldValue('octaves');
-  var code = that + ".setNOctaves("+octaves+")"
+  var code = AKAZE + ".setNOctaves("+octaves+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getNOctaves'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNOctaves)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getNOctaves()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setNOctaveLayers'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var octaveLayers = block.getFieldValue('octaveLayers');
-  var code = that + ".setNOctaveLayers("+octaveLayers+")"
+  var code = AKAZE + ".setNOctaveLayers("+octaveLayers+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getNOctaveLayers'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNOctaveLayers)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getNOctaveLayers()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_AKAZE_setDiffusivity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AKAZE = block.getFieldValue('AKAZE');
   var diff = block.getFieldValue('diff');
-  var code = that + ".setDiffusivity("+diff+")"
+  var code = AKAZE + ".setDiffusivity("+diff+")\n"
   return code;
 };
 Blockly.Python['features2d_AKAZE_getDiffusivity'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDiffusivity)"
+  var AKAZE = block.getFieldValue('AKAZE');
+  var code = AKAZE + ".getDiffusivity()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_create'] = function(block) {
-  var code = "cv2.ORB_create()"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + " = cv2.ORB_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setMaxFeatures'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var maxFeatures = block.getFieldValue('maxFeatures');
-  var code = that + ".setMaxFeatures("+maxFeatures+")"
+  var code = ORB + ".setMaxFeatures("+maxFeatures+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getMaxFeatures'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMaxFeatures)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getMaxFeatures()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setScaleFactor'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var scaleFactor = block.getFieldValue('scaleFactor');
-  var code = that + ".setScaleFactor("+scaleFactor+")"
+  var code = ORB + ".setScaleFactor("+scaleFactor+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getScaleFactor'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getScaleFactor)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getScaleFactor()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setNLevels'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var nlevels = block.getFieldValue('nlevels');
-  var code = that + ".setNLevels("+nlevels+")"
+  var code = ORB + ".setNLevels("+nlevels+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getNLevels'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNLevels)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getNLevels()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setEdgeThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var edgeThreshold = block.getFieldValue('edgeThreshold');
-  var code = that + ".setEdgeThreshold("+edgeThreshold+")"
+  var code = ORB + ".setEdgeThreshold("+edgeThreshold+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getEdgeThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getEdgeThreshold)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getEdgeThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setFirstLevel'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var firstLevel = block.getFieldValue('firstLevel');
-  var code = that + ".setFirstLevel("+firstLevel+")"
+  var code = ORB + ".setFirstLevel("+firstLevel+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getFirstLevel'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getFirstLevel)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getFirstLevel()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setWTA_K'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var wta_k = block.getFieldValue('wta_k');
-  var code = that + ".setWTA_K("+wta_k+")"
+  var code = ORB + ".setWTA_K("+wta_k+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getWTA_K'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getWTA_K)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getWTA_K()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setScoreType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var scoreType = block.getFieldValue('scoreType');
-  var code = that + ".setScoreType("+scoreType+")"
+  var code = ORB + ".setScoreType("+scoreType+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getScoreType'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getScoreType)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getScoreType()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setPatchSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var patchSize = block.getFieldValue('patchSize');
-  var code = that + ".setPatchSize("+patchSize+")"
+  var code = ORB + ".setPatchSize("+patchSize+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getPatchSize'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getPatchSize)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getPatchSize()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_ORB_setFastThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ORB = block.getFieldValue('ORB');
   var fastThreshold = block.getFieldValue('fastThreshold');
-  var code = that + ".setFastThreshold("+fastThreshold+")"
+  var code = ORB + ".setFastThreshold("+fastThreshold+")\n"
   return code;
 };
 Blockly.Python['features2d_ORB_getFastThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getFastThreshold)"
+  var ORB = block.getFieldValue('ORB');
+  var code = ORB + ".getFastThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_create'] = function(block) {
-  var code = "cv2.MSER_create()"
+  var MSER = block.getFieldValue('MSER');
+  var code = MSER + " = cv2.MSER_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_detectRegions'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MSER = block.getFieldValue('MSER');
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
   var bboxes = Blockly.Python.valueToCode(block, 'bboxes', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".detectRegions("+image+","+bboxes+")"
+  var code = MSER + ".detectRegions("+image+","+bboxes+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_setDelta'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MSER = block.getFieldValue('MSER');
   var delta = block.getFieldValue('delta');
-  var code = that + ".setDelta("+delta+")"
+  var code = MSER + ".setDelta("+delta+")\n"
   return code;
 };
 Blockly.Python['features2d_MSER_getDelta'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDelta)"
+  var MSER = block.getFieldValue('MSER');
+  var code = MSER + ".getDelta()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_setMinArea'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MSER = block.getFieldValue('MSER');
   var minArea = block.getFieldValue('minArea');
-  var code = that + ".setMinArea("+minArea+")"
+  var code = MSER + ".setMinArea("+minArea+")\n"
   return code;
 };
 Blockly.Python['features2d_MSER_getMinArea'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMinArea)"
+  var MSER = block.getFieldValue('MSER');
+  var code = MSER + ".getMinArea()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_setMaxArea'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MSER = block.getFieldValue('MSER');
   var maxArea = block.getFieldValue('maxArea');
-  var code = that + ".setMaxArea("+maxArea+")"
+  var code = MSER + ".setMaxArea("+maxArea+")\n"
   return code;
 };
 Blockly.Python['features2d_MSER_getMaxArea'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getMaxArea)"
+  var MSER = block.getFieldValue('MSER');
+  var code = MSER + ".getMaxArea()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_MSER_setPass2Only'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var MSER = block.getFieldValue('MSER');
   var f = Blockly.Python.valueToCode(block, 'f', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setPass2Only("+f+")"
+  var code = MSER + ".setPass2Only("+f+")\n"
   return code;
 };
 Blockly.Python['features2d_MSER_getPass2Only'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getPass2Only)"
+  var MSER = block.getFieldValue('MSER');
+  var code = MSER + ".getPass2Only()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['features2d_FlannBasedMatcher_FlannBasedMatcher'] = function(block) {
-  var code =  "FlannBasedMatcher()"
+  var FlannBasedMatcher = block.getFieldValue('FlannBasedMatcher');
+  var code = FlannBasedMatcher + " = cv2.FlannBasedMatcher()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createNormHistogramCostExtractor'] = function(block) {
-  var code = "cv2.createNormHistogramCostExtractor()"
+  var NormHistogramCostExtractor = block.getFieldValue('NormHistogramCostExtractor');
+  var code = NormHistogramCostExtractor + " = cv2.createNormHistogramCostExtractor()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createEMDHistogramCostExtractor'] = function(block) {
-  var code = "cv2.createEMDHistogramCostExtractor()"
+  var EMDHistogramCostExtractor = block.getFieldValue('EMDHistogramCostExtractor');
+  var code = EMDHistogramCostExtractor + " = cv2.createEMDHistogramCostExtractor()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createChiHistogramCostExtractor'] = function(block) {
-  var code = "cv2.createChiHistogramCostExtractor()"
+  var ChiHistogramCostExtractor = block.getFieldValue('ChiHistogramCostExtractor');
+  var code = ChiHistogramCostExtractor + " = cv2.createChiHistogramCostExtractor()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createEMDL1HistogramCostExtractor'] = function(block) {
-  var code = "cv2.createEMDL1HistogramCostExtractor()"
+  var EMDL1HistogramCostExtractor = block.getFieldValue('EMDL1HistogramCostExtractor');
+  var code = EMDL1HistogramCostExtractor + " = cv2.createEMDL1HistogramCostExtractor()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createShapeContextDistanceExtractor'] = function(block) {
-  var code = "cv2.createShapeContextDistanceExtractor()"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + " = cv2.createShapeContextDistanceExtractor()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createHausdorffDistanceExtractor'] = function(block) {
-  var code = "cv2.createHausdorffDistanceExtractor()"
+  var HausdorffDistanceExtractor = block.getFieldValue('HausdorffDistanceExtractor');
+  var code = HausdorffDistanceExtractor + " = cv2.createHausdorffDistanceExtractor()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createThinPlateSplineShapeTransformer'] = function(block) {
-  var code = "cv2.createThinPlateSplineShapeTransformer()"
+  var ThinPlateSplineShapeTransformer = block.getFieldValue('ThinPlateSplineShapeTransformer');
+  var code = ThinPlateSplineShapeTransformer + " = cv2.createThinPlateSplineShapeTransformer()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_createAffineTransformer'] = function(block) {
+  var AffineTransformer = block.getFieldValue('AffineTransformer');
   var fullAffine = Blockly.Python.valueToCode(block, 'fullAffine', Blockly.Python.ORDER_ATOMIC);
-  var code = "cv2.createAffineTransformer("+fullAffine+")"
+  var code = AffineTransformer + " = cv2.createAffineTransformer("+fullAffine+")\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ThinPlateSplineShapeTransformer_setRegularizationParameter'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ThinPlateSplineShapeTransformer = block.getFieldValue('ThinPlateSplineShapeTransformer');
   var beta = block.getFieldValue('beta');
-  var code = that + ".setRegularizationParameter("+beta+")"
+  var code = ThinPlateSplineShapeTransformer + ".setRegularizationParameter("+beta+")\n"
   return code;
 };
 Blockly.Python['shape_ThinPlateSplineShapeTransformer_getRegularizationParameter'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getRegularizationParameter)"
+  var ThinPlateSplineShapeTransformer = block.getFieldValue('ThinPlateSplineShapeTransformer');
+  var code = ThinPlateSplineShapeTransformer + ".getRegularizationParameter()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_NormHistogramCostExtractor_setNormFlag'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var NormHistogramCostExtractor = block.getFieldValue('NormHistogramCostExtractor');
   var flag = block.getFieldValue('flag');
-  var code = that + ".setNormFlag("+flag+")"
+  var code = NormHistogramCostExtractor + ".setNormFlag("+flag+")\n"
   return code;
 };
 Blockly.Python['shape_NormHistogramCostExtractor_getNormFlag'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNormFlag)"
+  var NormHistogramCostExtractor = block.getFieldValue('NormHistogramCostExtractor');
+  var code = NormHistogramCostExtractor + ".getNormFlag()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeTransformer_estimateTransformation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeTransformer = block.getFieldValue('ShapeTransformer');
   var transformingShape = Blockly.Python.valueToCode(block, 'transformingShape', Blockly.Python.ORDER_ATOMIC);
   var targetShape = Blockly.Python.valueToCode(block, 'targetShape', Blockly.Python.ORDER_ATOMIC);
   var matches = Blockly.Python.valueToCode(block, 'matches', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".estimateTransformation("+transformingShape+","+targetShape+","+matches+")"
+  var code = ShapeTransformer + ".estimateTransformation("+transformingShape+","+targetShape+","+matches+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeTransformer_applyTransformation'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeTransformer = block.getFieldValue('ShapeTransformer');
   var input = Blockly.Python.valueToCode(block, 'input', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".applyTransformation("+input+")"
+  var code = ShapeTransformer + ".applyTransformation("+input+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeTransformer_warpImage'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeTransformer = block.getFieldValue('ShapeTransformer');
   var transformingImage = Blockly.Python.valueToCode(block, 'transformingImage', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".warpImage("+transformingImage+")"
+  var code = ShapeTransformer + ".warpImage("+transformingImage+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_EMDHistogramCostExtractor_setNormFlag'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var EMDHistogramCostExtractor = block.getFieldValue('EMDHistogramCostExtractor');
   var flag = block.getFieldValue('flag');
-  var code = that + ".setNormFlag("+flag+")"
+  var code = EMDHistogramCostExtractor + ".setNormFlag("+flag+")\n"
   return code;
 };
 Blockly.Python['shape_EMDHistogramCostExtractor_getNormFlag'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNormFlag)"
+  var EMDHistogramCostExtractor = block.getFieldValue('EMDHistogramCostExtractor');
+  var code = EMDHistogramCostExtractor + ".getNormFlag()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeDistanceExtractor_computeDistance'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeDistanceExtractor = block.getFieldValue('ShapeDistanceExtractor');
   var contour1 = Blockly.Python.valueToCode(block, 'contour1', Blockly.Python.ORDER_ATOMIC);
   var contour2 = Blockly.Python.valueToCode(block, 'contour2', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".computeDistance("+contour1+","+contour2+")"
+  var code = ShapeDistanceExtractor + ".computeDistance("+contour1+","+contour2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setAngularBins'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var nAngularBins = block.getFieldValue('nAngularBins');
-  var code = that + ".setAngularBins("+nAngularBins+")"
+  var code = ShapeContextDistanceExtractor + ".setAngularBins("+nAngularBins+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getAngularBins'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getAngularBins)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getAngularBins()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setRadialBins'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var nRadialBins = block.getFieldValue('nRadialBins');
-  var code = that + ".setRadialBins("+nRadialBins+")"
+  var code = ShapeContextDistanceExtractor + ".setRadialBins("+nRadialBins+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getRadialBins'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getRadialBins)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getRadialBins()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setInnerRadius'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var innerRadius = block.getFieldValue('innerRadius');
-  var code = that + ".setInnerRadius("+innerRadius+")"
+  var code = ShapeContextDistanceExtractor + ".setInnerRadius("+innerRadius+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getInnerRadius'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getInnerRadius)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getInnerRadius()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setOuterRadius'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var outerRadius = block.getFieldValue('outerRadius');
-  var code = that + ".setOuterRadius("+outerRadius+")"
+  var code = ShapeContextDistanceExtractor + ".setOuterRadius("+outerRadius+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getOuterRadius'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getOuterRadius)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getOuterRadius()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setRotationInvariant'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var rotationInvariant = Blockly.Python.valueToCode(block, 'rotationInvariant', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setRotationInvariant("+rotationInvariant+")"
+  var code = ShapeContextDistanceExtractor + ".setRotationInvariant("+rotationInvariant+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getRotationInvariant'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getRotationInvariant)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getRotationInvariant()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setShapeContextWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var shapeContextWeight = block.getFieldValue('shapeContextWeight');
-  var code = that + ".setShapeContextWeight("+shapeContextWeight+")"
+  var code = ShapeContextDistanceExtractor + ".setShapeContextWeight("+shapeContextWeight+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getShapeContextWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getShapeContextWeight)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getShapeContextWeight()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setImageAppearanceWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var imageAppearanceWeight = block.getFieldValue('imageAppearanceWeight');
-  var code = that + ".setImageAppearanceWeight("+imageAppearanceWeight+")"
+  var code = ShapeContextDistanceExtractor + ".setImageAppearanceWeight("+imageAppearanceWeight+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getImageAppearanceWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getImageAppearanceWeight)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getImageAppearanceWeight()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setBendingEnergyWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var bendingEnergyWeight = block.getFieldValue('bendingEnergyWeight');
-  var code = that + ".setBendingEnergyWeight("+bendingEnergyWeight+")"
+  var code = ShapeContextDistanceExtractor + ".setBendingEnergyWeight("+bendingEnergyWeight+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getBendingEnergyWeight'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getBendingEnergyWeight)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getBendingEnergyWeight()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setImages'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var image1 = Blockly.Python.valueToCode(block, 'image1', Blockly.Python.ORDER_ATOMIC);
   var image2 = Blockly.Python.valueToCode(block, 'image2', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setImages("+image1+","+image2+")"
+  var code = ShapeContextDistanceExtractor + ".setImages("+image1+","+image2+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getImages'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getImages)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getImages)"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setIterations'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var iterations = block.getFieldValue('iterations');
-  var code = that + ".setIterations("+iterations+")"
+  var code = ShapeContextDistanceExtractor + ".setIterations("+iterations+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getIterations'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getIterations)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getIterations()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setCostExtractor'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var comparer = Blockly.Python.valueToCode(block, 'comparer', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setCostExtractor("+comparer+")"
+  var code = ShapeContextDistanceExtractor + ".setCostExtractor("+comparer+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getCostExtractor'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getCostExtractor)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getCostExtractor()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setStdDev'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var sigma = block.getFieldValue('sigma');
-  var code = that + ".setStdDev("+sigma+")"
+  var code = ShapeContextDistanceExtractor + ".setStdDev("+sigma+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getStdDev'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getStdDev)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getStdDev()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_setTransformAlgorithm'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var transformer = Blockly.Python.valueToCode(block, 'transformer', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setTransformAlgorithm("+transformer+")"
+  var code = ShapeContextDistanceExtractor + ".setTransformAlgorithm("+transformer+")\n"
   return code;
 };
 Blockly.Python['shape_ShapeContextDistanceExtractor_getTransformAlgorithm'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getTransformAlgorithm)"
+  var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
+  var code = ShapeContextDistanceExtractor + ".getTransformAlgorithm()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_HausdorffDistanceExtractor_setDistanceFlag'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var HausdorffDistanceExtractor = block.getFieldValue('HausdorffDistanceExtractor');
   var distanceFlag = block.getFieldValue('distanceFlag');
-  var code = that + ".setDistanceFlag("+distanceFlag+")"
+  var code = HausdorffDistanceExtractor + ".setDistanceFlag("+distanceFlag+")\n"
   return code;
 };
 Blockly.Python['shape_HausdorffDistanceExtractor_getDistanceFlag'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDistanceFlag)"
+  var HausdorffDistanceExtractor = block.getFieldValue('HausdorffDistanceExtractor');
+  var code = HausdorffDistanceExtractor + ".getDistanceFlag()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_HausdorffDistanceExtractor_setRankProportion'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var HausdorffDistanceExtractor = block.getFieldValue('HausdorffDistanceExtractor');
   var rankProportion = block.getFieldValue('rankProportion');
-  var code = that + ".setRankProportion("+rankProportion+")"
+  var code = HausdorffDistanceExtractor + ".setRankProportion("+rankProportion+")\n"
   return code;
 };
 Blockly.Python['shape_HausdorffDistanceExtractor_getRankProportion'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getRankProportion)"
+  var HausdorffDistanceExtractor = block.getFieldValue('HausdorffDistanceExtractor');
+  var code = HausdorffDistanceExtractor + ".getRankProportion()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_AffineTransformer_setFullAffine'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var AffineTransformer = block.getFieldValue('AffineTransformer');
   var fullAffine = Blockly.Python.valueToCode(block, 'fullAffine', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setFullAffine("+fullAffine+")"
+  var code = AffineTransformer + ".setFullAffine("+fullAffine+")\n"
   return code;
 };
 Blockly.Python['shape_AffineTransformer_getFullAffine'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getFullAffine)"
+  var AffineTransformer = block.getFieldValue('AffineTransformer');
+  var code = AffineTransformer + ".getFullAffine()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_HistogramCostExtractor_buildCostMatrix'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var HistogramCostExtractor = block.getFieldValue('HistogramCostExtractor');
   var descriptors1 = Blockly.Python.valueToCode(block, 'descriptors1', Blockly.Python.ORDER_ATOMIC);
   var descriptors2 = Blockly.Python.valueToCode(block, 'descriptors2', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".buildCostMatrix("+descriptors1+","+descriptors2+")"
+  var code = HistogramCostExtractor + ".buildCostMatrix("+descriptors1+","+descriptors2+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_HistogramCostExtractor_setNDummies'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var HistogramCostExtractor = block.getFieldValue('HistogramCostExtractor');
   var nDummies = block.getFieldValue('nDummies');
-  var code = that + ".setNDummies("+nDummies+")"
+  var code = HistogramCostExtractor + ".setNDummies("+nDummies+")\n"
   return code;
 };
 Blockly.Python['shape_HistogramCostExtractor_getNDummies'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNDummies)"
+  var HistogramCostExtractor = block.getFieldValue('HistogramCostExtractor');
+  var code = HistogramCostExtractor + ".getNDummies()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['shape_HistogramCostExtractor_setDefaultCost'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var HistogramCostExtractor = block.getFieldValue('HistogramCostExtractor');
   var defaultCost = block.getFieldValue('defaultCost');
-  var code = that + ".setDefaultCost("+defaultCost+")"
+  var code = HistogramCostExtractor + ".setDefaultCost("+defaultCost+")\n"
   return code;
 };
 Blockly.Python['shape_HistogramCostExtractor_getDefaultCost'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDefaultCost)"
+  var HistogramCostExtractor = block.getFieldValue('HistogramCostExtractor');
+  var code = HistogramCostExtractor + ".getDefaultCost()"
   return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getMaxFeatures'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getMaxFeatures()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setMaxFeatures'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var maxFeatures = block.getFieldValue('maxFeatures');
+  var code = BackgroundSubtractorGMG + ".setMaxFeatures("+maxFeatures+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getDefaultLearningRate'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getDefaultLearningRate()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setDefaultLearningRate'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var lr = block.getFieldValue('lr');
+  var code = BackgroundSubtractorGMG + ".setDefaultLearningRate("+lr+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getNumFrames'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getNumFrames()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setNumFrames'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var nframes = block.getFieldValue('nframes');
+  var code = BackgroundSubtractorGMG + ".setNumFrames("+nframes+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getQuantizationLevels'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getQuantizationLevels()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setQuantizationLevels'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var nlevels = block.getFieldValue('nlevels');
+  var code = BackgroundSubtractorGMG + ".setQuantizationLevels("+nlevels+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getBackgroundPrior'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getBackgroundPrior()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setBackgroundPrior'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var bgprior = block.getFieldValue('bgprior');
+  var code = BackgroundSubtractorGMG + ".setBackgroundPrior("+bgprior+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getSmoothingRadius'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getSmoothingRadius()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setSmoothingRadius'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var radius = block.getFieldValue('radius');
+  var code = BackgroundSubtractorGMG + ".setSmoothingRadius("+radius+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getDecisionThreshold'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getDecisionThreshold()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setDecisionThreshold'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var thresh = block.getFieldValue('thresh');
+  var code = BackgroundSubtractorGMG + ".setDecisionThreshold("+thresh+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getUpdateBackgroundModel'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getUpdateBackgroundModel()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setUpdateBackgroundModel'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var update = Blockly.Python.valueToCode(block, 'update', Blockly.Python.ORDER_ATOMIC);
+  var code = BackgroundSubtractorGMG + ".setUpdateBackgroundModel("+update+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getMinVal'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getMinVal()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setMinVal'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var val = block.getFieldValue('val');
+  var code = BackgroundSubtractorGMG + ".setMinVal("+val+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_getMaxVal'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var code = BackgroundSubtractorGMG + ".getMaxVal()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorGMG_setMaxVal'] = function(block) {
+  var BackgroundSubtractorGMG = block.getFieldValue('BackgroundSubtractorGMG');
+  var val = block.getFieldValue('val');
+  var code = BackgroundSubtractorGMG + ".setMaxVal("+val+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_createBackgroundSubtractorMOG_createBackgroundSubtractorMOG'] = function(block) {
+  var createBackgroundSubtractorMOG = block.getFieldValue('createBackgroundSubtractorMOG');
+  var code = createBackgroundSubtractorMOG + " = cv2.bgsegm.createBackgroundSubtractorMOG()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_createBackgroundSubtractorMOG_createBackgroundSubtractorGMG'] = function(block) {
+  var createBackgroundSubtractorMOG = block.getFieldValue('createBackgroundSubtractorMOG');
+  var code = createBackgroundSubtractorMOG + " = cv2.bgsegm.createBackgroundSubtractorGMG()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_getHistory'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var code = BackgroundSubtractorMOG + ".getHistory()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_setHistory'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var nframes = block.getFieldValue('nframes');
+  var code = BackgroundSubtractorMOG + ".setHistory("+nframes+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_getNMixtures'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var code = BackgroundSubtractorMOG + ".getNMixtures()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_setNMixtures'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var nmix = block.getFieldValue('nmix');
+  var code = BackgroundSubtractorMOG + ".setNMixtures("+nmix+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_getBackgroundRatio'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var code = BackgroundSubtractorMOG + ".getBackgroundRatio()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_setBackgroundRatio'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var backgroundRatio = block.getFieldValue('backgroundRatio');
+  var code = BackgroundSubtractorMOG + ".setBackgroundRatio("+backgroundRatio+")\n"
+  return code;
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_getNoiseSigma'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var code = BackgroundSubtractorMOG + ".getNoiseSigma()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['bgsegm_BackgroundSubtractorMOG_setNoiseSigma'] = function(block) {
+  var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
+  var noiseSigma = block.getFieldValue('noiseSigma');
+  var code = BackgroundSubtractorMOG + ".setNoiseSigma("+noiseSigma+")\n"
+  return code;
 };
 Blockly.Python['video_meanShift'] = function(block) {
   var probImage = Blockly.Python.valueToCode(block, 'probImage', Blockly.Python.ORDER_ATOMIC);
@@ -3198,325 +3600,525 @@ Blockly.Python['video_findTransformECC'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_createOptFlow_DualTVL1'] = function(block) {
-  var code = "cv2.createOptFlow_DualTVL1()"
+  var OptFlow_DualTVL1 = block.getFieldValue('OptFlow_DualTVL1');
+  var code = OptFlow_DualTVL1 + " = cv2.createOptFlow_DualTVL1()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_createBackgroundSubtractorMOG2'] = function(block) {
-  var code = "cv2.createBackgroundSubtractorMOG2()"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + " = cv2.createBackgroundSubtractorMOG2()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_createBackgroundSubtractorKNN'] = function(block) {
-  var code = "cv2.createBackgroundSubtractorKNN()"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + " = cv2.createBackgroundSubtractorKNN()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_KalmanFilter_KalmanFilter'] = function(block) {
-  var code =  "KalmanFilter()"
+  var KalmanFilter = block.getFieldValue('KalmanFilter');
+  var code = KalmanFilter + " = cv2.KalmanFilter()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_KalmanFilter_predict'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".predict)"
+  var KalmanFilter = block.getFieldValue('KalmanFilter');
+  var code = KalmanFilter + ".predict()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_KalmanFilter_correct'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var KalmanFilter = block.getFieldValue('KalmanFilter');
   var measurement = Blockly.Python.valueToCode(block, 'measurement', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".correct("+measurement+")"
+  var code = KalmanFilter + ".correct("+measurement+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractor_apply'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractor = block.getFieldValue('BackgroundSubtractor');
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".apply("+image+")"
+  var code = BackgroundSubtractor + ".apply("+image+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractor_getBackgroundImage'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getBackgroundImage)"
+  var BackgroundSubtractor = block.getFieldValue('BackgroundSubtractor');
+  var code = BackgroundSubtractor + ".getBackgroundImage)"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getHistory'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getHistory)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getHistory()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setHistory'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var history = block.getFieldValue('history');
-  var code = that + ".setHistory("+history+")"
+  var code = BackgroundSubtractorMOG2 + ".setHistory("+history+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getNMixtures'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNMixtures)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getNMixtures()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setNMixtures'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var nmixtures = block.getFieldValue('nmixtures');
-  var code = that + ".setNMixtures("+nmixtures+")"
+  var code = BackgroundSubtractorMOG2 + ".setNMixtures("+nmixtures+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getBackgroundRatio'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getBackgroundRatio)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getBackgroundRatio()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setBackgroundRatio'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var ratio = block.getFieldValue('ratio');
-  var code = that + ".setBackgroundRatio("+ratio+")"
+  var code = BackgroundSubtractorMOG2 + ".setBackgroundRatio("+ratio+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getVarThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getVarThreshold)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getVarThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setVarThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var varThreshold = block.getFieldValue('varThreshold');
-  var code = that + ".setVarThreshold("+varThreshold+")"
+  var code = BackgroundSubtractorMOG2 + ".setVarThreshold("+varThreshold+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getVarThresholdGen'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getVarThresholdGen)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getVarThresholdGen()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setVarThresholdGen'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var varThresholdGen = block.getFieldValue('varThresholdGen');
-  var code = that + ".setVarThresholdGen("+varThresholdGen+")"
+  var code = BackgroundSubtractorMOG2 + ".setVarThresholdGen("+varThresholdGen+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getVarInit'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getVarInit)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getVarInit()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setVarInit'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var varInit = block.getFieldValue('varInit');
-  var code = that + ".setVarInit("+varInit+")"
+  var code = BackgroundSubtractorMOG2 + ".setVarInit("+varInit+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getVarMin'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getVarMin)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getVarMin()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setVarMin'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var varMin = block.getFieldValue('varMin');
-  var code = that + ".setVarMin("+varMin+")"
+  var code = BackgroundSubtractorMOG2 + ".setVarMin("+varMin+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getVarMax'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getVarMax)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getVarMax()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setVarMax'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var varMax = block.getFieldValue('varMax');
-  var code = that + ".setVarMax("+varMax+")"
+  var code = BackgroundSubtractorMOG2 + ".setVarMax("+varMax+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getComplexityReductionThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getComplexityReductionThreshold)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getComplexityReductionThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setComplexityReductionThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var ct = block.getFieldValue('ct');
-  var code = that + ".setComplexityReductionThreshold("+ct+")"
+  var code = BackgroundSubtractorMOG2 + ".setComplexityReductionThreshold("+ct+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getDetectShadows'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDetectShadows)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getDetectShadows()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setDetectShadows'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var detectShadows = Blockly.Python.valueToCode(block, 'detectShadows', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setDetectShadows("+detectShadows+")"
+  var code = BackgroundSubtractorMOG2 + ".setDetectShadows("+detectShadows+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getShadowValue'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getShadowValue)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getShadowValue()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setShadowValue'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var value = block.getFieldValue('value');
-  var code = that + ".setShadowValue("+value+")"
+  var code = BackgroundSubtractorMOG2 + ".setShadowValue("+value+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_getShadowThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getShadowThreshold)"
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
+  var code = BackgroundSubtractorMOG2 + ".getShadowThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorMOG2_setShadowThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var threshold = block.getFieldValue('threshold');
-  var code = that + ".setShadowThreshold("+threshold+")"
+  var code = BackgroundSubtractorMOG2 + ".setShadowThreshold("+threshold+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getHistory'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getHistory)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getHistory()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setHistory'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var history = block.getFieldValue('history');
-  var code = that + ".setHistory("+history+")"
+  var code = BackgroundSubtractorKNN + ".setHistory("+history+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getNSamples'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNSamples)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getNSamples()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setNSamples'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var _nN = block.getFieldValue('_nN');
-  var code = that + ".setNSamples("+_nN+")"
+  var code = BackgroundSubtractorKNN + ".setNSamples("+_nN+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getDist2Threshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDist2Threshold)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getDist2Threshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setDist2Threshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var _dist2Threshold = block.getFieldValue('_dist2Threshold');
-  var code = that + ".setDist2Threshold("+_dist2Threshold+")"
+  var code = BackgroundSubtractorKNN + ".setDist2Threshold("+_dist2Threshold+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getkNNSamples'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getkNNSamples)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getkNNSamples()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setkNNSamples'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var _nkNN = block.getFieldValue('_nkNN');
-  var code = that + ".setkNNSamples("+_nkNN+")"
+  var code = BackgroundSubtractorKNN + ".setkNNSamples("+_nkNN+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getDetectShadows'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getDetectShadows)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getDetectShadows()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setDetectShadows'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var detectShadows = Blockly.Python.valueToCode(block, 'detectShadows', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setDetectShadows("+detectShadows+")"
+  var code = BackgroundSubtractorKNN + ".setDetectShadows("+detectShadows+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getShadowValue'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getShadowValue)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getShadowValue()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setShadowValue'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var value = block.getFieldValue('value');
-  var code = that + ".setShadowValue("+value+")"
+  var code = BackgroundSubtractorKNN + ".setShadowValue("+value+")\n"
   return code;
 };
 Blockly.Python['video_BackgroundSubtractorKNN_getShadowThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getShadowThreshold)"
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
+  var code = BackgroundSubtractorKNN + ".getShadowThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_BackgroundSubtractorKNN_setShadowThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var threshold = block.getFieldValue('threshold');
-  var code = that + ".setShadowThreshold("+threshold+")"
+  var code = BackgroundSubtractorKNN + ".setShadowThreshold("+threshold+")\n"
   return code;
 };
 Blockly.Python['video_DenseOpticalFlow_calc'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var DenseOpticalFlow = block.getFieldValue('DenseOpticalFlow');
   var I0 = Blockly.Python.valueToCode(block, 'I0', Blockly.Python.ORDER_ATOMIC);
   var I1 = Blockly.Python.valueToCode(block, 'I1', Blockly.Python.ORDER_ATOMIC);
   var flow = Blockly.Python.valueToCode(block, 'flow', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".calc("+I0+","+I1+","+flow+")"
+  var code = DenseOpticalFlow + ".calc("+I0+","+I1+","+flow+")"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['video_DenseOpticalFlow_collectGarbage'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".collectGarbage)"
+  var DenseOpticalFlow = block.getFieldValue('DenseOpticalFlow');
+  var code = DenseOpticalFlow + ".collectGarbage()\n"
   return code;
 };
+Blockly.Python['xphoto_dctDenoising_dctDenoising'] = function(block) {
+  var dctDenoising = block.getFieldValue('dctDenoising');
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
+  var sigma = block.getFieldValue('sigma');
+  var code = dctDenoising + " = cv2.xphoto.dctDenoising("+src+","+dst+","+sigma+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
 Blockly.Python['xfeatures2d_SURF_create'] = function(block) {
-  var code = "cv2.xfeatures2d.SURF_create()"
+  var SURF = block.getFieldValue('SURF');
+  var code = SURF + " = cv2.xfeatures2d.SURF_create()\n"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SURF_setHessianThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var SURF = block.getFieldValue('SURF');
   var hessianThreshold = block.getFieldValue('hessianThreshold');
-  var code = that + ".setHessianThreshold("+hessianThreshold+")"
+  var code = SURF + ".setHessianThreshold("+hessianThreshold+")\n"
   return code;
 };
 Blockly.Python['xfeatures2d_SURF_getHessianThreshold'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getHessianThreshold)"
+  var SURF = block.getFieldValue('SURF');
+  var code = SURF + ".getHessianThreshold()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SURF_setNOctaves'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var SURF = block.getFieldValue('SURF');
   var nOctaves = block.getFieldValue('nOctaves');
-  var code = that + ".setNOctaves("+nOctaves+")"
+  var code = SURF + ".setNOctaves("+nOctaves+")\n"
   return code;
 };
 Blockly.Python['xfeatures2d_SURF_getNOctaves'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNOctaves)"
+  var SURF = block.getFieldValue('SURF');
+  var code = SURF + ".getNOctaves()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SURF_setNOctaveLayers'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var SURF = block.getFieldValue('SURF');
   var nOctaveLayers = block.getFieldValue('nOctaveLayers');
-  var code = that + ".setNOctaveLayers("+nOctaveLayers+")"
+  var code = SURF + ".setNOctaveLayers("+nOctaveLayers+")\n"
   return code;
 };
 Blockly.Python['xfeatures2d_SURF_getNOctaveLayers'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getNOctaveLayers)"
+  var SURF = block.getFieldValue('SURF');
+  var code = SURF + ".getNOctaveLayers()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SURF_setExtended'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var SURF = block.getFieldValue('SURF');
   var extended = Blockly.Python.valueToCode(block, 'extended', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setExtended("+extended+")"
+  var code = SURF + ".setExtended("+extended+")\n"
   return code;
 };
 Blockly.Python['xfeatures2d_SURF_getExtended'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getExtended)"
+  var SURF = block.getFieldValue('SURF');
+  var code = SURF + ".getExtended()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SURF_setUpright'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
+  var SURF = block.getFieldValue('SURF');
   var upright = Blockly.Python.valueToCode(block, 'upright', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".setUpright("+upright+")"
+  var code = SURF + ".setUpright("+upright+")\n"
   return code;
 };
 Blockly.Python['xfeatures2d_SURF_getUpright'] = function(block) {
-  var that = Blockly.Python.valueToCode(block, 'that', Blockly.Python.ORDER_ATOMIC);
-  var code = that + ".getUpright)"
+  var SURF = block.getFieldValue('SURF');
+  var code = SURF + ".getUpright()"
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['xfeatures2d_SIFT_create'] = function(block) {
-  var code = "cv2.xfeatures2d.SIFT_create()"
+  var SIFT = block.getFieldValue('SIFT');
+  var code = SIFT + " = cv2.xfeatures2d.SIFT_create()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['optflow_calcOpticalFlowSF_calcOpticalFlowSF'] = function(block) {
+  var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
+  var from = Blockly.Python.valueToCode(block, 'from', Blockly.Python.ORDER_ATOMIC);
+  var to = Blockly.Python.valueToCode(block, 'to', Blockly.Python.ORDER_ATOMIC);
+  var layers = block.getFieldValue('layers');
+  var averaging_block_size = block.getFieldValue('averaging_block_size');
+  var max_flow = block.getFieldValue('max_flow');
+  var code = calcOpticalFlowSF + " = cv2.optflow.calcOpticalFlowSF("+from+","+to+","+layers+","+averaging_block_size+","+max_flow+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['optflow_calcOpticalFlowSF_readOpticalFlow'] = function(block) {
+  var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
+  var path = Blockly.Python.valueToCode(block, 'path', Blockly.Python.ORDER_ATOMIC);
+  var code = calcOpticalFlowSF + ".readOpticalFlow("+path+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['optflow_calcOpticalFlowSF_writeOpticalFlow'] = function(block) {
+  var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
+  var path = Blockly.Python.valueToCode(block, 'path', Blockly.Python.ORDER_ATOMIC);
+  var flow = Blockly.Python.valueToCode(block, 'flow', Blockly.Python.ORDER_ATOMIC);
+  var code = calcOpticalFlowSF + ".writeOpticalFlow("+path+","+flow+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['optflow_calcOpticalFlowSF_createOptFlow_DeepFlow'] = function(block) {
+  var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
+  var code = calcOpticalFlowSF + " = cv2.optflow.createOptFlow_DeepFlow()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['optflow_calcOpticalFlowSF_createOptFlow_SimpleFlow'] = function(block) {
+  var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
+  var code = calcOpticalFlowSF + " = cv2.optflow.createOptFlow_SimpleFlow()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['optflow_calcOpticalFlowSF_createOptFlow_Farneback'] = function(block) {
+  var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
+  var code = calcOpticalFlowSF + " = cv2.optflow.createOptFlow_Farneback()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_RFFeatureGetter_getFeatures'] = function(block) {
+  var RFFeatureGetter = block.getFieldValue('RFFeatureGetter');
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var features = Blockly.Python.valueToCode(block, 'features', Blockly.Python.ORDER_ATOMIC);
+  var gnrmRad = block.getFieldValue('gnrmRad');
+  var gsmthRad = block.getFieldValue('gsmthRad');
+  var shrink = block.getFieldValue('shrink');
+  var outNum = block.getFieldValue('outNum');
+  var gradNum = block.getFieldValue('gradNum');
+  var code = RFFeatureGetter + ".getFeatures("+src+","+features+","+gnrmRad+","+gsmthRad+","+shrink+","+outNum+","+gradNum+")\n"
+  return code;
+};
+Blockly.Python['ximgproc_StructuredEdgeDetection_detectEdges'] = function(block) {
+  var StructuredEdgeDetection = block.getFieldValue('StructuredEdgeDetection');
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var code = StructuredEdgeDetection + ".detectEdges("+src+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_DTFilter_filter'] = function(block) {
+  var DTFilter = block.getFieldValue('DTFilter');
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var code = DTFilter + ".filter("+src+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_AdaptiveManifoldFilter_filter'] = function(block) {
+  var AdaptiveManifoldFilter = block.getFieldValue('AdaptiveManifoldFilter');
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var code = AdaptiveManifoldFilter + ".filter("+src+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_AdaptiveManifoldFilter_collectGarbage'] = function(block) {
+  var AdaptiveManifoldFilter = block.getFieldValue('AdaptiveManifoldFilter');
+  var code = AdaptiveManifoldFilter + ".collectGarbage()\n"
+  return code;
+};
+Blockly.Python['ximgproc_AdaptiveManifoldFilter_create'] = function(block) {
+  var AdaptiveManifoldFilter = block.getFieldValue('AdaptiveManifoldFilter');
+  var code = AdaptiveManifoldFilter + " = cv2.ximgproc.AdaptiveManifoldFilter_create()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels'] = function(block) {
+  var SuperpixelSEEDS = block.getFieldValue('SuperpixelSEEDS');
+  var code = SuperpixelSEEDS + ".getNumberOfSuperpixels()"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_SuperpixelSEEDS_iterate'] = function(block) {
+  var SuperpixelSEEDS = block.getFieldValue('SuperpixelSEEDS');
+  var img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  var code = SuperpixelSEEDS + ".iterate("+img+")\n"
+  return code;
+};
+Blockly.Python['ximgproc_SuperpixelSEEDS_getLabels'] = function(block) {
+  var SuperpixelSEEDS = block.getFieldValue('SuperpixelSEEDS');
+  var code = SuperpixelSEEDS + ".getLabels)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_SuperpixelSEEDS_getLabelContourMask'] = function(block) {
+  var SuperpixelSEEDS = block.getFieldValue('SuperpixelSEEDS');
+  var code = SuperpixelSEEDS + ".getLabelContourMask)"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_createSuperpixelSEEDS'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var image_width = block.getFieldValue('image_width');
+  var image_height = block.getFieldValue('image_height');
+  var image_channels = block.getFieldValue('image_channels');
+  var num_superpixels = block.getFieldValue('num_superpixels');
+  var num_levels = block.getFieldValue('num_levels');
+  var code = createSuperpixelSEEDS + " = cv2.ximgproc.createSuperpixelSEEDS("+image_width+","+image_height+","+image_channels+","+num_superpixels+","+num_levels+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_createDTFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var guide = Blockly.Python.valueToCode(block, 'guide', Blockly.Python.ORDER_ATOMIC);
+  var sigmaSpatial = block.getFieldValue('sigmaSpatial');
+  var sigmaColor = block.getFieldValue('sigmaColor');
+  var code = createSuperpixelSEEDS + " = cv2.ximgproc.createDTFilter("+guide+","+sigmaSpatial+","+sigmaColor+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_dtFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var guide = Blockly.Python.valueToCode(block, 'guide', Blockly.Python.ORDER_ATOMIC);
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var sigmaSpatial = block.getFieldValue('sigmaSpatial');
+  var sigmaColor = block.getFieldValue('sigmaColor');
+  var code = createSuperpixelSEEDS + ".dtFilter("+guide+","+src+","+sigmaSpatial+","+sigmaColor+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_createGuidedFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var guide = Blockly.Python.valueToCode(block, 'guide', Blockly.Python.ORDER_ATOMIC);
+  var radius = block.getFieldValue('radius');
+  var eps = block.getFieldValue('eps');
+  var code = createSuperpixelSEEDS + " = cv2.ximgproc.createGuidedFilter("+guide+","+radius+","+eps+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_guidedFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var guide = Blockly.Python.valueToCode(block, 'guide', Blockly.Python.ORDER_ATOMIC);
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var radius = block.getFieldValue('radius');
+  var eps = block.getFieldValue('eps');
+  var code = createSuperpixelSEEDS + ".guidedFilter("+guide+","+src+","+radius+","+eps+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_createAMFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var sigma_s = block.getFieldValue('sigma_s');
+  var sigma_r = block.getFieldValue('sigma_r');
+  var code = createSuperpixelSEEDS + " = cv2.ximgproc.createAMFilter("+sigma_s+","+sigma_r+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_amFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var joint = Blockly.Python.valueToCode(block, 'joint', Blockly.Python.ORDER_ATOMIC);
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var sigma_s = block.getFieldValue('sigma_s');
+  var sigma_r = block.getFieldValue('sigma_r');
+  var code = createSuperpixelSEEDS + ".amFilter("+joint+","+src+","+sigma_s+","+sigma_r+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_jointBilateralFilter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var joint = Blockly.Python.valueToCode(block, 'joint', Blockly.Python.ORDER_ATOMIC);
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var d = block.getFieldValue('d');
+  var sigmaColor = block.getFieldValue('sigmaColor');
+  var sigmaSpace = block.getFieldValue('sigmaSpace');
+  var code = createSuperpixelSEEDS + ".jointBilateralFilter("+joint+","+src+","+d+","+sigmaColor+","+sigmaSpace+")"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_createRFFeatureGetter'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var code = createSuperpixelSEEDS + " = cv2.ximgproc.createRFFeatureGetter()\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_createSuperpixelSEEDS_createStructuredEdgeDetection'] = function(block) {
+  var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
+  var model = Blockly.Python.valueToCode(block, 'model', Blockly.Python.ORDER_ATOMIC);
+  var code = createSuperpixelSEEDS + " = cv2.ximgproc.createStructuredEdgeDetection("+model+")\n"
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['ximgproc_GuidedFilter_filter'] = function(block) {
+  var GuidedFilter = block.getFieldValue('GuidedFilter');
+  var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
+  var code = GuidedFilter + ".filter("+src+")"
   return [code, Blockly.Python.ORDER_NONE];
 };

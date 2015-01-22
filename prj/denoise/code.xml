@@ -1,0 +1,82 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="load" id="8" x="4" y="104">
+    <field name="image">image</field>
+    <field name="filename">media/lena.jpg</field>
+    <field name="grey">TRUE</field>
+    <next>
+      <block type="variables_set" id="264" inline="true">
+        <field name="VAR">noise</field>
+        <value name="VALUE">
+          <block type="core_randu" id="79" inline="false">
+            <value name="dst">
+              <block type="newimage" id="382" inline="false">
+                <field name="w">512</field>
+                <field name="h">512</field>
+                <field name="type">gray</field>
+              </block>
+            </value>
+            <value name="low">
+              <block type="math_number" id="258">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="high">
+              <block type="math_number" id="259">
+                <field name="NUM">25</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="292" inline="true">
+            <field name="VAR">lena + noise</field>
+            <value name="VALUE">
+              <block type="core_add" id="360" inline="false">
+                <value name="src1">
+                  <block type="variables_get" id="285">
+                    <field name="VAR">image</field>
+                  </block>
+                </value>
+                <value name="src2">
+                  <block type="variables_get" id="14">
+                    <field name="VAR">noise</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="imshow" id="9" inline="false">
+                <field name="windowname">denoised</field>
+                <value name="image">
+                  <block type="photo_fastNlMeansDenoising" id="13" inline="false">
+                    <value name="src">
+                      <block type="variables_get" id="265">
+                        <field name="VAR">lena + noise</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="imshow" id="294" inline="false">
+                    <field name="windowname">lena_noised</field>
+                    <value name="image">
+                      <block type="variables_get" id="295">
+                        <field name="VAR">lena + noise</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="waitkey" id="11">
+                        <field name="millis">0</field>
+                        <field name="key">27</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

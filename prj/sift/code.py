@@ -2,11 +2,13 @@
 import cv2
 import numpy as np
 
-img = None
+SIFT = None
+image = None
 
 
-img = cv2.imread('media/lena.jpg',0)
-cv2.imshow('mywin',cv2.drawKeypoints(img,cv2.xfeatures2d.SIFT_create().detect(img),img))
+SIFT = cv2.xfeatures2d.SIFT_create()
+image = cv2.imread('media/lena.jpg',0)
+cv2.imshow('bgr',cv2.drawKeypoints(image,SIFT.detect(image),image))
 if cv2.waitKey(0)&0xff == 27:
   pass
 cv2.destroyAllWindows()

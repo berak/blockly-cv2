@@ -27,8 +27,10 @@ def save(ext,environ):
         f = open("prj/"+name +"/code"+ext, "wb")
         f.write(code)
         f.close()
+        return "saved ok."
     except Exception,e:
         print e
+        return str(e)
 
 def load(environ):
     code = ""
@@ -37,26 +39,28 @@ def load(environ):
         f = open("prj/"+name +"/code.xml", "rb")
         code = f.read()
         f.close()
-    except Exception,e:
-        print e
+    except IOError as e:
+        print e; 
+        return str(e)
     return code
 
 def application(environ, start_response):
         
     url = environ['PATH_INFO'];
-    data = "hi ;)"
+    data = ""
     if url == "/":
         url = "/Blockly.html"
     if url.startswith('/code'):
         try:
             #MyThread(request_body).start()
-            exec( compile( postdata(environ), "lala", "exec" ) )
+            exec( compile( postdata(environ), "blockly", "exec" ) )
         except Exception,e:
             print e
+            data = str(e)
     elif url.startswith('/save_code'):
-        save(".py",environ)
+        data = save(".py",environ)
     elif url.startswith('/save_xml'):
-        save(".xml",environ)
+        data = save(".xml",environ)
     elif url.startswith('/load'):
         data = load(environ)
     else: # load html/js/resources

@@ -1,60 +1,56 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
-  <block type="cascade" id="22" x="45" y="81">
+  <block type="cascade" id="66" x="32" y="87">
     <field name="cascade">cascade</field>
     <field name="xmlfile">e:/code/opencv/data/haarcascades/haarcascade_frontalface_alt2.xml</field>
     <next>
-      <block type="variables_set" id="6" inline="true">
-        <field name="VAR">lena</field>
-        <value name="VALUE">
-          <block type="imread" id="2">
-            <field name="grey">FALSE</field>
-            <field name="filename">media/lena.jpg</field>
-          </block>
-        </value>
+      <block type="load" id="23">
+        <field name="image">image</field>
+        <field name="filename">media/lena.jpg</field>
+        <field name="grey">FALSE</field>
         <next>
-          <block type="controls_forEach" id="53" inline="false">
+          <block type="controls_forEach" id="96" inline="false">
             <field name="VAR">rect</field>
             <value name="LIST">
-              <block type="findobjects" id="38" inline="false">
+              <block type="findobjects" id="88" inline="false">
                 <field name="cascade">cascade</field>
                 <value name="image">
-                  <block type="variables_get" id="45">
-                    <field name="VAR">lena</field>
+                  <block type="variables_get" id="42">
+                    <field name="VAR">image</field>
                   </block>
                 </value>
               </block>
             </value>
             <statement name="DO">
-              <block type="variables_set" id="73" inline="true">
-                <field name="VAR">lena</field>
+              <block type="variables_set" id="105" inline="true">
+                <field name="VAR">image</field>
                 <value name="VALUE">
-                  <block type="imgproc_rectangle" id="64" inline="false">
+                  <block type="imgproc_rectangle" id="116" inline="false">
                     <value name="img">
-                      <block type="variables_get" id="74">
-                        <field name="VAR">lena</field>
+                      <block type="variables_get" id="125">
+                        <field name="VAR">image</field>
                       </block>
                     </value>
                     <value name="pt1">
-                      <block type="point_tl" id="106" inline="false">
+                      <block type="point_tl" id="147" inline="false">
                         <value name="rect">
-                          <block type="variables_get" id="131">
+                          <block type="variables_get" id="205">
                             <field name="VAR">rect</field>
                           </block>
                         </value>
                       </block>
                     </value>
                     <value name="pt2">
-                      <block type="point_br" id="122" inline="false">
+                      <block type="point_br" id="169" inline="false">
                         <value name="rect">
-                          <block type="variables_get" id="132">
+                          <block type="variables_get" id="206">
                             <field name="VAR">rect</field>
                           </block>
                         </value>
                       </block>
                     </value>
                     <value name="color">
-                      <block type="colour_picker" id="90">
-                        <field name="COLOUR">#000099</field>
+                      <block type="colour_picker" id="191">
+                        <field name="COLOUR">#00cccc</field>
                       </block>
                     </value>
                   </block>
@@ -62,16 +58,16 @@
               </block>
             </statement>
             <next>
-              <block type="imshow" id="1" inline="false">
+              <block type="imshow" id="41" inline="false">
                 <field name="windowname">mywin</field>
                 <value name="image">
-                  <block type="variables_get" id="133">
-                    <field name="VAR">lena</field>
+                  <block type="variables_get" id="207">
+                    <field name="VAR">image</field>
                   </block>
                 </value>
                 <next>
-                  <block type="waitkey" id="3">
-                    <field name="millis">0</field>
+                  <block type="waitkey" id="43">
+                    <field name="millis">-1</field>
                     <field name="key">27</field>
                   </block>
                 </next>

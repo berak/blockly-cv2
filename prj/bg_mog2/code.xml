@@ -1,0 +1,64 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="video_createBackgroundSubtractorMOG2" id="60" x="26" y="20">
+    <field name="BackgroundSubtractorMOG2">BackgroundSubtractor</field>
+    <next>
+      <block type="video_BackgroundSubtractorMOG2_setHistory" id="103">
+        <field name="BackgroundSubtractorMOG2">BackgroundSubtractor</field>
+        <field name="history">1000</field>
+        <next>
+          <block type="video_BackgroundSubtractorMOG2_setBackgroundRatio" id="212">
+            <field name="BackgroundSubtractorMOG2">BackgroundSubtractor</field>
+            <field name="ratio">.7</field>
+            <next>
+              <block type="videocapture" id="1">
+                <field name="input">0</field>
+                <field name="img">img</field>
+                <statement name="statements">
+                  <block type="imshow" id="2" inline="false">
+                    <field name="windowname">mywin</field>
+                    <value name="image">
+                      <block type="variables_get" id="3">
+                        <field name="VAR">img</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="imshow" id="168" inline="false">
+                        <field name="windowname">mask</field>
+                        <value name="image">
+                          <block type="video_BackgroundSubtractor_apply" id="146" inline="false">
+                            <field name="BackgroundSubtractor">BackgroundSubtractor</field>
+                            <value name="image">
+                              <block type="cvtcolor" id="166" inline="false">
+                                <field name="flag">cv2.COLOR_BGR2GRAY</field>
+                                <value name="img">
+                                  <block type="variables_get" id="167">
+                                    <field name="VAR">img</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="waitkey" id="4">
+                            <field name="millis">100</field>
+                            <field name="key">27</field>
+                            <statement name="statement">
+                              <block type="controls_flow_statements" id="5">
+                                <field name="FLOW">BREAK</field>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

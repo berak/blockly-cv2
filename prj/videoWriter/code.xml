@@ -1,41 +1,118 @@
 <xml xmlns="http://www.w3.org/1999/xhtml">
-  <block type="variables_set" id="15" inline="true" x="31" y="229">
-    <field name="VAR">img</field>
-    <value name="VALUE">
-      <block type="imread" id="4">
-        <field name="grey">FALSE</field>
-        <field name="filename">media/lena.jpg</field>
-      </block>
-    </value>
+  <block type="load" id="23" x="18" y="47">
+    <field name="image">image</field>
+    <field name="filename">media/lena.jpg</field>
+    <field name="grey">FALSE</field>
     <next>
-      <block type="VideoWriter_VideoWriter" id="1" inline="true">
-        <field name="writer">writer</field>
-        <field name="filename">my.asf</field>
-        <field name="fourcc">XVID</field>
-        <field name="fps">24</field>
-        <value name="frameSize">
-          <block type="size" id="2">
-            <field name="w">512</field>
-            <field name="h">512</field>
+      <block type="variables_set" id="24" inline="true">
+        <field name="VAR">imsize</field>
+        <value name="VALUE">
+          <block type="imgsize" id="25" inline="true">
+            <value name="image">
+              <block type="variables_get" id="26">
+                <field name="VAR">image</field>
+              </block>
+            </value>
           </block>
         </value>
         <next>
-          <block type="controls_repeat_ext" id="30" inline="true">
-            <value name="TIMES">
-              <block type="math_number" id="31">
-                <field name="NUM">100</field>
+          <block type="VideoWriter_VideoWriter" id="27" inline="true">
+            <field name="writer">writer</field>
+            <field name="filename">media/my.asf</field>
+            <field name="fourcc">XVID</field>
+            <field name="fps">24</field>
+            <value name="frameSize">
+              <block type="variables_get" id="28">
+                <field name="VAR">imsize</field>
               </block>
             </value>
-            <statement name="DO">
-              <block type="VideoWriter_write" id="3" inline="false">
-                <field name="writer">writer</field>
-                <value name="image">
-                  <block type="variables_get" id="22">
-                    <field name="VAR">img</field>
+            <next>
+              <block type="forRange" id="29" inline="true">
+                <field name="i">i</field>
+                <value name="rend">
+                  <block type="math_number" id="30">
+                    <field name="NUM">100</field>
                   </block>
                 </value>
+                <statement name="statement">
+                  <block type="VideoWriter_write" id="31" inline="false">
+                    <field name="writer">writer</field>
+                    <value name="image">
+                      <block type="imgproc_putText" id="32" inline="false">
+                        <field name="fontFace">4</field>
+                        <field name="fontScale">1</field>
+                        <value name="img">
+                          <block type="copy" id="22" inline="true">
+                            <value name="image">
+                              <block type="variables_get" id="33">
+                                <field name="VAR">image</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="text">
+                          <block type="math_arithmetic" id="34" inline="true">
+                            <field name="OP">ADD</field>
+                            <value name="A">
+                              <block type="text" id="35">
+                                <field name="TEXT">frame </field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="tostr" id="36" inline="false">
+                                <value name="input">
+                                  <block type="variables_get" id="37">
+                                    <field name="VAR">i</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <value name="org">
+                          <block type="point" id="38">
+                            <field name="x">100</field>
+                            <field name="y">100</field>
+                          </block>
+                        </value>
+                        <value name="color">
+                          <block type="colour_picker" id="39">
+                            <field name="COLOUR">#3333ff</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="videocapture" id="40">
+                    <field name="input">'media/my.asf'</field>
+                    <field name="img">img</field>
+                    <statement name="statements">
+                      <block type="imshow" id="41" inline="false">
+                        <field name="windowname">mywin</field>
+                        <value name="image">
+                          <block type="variables_get" id="42">
+                            <field name="VAR">img</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="waitkey" id="43">
+                            <field name="millis">100</field>
+                            <field name="key">27</field>
+                            <statement name="statement">
+                              <block type="controls_flow_statements" id="44">
+                                <field name="FLOW">BREAK</field>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
               </block>
-            </statement>
+            </next>
           </block>
         </next>
       </block>
