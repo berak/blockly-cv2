@@ -107,10 +107,11 @@ class CWrapperGenerator(object):
 
     contribs=["bioinspired","bgsegm","xphoto","xfeatures2d","optflow","ximgproc"]
 
-    def internal_var(self,name):
+    def internal_var(self,name): # aka 'this'
         s =  "  getVars: function(){return [this.getFieldValue('"+name+"')]},\n"
         s += "  renameVar: function(oldName,newName) {if (Blockly.Names.equals(oldName,this.getFieldValue('"+name+"'))){this.setFieldValue(newName,'"+name+"');}},\n"
         return s
+        
     #
     # the 'bread & butter' function here:
     #
@@ -140,7 +141,7 @@ class CWrapperGenerator(object):
         if is_ctor and (this==None):
             if method.name.find("create")==0:
                 this = method.name.split("create")[1]
-                print "\t",this,"\t",method.name
+                #print "\t",this,"\t",method.name
         
         has_ret = (method.rtp != "void") and (is_ctor == False)
         ret_tp = method.rtp
@@ -198,7 +199,7 @@ class CWrapperGenerator(object):
             if a.O and not a.I: continue
             body += self.js_input(a)
             
-        # besides simple functions returning eg, an int or an image,
+        # besides simple functions returning an int or an image,
         # there's 2 ways to create an 'object (it all passes through here)
         #  * a simple function
         #  * a 'constructor'
