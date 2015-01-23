@@ -1,3 +1,18 @@
+
+Blockly.Blocks['none'] = {
+  init: function() {
+    this.setColour(65);
+    this.appendDummyInput()
+        .appendField("None")
+    this.setOutput(true);
+    this.setTooltip('');
+  }
+};
+Blockly.Python['none'] = function(block) {
+  var code = "None";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Blocks['tostr'] = {
   init: function() {
     this.setColour(65);
@@ -393,7 +408,7 @@ Blockly.Python['videocapture'] = function(block) {
   var img_name = block.getFieldValue('img');
   var code = "cap=cv2.VideoCapture("+text_input+")\n" +
              "if not cap.isOpened(): raise Exception(\"your input:"+text_input+" could not be opened !\")\n" +
-             "while cap.isOpened():\n  _,"+img_name+"=cap.read()\n"+statements_name;
+             "while cap.isOpened():\n  r,"+img_name+"=cap.read()\n  if r==False: break\n"+statements_name;
   return code;
 };
 
@@ -411,7 +426,7 @@ Blockly.Blocks['VideoWriter_VideoWriter'] = {
         .appendField(new Blockly.FieldTextInput('my.asf'), 'filename')
     this.appendDummyInput()
         .appendField('fourcc')
-        .appendField(new Blockly.FieldTextInput('VIDX'), 'fourcc')
+        .appendField(new Blockly.FieldTextInput('XVID'), 'fourcc')
     this.appendDummyInput()
         .appendField('fps')
         .appendField(new Blockly.FieldTextInput('24'), 'fps');
@@ -626,20 +641,35 @@ Blockly.Blocks['tuple'] = {
     this.setColour(65);
     this.appendDummyInput()
         .appendField("tuple")
-        .appendField(new Blockly.FieldTextInput("0"), "a")
-        .appendField(new Blockly.FieldTextInput("0"), "b")
-        .appendField(new Blockly.FieldTextInput("0"), "c")
-    this.setOutput(true, "Colour");
+    this.appendValueInput("X")
+    this.setOutput(true);
     this.setTooltip('');
   }
 };
 Blockly.Python['tuple'] = function(block) {
-  var a = block.getFieldValue('a');
-  var b = block.getFieldValue('b');
-  var c = block.getFieldValue('c');
-  var code = "("+a+","+b+","+c+")";
+  var X = Blockly.Python.valueToCode(block, 'X', Blockly.Python.ORDER_ATOMIC);
+  var code = "("+X+")";
   return [code, Blockly.Python.ORDER_NONE];
 };
+//~ Blockly.Blocks['tuple'] = {
+  //~ init: function() {
+    //~ this.setColour(65);
+    //~ this.appendDummyInput()
+        //~ .appendField("tuple")
+        //~ .appendField(new Blockly.FieldTextInput("0"), "a")
+        //~ .appendField(new Blockly.FieldTextInput("0"), "b")
+        //~ .appendField(new Blockly.FieldTextInput("0"), "c")
+    //~ this.setOutput(true, "Colour");
+    //~ this.setTooltip('');
+  //~ }
+//~ };
+//~ Blockly.Python['tuple'] = function(block) {
+  //~ var a = block.getFieldValue('a');
+  //~ var b = block.getFieldValue('b');
+  //~ var c = block.getFieldValue('c');
+  //~ var code = "("+a+","+b+","+c+")";
+  //~ return [code, Blockly.Python.ORDER_NONE];
+//~ };
 
 Blockly.Blocks['forRange'] = {
   init: function() {

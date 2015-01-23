@@ -111,11 +111,22 @@ class CWrapperGenerator(object):
         s =  "  getVars: function(){return [this.getFieldValue('"+name+"')]},\n"
         s += "  renameVar: function(oldName,newName) {if (Blockly.Names.equals(oldName,this.getFieldValue('"+name+"'))){this.setFieldValue(newName,'"+name+"');}},\n"
         return s
-        
-
+    #
+    # the 'bread & butter' function here:
+    #
+    # things here can be:
+    #   a plain function:
+    #     c = cv2.add(a,b)
+    #   a function returning an object:
+    #     c = cv2.createCLAHE()
+    #   an object's constructor:
+    #     m = cv2.BFMatcher()
+    #   a member function called on an object:
+    #     k = orb.detect(img)
+    #
     def gen_method(self,method,this,namespace,doc):
 
-        arghs = method.req
+        arghs = method.req # hmm what about the optional args ..
         
         longname = namespace + "_"
         if this: longname += this + "_"
@@ -138,29 +149,29 @@ class CWrapperGenerator(object):
                 if a.O: 
                     has_ret = True
                     ret_tp = a.tp
+                    
         can_inline = arghs.count < 4
 
+        # let them see *what* they create
         msig=method.name
         if method.name == "create":
             msig = this + "_" +method.name
                
-        print has_ret,"\t",is_ctor,"\t", this!=None, "\t", msig
+        #print has_ret,"\t",is_ctor,"\t", this!=None, "\t", msig
         
-        #~ if this:
-            #~ this = this.lower()
-
+        # create the block:
         sig = "Blockly.Blocks['"+longname+"'] = {\n"
         sig +="  init: function() {\n"
         sig +="    this.setColour("+str(c)+");\n"
         sig +="    this.appendDummyInput()\n"
         sig +="        .appendField('"+msig+"');\n"
 
-        if this:
+        if this: # inline 'this' var, to save a lot of wiring..
             sig += "    this.appendDummyInput()\n" 
             sig += "        .appendField(new Blockly.FieldVariable('"+this+"'), '"+this+"');\n"
 
         for a in arghs:
-            print "  ARG ",a.O,"\t",a.I,"\t",a.tp,"\t",a.name
+            #print "  ARG ",a.O,"\t",a.I,"\t",a.tp,"\t",a.name
             if a.O and not a.I: continue
             s = self.block_input(a,this) 
             sig += s
@@ -179,6 +190,7 @@ class CWrapperGenerator(object):
 
         self.buf_decl.write(sig)
 
+        # create the he resp. python code:
         body = "Blockly.Python['"+longname+"'] = function(block) {\n"
         if this:
             body += "  var " + this + " = block.getFieldValue('" + this + "');\n" 
@@ -186,6 +198,10 @@ class CWrapperGenerator(object):
             if a.O and not a.I: continue
             body += self.js_input(a)
             
+        # besides simple functions returning eg, an int or an image,
+        # there's 2 ways to create an 'object (it all passes through here)
+        #  * a simple function
+        #  * a 'constructor'
         body += "  var code = "
         if is_ctor:
             body += this + " + \" = cv2."
@@ -206,7 +222,7 @@ class CWrapperGenerator(object):
         if not has_ret:
             body += "\\n"
         body += "\"\n"
-        if has_ret or is_ctor:
+        if has_ret : # if it returns someting, we need a tuple in blockly
             body += "  return [code, Blockly.Python.ORDER_NONE];\n"
         else:
             body += "  return code;\n"

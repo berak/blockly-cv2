@@ -521,12 +521,12 @@ Blockly.Python['core_useOptimized'] = function(block) {
 Blockly.Python['core_DMatch_DMatch'] = function(block) {
   var DMatch = block.getFieldValue('DMatch');
   var code = DMatch + " = cv2.DMatch()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['core_KeyPoint_KeyPoint'] = function(block) {
   var KeyPoint = block.getFieldValue('KeyPoint');
   var code = KeyPoint + " = cv2.KeyPoint()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['core_KeyPoint_convert'] = function(block) {
   var KeyPoint = block.getFieldValue('KeyPoint');
@@ -544,7 +544,7 @@ Blockly.Python['core_KeyPoint_overlap'] = function(block) {
 Blockly.Python['imgproc_createLineSegmentDetector'] = function(block) {
   var LineSegmentDetector = block.getFieldValue('LineSegmentDetector');
   var code = LineSegmentDetector + " = cv2.createLineSegmentDetector()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['imgproc_getGaussianKernel'] = function(block) {
   var ksize = block.getFieldValue('ksize');
@@ -864,7 +864,7 @@ Blockly.Python['imgproc_createHanningWindow'] = function(block) {
   var winSize = Blockly.Python.valueToCode(block, 'winSize', Blockly.Python.ORDER_ATOMIC);
   var type = block.getFieldValue('type');
   var code = HanningWindow + " = cv2.createHanningWindow("+winSize+","+type+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['imgproc_threshold'] = function(block) {
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
@@ -1116,7 +1116,7 @@ Blockly.Python['imgproc_rotatedRectangleIntersection'] = function(block) {
 Blockly.Python['imgproc_createCLAHE'] = function(block) {
   var CLAHE = block.getFieldValue('CLAHE');
   var code = CLAHE + " = cv2.createCLAHE()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['imgproc_applyColorMap'] = function(block) {
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
@@ -1282,19 +1282,19 @@ Blockly.Python['bioinspired_RETINA_COLOR_RANDOM_createRetina'] = function(block)
   var RETINA_COLOR_RANDOM = block.getFieldValue('RETINA_COLOR_RANDOM');
   var inputSize = Blockly.Python.valueToCode(block, 'inputSize', Blockly.Python.ORDER_ATOMIC);
   var code = RETINA_COLOR_RANDOM + " = cv2.bioinspired.createRetina("+inputSize+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['bioinspired_RETINA_COLOR_RANDOM_createRetinaFastToneMapping'] = function(block) {
   var RETINA_COLOR_RANDOM = block.getFieldValue('RETINA_COLOR_RANDOM');
   var inputSize = Blockly.Python.valueToCode(block, 'inputSize', Blockly.Python.ORDER_ATOMIC);
   var code = RETINA_COLOR_RANDOM + " = cv2.bioinspired.createRetinaFastToneMapping("+inputSize+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['bioinspired_RETINA_COLOR_RANDOM_createTransientAreasSegmentationModule'] = function(block) {
   var RETINA_COLOR_RANDOM = block.getFieldValue('RETINA_COLOR_RANDOM');
   var inputSize = Blockly.Python.valueToCode(block, 'inputSize', Blockly.Python.ORDER_ATOMIC);
   var code = RETINA_COLOR_RANDOM + " = cv2.bioinspired.createTransientAreasSegmentationModule("+inputSize+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['bioinspired_RetinaFastToneMapping_applyFastToneMapping'] = function(block) {
   var RetinaFastToneMapping = block.getFieldValue('RetinaFastToneMapping');
@@ -1447,7 +1447,7 @@ Blockly.Python['bioinspired_TransientAreasSegmentationModule_clearAllBuffers'] =
 Blockly.Python['stitching_createStitcher'] = function(block) {
   var Stitcher = block.getFieldValue('Stitcher');
   var code = Stitcher + " = cv2.createStitcher()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['stitching_Stitcher_registrationResol'] = function(block) {
   var Stitcher = block.getFieldValue('Stitcher');
@@ -1567,57 +1567,57 @@ Blockly.Python['photo_denoise_TVL1'] = function(block) {
 Blockly.Python['photo_createTonemap'] = function(block) {
   var Tonemap = block.getFieldValue('Tonemap');
   var code = Tonemap + " = cv2.createTonemap()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createTonemapDrago'] = function(block) {
   var TonemapDrago = block.getFieldValue('TonemapDrago');
   var code = TonemapDrago + " = cv2.createTonemapDrago()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createTonemapDurand'] = function(block) {
   var TonemapDurand = block.getFieldValue('TonemapDurand');
   var code = TonemapDurand + " = cv2.createTonemapDurand()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createTonemapReinhard'] = function(block) {
   var TonemapReinhard = block.getFieldValue('TonemapReinhard');
   var code = TonemapReinhard + " = cv2.createTonemapReinhard()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createTonemapMantiuk'] = function(block) {
   var TonemapMantiuk = block.getFieldValue('TonemapMantiuk');
   var code = TonemapMantiuk + " = cv2.createTonemapMantiuk()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createAlignMTB'] = function(block) {
   var AlignMTB = block.getFieldValue('AlignMTB');
   var code = AlignMTB + " = cv2.createAlignMTB()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createCalibrateDebevec'] = function(block) {
   var CalibrateDebevec = block.getFieldValue('CalibrateDebevec');
   var code = CalibrateDebevec + " = cv2.createCalibrateDebevec()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createCalibrateRobertson'] = function(block) {
   var CalibrateRobertson = block.getFieldValue('CalibrateRobertson');
   var code = CalibrateRobertson + " = cv2.createCalibrateRobertson()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createMergeDebevec'] = function(block) {
   var MergeDebevec = block.getFieldValue('MergeDebevec');
   var code = MergeDebevec + " = cv2.createMergeDebevec()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createMergeMertens'] = function(block) {
   var MergeMertens = block.getFieldValue('MergeMertens');
   var code = MergeMertens + " = cv2.createMergeMertens()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_createMergeRobertson'] = function(block) {
   var MergeRobertson = block.getFieldValue('MergeRobertson');
   var code = MergeRobertson + " = cv2.createMergeRobertson()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['photo_decolor'] = function(block) {
   var src = Blockly.Python.valueToCode(block, 'src', Blockly.Python.ORDER_ATOMIC);
@@ -2394,7 +2394,7 @@ Blockly.Python['calib3d_StereoBM_setROI2'] = function(block) {
 Blockly.Python['calib3d_StereoBM_create'] = function(block) {
   var StereoBM = block.getFieldValue('StereoBM');
   var code = StereoBM + " = cv2.StereoBM_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['calib3d_StereoSGBM_getPreFilterCap'] = function(block) {
   var StereoSGBM = block.getFieldValue('StereoSGBM');
@@ -2457,7 +2457,7 @@ Blockly.Python['calib3d_StereoSGBM_create'] = function(block) {
   var numDisparities = block.getFieldValue('numDisparities');
   var blockSize = block.getFieldValue('blockSize');
   var code = StereoSGBM + " = cv2.StereoSGBM_create("+minDisparity+","+numDisparities+","+blockSize+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['calib3d_StereoMatcher_compute'] = function(block) {
   var StereoMatcher = block.getFieldValue('StereoMatcher');
@@ -2552,7 +2552,7 @@ Blockly.Python['features2d_drawMatches'] = function(block) {
 Blockly.Python['features2d_BFMatcher_BFMatcher'] = function(block) {
   var BFMatcher = block.getFieldValue('BFMatcher');
   var code = BFMatcher + " = cv2.BFMatcher()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_Feature2D_detect'] = function(block) {
   var Feature2D = block.getFieldValue('Feature2D');
@@ -2597,12 +2597,12 @@ Blockly.Python['features2d_Feature2D_empty'] = function(block) {
 Blockly.Python['features2d_BRISK_create'] = function(block) {
   var BRISK = block.getFieldValue('BRISK');
   var code = BRISK + " = cv2.BRISK_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_GFTTDetector_create'] = function(block) {
   var GFTTDetector = block.getFieldValue('GFTTDetector');
   var code = GFTTDetector + " = cv2.GFTTDetector_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_GFTTDetector_setMaxFeatures'] = function(block) {
   var GFTTDetector = block.getFieldValue('GFTTDetector');
@@ -2720,12 +2720,12 @@ Blockly.Python['features2d_DescriptorMatcher_create'] = function(block) {
   var DescriptorMatcher = block.getFieldValue('DescriptorMatcher');
   var descriptorMatcherType = Blockly.Python.valueToCode(block, 'descriptorMatcherType', Blockly.Python.ORDER_ATOMIC);
   var code = DescriptorMatcher + " = cv2.DescriptorMatcher_create("+descriptorMatcherType+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_KAZE_create'] = function(block) {
   var KAZE = block.getFieldValue('KAZE');
   var code = KAZE + " = cv2.KAZE_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_KAZE_setExtended'] = function(block) {
   var KAZE = block.getFieldValue('KAZE');
@@ -2796,7 +2796,7 @@ Blockly.Python['features2d_KAZE_getDiffusivity'] = function(block) {
 Blockly.Python['features2d_FastFeatureDetector_create'] = function(block) {
   var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
   var code = FastFeatureDetector + " = cv2.FastFeatureDetector_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_FastFeatureDetector_setThreshold'] = function(block) {
   var FastFeatureDetector = block.getFieldValue('FastFeatureDetector');
@@ -2834,7 +2834,7 @@ Blockly.Python['features2d_FastFeatureDetector_getType'] = function(block) {
 Blockly.Python['features2d_AKAZE_create'] = function(block) {
   var AKAZE = block.getFieldValue('AKAZE');
   var code = AKAZE + " = cv2.AKAZE_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_AKAZE_setDescriptorType'] = function(block) {
   var AKAZE = block.getFieldValue('AKAZE');
@@ -2916,7 +2916,7 @@ Blockly.Python['features2d_AKAZE_getDiffusivity'] = function(block) {
 Blockly.Python['features2d_ORB_create'] = function(block) {
   var ORB = block.getFieldValue('ORB');
   var code = ORB + " = cv2.ORB_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_ORB_setMaxFeatures'] = function(block) {
   var ORB = block.getFieldValue('ORB');
@@ -3020,7 +3020,7 @@ Blockly.Python['features2d_ORB_getFastThreshold'] = function(block) {
 Blockly.Python['features2d_MSER_create'] = function(block) {
   var MSER = block.getFieldValue('MSER');
   var code = MSER + " = cv2.MSER_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['features2d_MSER_detectRegions'] = function(block) {
   var MSER = block.getFieldValue('MSER');
@@ -3076,48 +3076,48 @@ Blockly.Python['features2d_MSER_getPass2Only'] = function(block) {
 Blockly.Python['features2d_FlannBasedMatcher_FlannBasedMatcher'] = function(block) {
   var FlannBasedMatcher = block.getFieldValue('FlannBasedMatcher');
   var code = FlannBasedMatcher + " = cv2.FlannBasedMatcher()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createNormHistogramCostExtractor'] = function(block) {
   var NormHistogramCostExtractor = block.getFieldValue('NormHistogramCostExtractor');
   var code = NormHistogramCostExtractor + " = cv2.createNormHistogramCostExtractor()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createEMDHistogramCostExtractor'] = function(block) {
   var EMDHistogramCostExtractor = block.getFieldValue('EMDHistogramCostExtractor');
   var code = EMDHistogramCostExtractor + " = cv2.createEMDHistogramCostExtractor()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createChiHistogramCostExtractor'] = function(block) {
   var ChiHistogramCostExtractor = block.getFieldValue('ChiHistogramCostExtractor');
   var code = ChiHistogramCostExtractor + " = cv2.createChiHistogramCostExtractor()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createEMDL1HistogramCostExtractor'] = function(block) {
   var EMDL1HistogramCostExtractor = block.getFieldValue('EMDL1HistogramCostExtractor');
   var code = EMDL1HistogramCostExtractor + " = cv2.createEMDL1HistogramCostExtractor()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createShapeContextDistanceExtractor'] = function(block) {
   var ShapeContextDistanceExtractor = block.getFieldValue('ShapeContextDistanceExtractor');
   var code = ShapeContextDistanceExtractor + " = cv2.createShapeContextDistanceExtractor()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createHausdorffDistanceExtractor'] = function(block) {
   var HausdorffDistanceExtractor = block.getFieldValue('HausdorffDistanceExtractor');
   var code = HausdorffDistanceExtractor + " = cv2.createHausdorffDistanceExtractor()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createThinPlateSplineShapeTransformer'] = function(block) {
   var ThinPlateSplineShapeTransformer = block.getFieldValue('ThinPlateSplineShapeTransformer');
   var code = ThinPlateSplineShapeTransformer + " = cv2.createThinPlateSplineShapeTransformer()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_createAffineTransformer'] = function(block) {
   var AffineTransformer = block.getFieldValue('AffineTransformer');
   var fullAffine = Blockly.Python.valueToCode(block, 'fullAffine', Blockly.Python.ORDER_ATOMIC);
   var code = AffineTransformer + " = cv2.createAffineTransformer("+fullAffine+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['shape_ThinPlateSplineShapeTransformer_setRegularizationParameter'] = function(block) {
   var ThinPlateSplineShapeTransformer = block.getFieldValue('ThinPlateSplineShapeTransformer');
@@ -3498,12 +3498,12 @@ Blockly.Python['bgsegm_BackgroundSubtractorGMG_setMaxVal'] = function(block) {
 Blockly.Python['bgsegm_createBackgroundSubtractorMOG_createBackgroundSubtractorMOG'] = function(block) {
   var createBackgroundSubtractorMOG = block.getFieldValue('createBackgroundSubtractorMOG');
   var code = createBackgroundSubtractorMOG + " = cv2.bgsegm.createBackgroundSubtractorMOG()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['bgsegm_createBackgroundSubtractorMOG_createBackgroundSubtractorGMG'] = function(block) {
   var createBackgroundSubtractorMOG = block.getFieldValue('createBackgroundSubtractorMOG');
   var code = createBackgroundSubtractorMOG + " = cv2.bgsegm.createBackgroundSubtractorGMG()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['bgsegm_BackgroundSubtractorMOG_getHistory'] = function(block) {
   var BackgroundSubtractorMOG = block.getFieldValue('BackgroundSubtractorMOG');
@@ -3602,22 +3602,22 @@ Blockly.Python['video_findTransformECC'] = function(block) {
 Blockly.Python['video_createOptFlow_DualTVL1'] = function(block) {
   var OptFlow_DualTVL1 = block.getFieldValue('OptFlow_DualTVL1');
   var code = OptFlow_DualTVL1 + " = cv2.createOptFlow_DualTVL1()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['video_createBackgroundSubtractorMOG2'] = function(block) {
   var BackgroundSubtractorMOG2 = block.getFieldValue('BackgroundSubtractorMOG2');
   var code = BackgroundSubtractorMOG2 + " = cv2.createBackgroundSubtractorMOG2()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['video_createBackgroundSubtractorKNN'] = function(block) {
   var BackgroundSubtractorKNN = block.getFieldValue('BackgroundSubtractorKNN');
   var code = BackgroundSubtractorKNN + " = cv2.createBackgroundSubtractorKNN()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['video_KalmanFilter_KalmanFilter'] = function(block) {
   var KalmanFilter = block.getFieldValue('KalmanFilter');
   var code = KalmanFilter + " = cv2.KalmanFilter()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['video_KalmanFilter_predict'] = function(block) {
   var KalmanFilter = block.getFieldValue('KalmanFilter');
@@ -3869,12 +3869,12 @@ Blockly.Python['xphoto_dctDenoising_dctDenoising'] = function(block) {
   var dst = Blockly.Python.valueToCode(block, 'dst', Blockly.Python.ORDER_ATOMIC);
   var sigma = block.getFieldValue('sigma');
   var code = dctDenoising + " = cv2.xphoto.dctDenoising("+src+","+dst+","+sigma+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['xfeatures2d_SURF_create'] = function(block) {
   var SURF = block.getFieldValue('SURF');
   var code = SURF + " = cv2.xfeatures2d.SURF_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['xfeatures2d_SURF_setHessianThreshold'] = function(block) {
   var SURF = block.getFieldValue('SURF');
@@ -3934,7 +3934,7 @@ Blockly.Python['xfeatures2d_SURF_getUpright'] = function(block) {
 Blockly.Python['xfeatures2d_SIFT_create'] = function(block) {
   var SIFT = block.getFieldValue('SIFT');
   var code = SIFT + " = cv2.xfeatures2d.SIFT_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['optflow_calcOpticalFlowSF_calcOpticalFlowSF'] = function(block) {
   var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
@@ -3944,7 +3944,7 @@ Blockly.Python['optflow_calcOpticalFlowSF_calcOpticalFlowSF'] = function(block) 
   var averaging_block_size = block.getFieldValue('averaging_block_size');
   var max_flow = block.getFieldValue('max_flow');
   var code = calcOpticalFlowSF + " = cv2.optflow.calcOpticalFlowSF("+from+","+to+","+layers+","+averaging_block_size+","+max_flow+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['optflow_calcOpticalFlowSF_readOpticalFlow'] = function(block) {
   var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
@@ -3962,17 +3962,17 @@ Blockly.Python['optflow_calcOpticalFlowSF_writeOpticalFlow'] = function(block) {
 Blockly.Python['optflow_calcOpticalFlowSF_createOptFlow_DeepFlow'] = function(block) {
   var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
   var code = calcOpticalFlowSF + " = cv2.optflow.createOptFlow_DeepFlow()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['optflow_calcOpticalFlowSF_createOptFlow_SimpleFlow'] = function(block) {
   var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
   var code = calcOpticalFlowSF + " = cv2.optflow.createOptFlow_SimpleFlow()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['optflow_calcOpticalFlowSF_createOptFlow_Farneback'] = function(block) {
   var calcOpticalFlowSF = block.getFieldValue('calcOpticalFlowSF');
   var code = calcOpticalFlowSF + " = cv2.optflow.createOptFlow_Farneback()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_RFFeatureGetter_getFeatures'] = function(block) {
   var RFFeatureGetter = block.getFieldValue('RFFeatureGetter');
@@ -4012,7 +4012,7 @@ Blockly.Python['ximgproc_AdaptiveManifoldFilter_collectGarbage'] = function(bloc
 Blockly.Python['ximgproc_AdaptiveManifoldFilter_create'] = function(block) {
   var AdaptiveManifoldFilter = block.getFieldValue('AdaptiveManifoldFilter');
   var code = AdaptiveManifoldFilter + " = cv2.ximgproc.AdaptiveManifoldFilter_create()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels'] = function(block) {
   var SuperpixelSEEDS = block.getFieldValue('SuperpixelSEEDS');
@@ -4043,7 +4043,7 @@ Blockly.Python['ximgproc_createSuperpixelSEEDS_createSuperpixelSEEDS'] = functio
   var num_superpixels = block.getFieldValue('num_superpixels');
   var num_levels = block.getFieldValue('num_levels');
   var code = createSuperpixelSEEDS + " = cv2.ximgproc.createSuperpixelSEEDS("+image_width+","+image_height+","+image_channels+","+num_superpixels+","+num_levels+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_createSuperpixelSEEDS_createDTFilter'] = function(block) {
   var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
@@ -4051,7 +4051,7 @@ Blockly.Python['ximgproc_createSuperpixelSEEDS_createDTFilter'] = function(block
   var sigmaSpatial = block.getFieldValue('sigmaSpatial');
   var sigmaColor = block.getFieldValue('sigmaColor');
   var code = createSuperpixelSEEDS + " = cv2.ximgproc.createDTFilter("+guide+","+sigmaSpatial+","+sigmaColor+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_createSuperpixelSEEDS_dtFilter'] = function(block) {
   var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
@@ -4068,7 +4068,7 @@ Blockly.Python['ximgproc_createSuperpixelSEEDS_createGuidedFilter'] = function(b
   var radius = block.getFieldValue('radius');
   var eps = block.getFieldValue('eps');
   var code = createSuperpixelSEEDS + " = cv2.ximgproc.createGuidedFilter("+guide+","+radius+","+eps+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_createSuperpixelSEEDS_guidedFilter'] = function(block) {
   var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
@@ -4084,7 +4084,7 @@ Blockly.Python['ximgproc_createSuperpixelSEEDS_createAMFilter'] = function(block
   var sigma_s = block.getFieldValue('sigma_s');
   var sigma_r = block.getFieldValue('sigma_r');
   var code = createSuperpixelSEEDS + " = cv2.ximgproc.createAMFilter("+sigma_s+","+sigma_r+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_createSuperpixelSEEDS_amFilter'] = function(block) {
   var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
@@ -4108,13 +4108,13 @@ Blockly.Python['ximgproc_createSuperpixelSEEDS_jointBilateralFilter'] = function
 Blockly.Python['ximgproc_createSuperpixelSEEDS_createRFFeatureGetter'] = function(block) {
   var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
   var code = createSuperpixelSEEDS + " = cv2.ximgproc.createRFFeatureGetter()\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_createSuperpixelSEEDS_createStructuredEdgeDetection'] = function(block) {
   var createSuperpixelSEEDS = block.getFieldValue('createSuperpixelSEEDS');
   var model = Blockly.Python.valueToCode(block, 'model', Blockly.Python.ORDER_ATOMIC);
   var code = createSuperpixelSEEDS + " = cv2.ximgproc.createStructuredEdgeDetection("+model+")\n"
-  return [code, Blockly.Python.ORDER_NONE];
+  return code;
 };
 Blockly.Python['ximgproc_GuidedFilter_filter'] = function(block) {
   var GuidedFilter = block.getFieldValue('GuidedFilter');

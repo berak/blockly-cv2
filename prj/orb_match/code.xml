@@ -1,0 +1,175 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="features2d_ORB_create" id="1" x="50" y="167">
+    <field name="ORB">ORB</field>
+    <next>
+      <block type="features2d_BFMatcher_BFMatcher" id="2">
+        <field name="BFMatcher">BFMatcher</field>
+        <next>
+          <block type="load" id="3">
+            <field name="image">image</field>
+            <field name="filename">media/lena.jpg</field>
+            <field name="grey">TRUE</field>
+            <next>
+              <block type="variables_set" id="4" inline="true" collapsed="true">
+                <field name="VAR">templ</field>
+                <value name="VALUE">
+                  <block type="core_flip" id="5" inline="false">
+                    <field name="flipCode">-1</field>
+                    <value name="src">
+                      <block type="roi" id="6" inline="true">
+                        <field name="y0">200</field>
+                        <field name="y1">400</field>
+                        <field name="x0">200</field>
+                        <field name="x1">400</field>
+                        <value name="input">
+                          <block type="variables_get" id="7">
+                            <field name="VAR">image</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="8" inline="true" collapsed="true">
+                    <field name="VAR">kp_desc1</field>
+                    <value name="VALUE">
+                      <block type="tuple" id="58" inline="false">
+                        <value name="X">
+                          <block type="features2d_Feature2D_detectAndCompute" id="15" inline="false">
+                            <field name="Feature2D">ORB</field>
+                            <value name="image">
+                              <block type="variables_get" id="16">
+                                <field name="VAR">templ</field>
+                              </block>
+                            </value>
+                            <value name="mask">
+                              <block type="none" id="17"></block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="13" inline="true" collapsed="true">
+                        <field name="VAR">kp_desc2</field>
+                        <value name="VALUE">
+                          <block type="tuple" id="59" inline="false">
+                            <value name="X">
+                              <block type="features2d_Feature2D_detectAndCompute" id="60" inline="false">
+                                <field name="Feature2D">ORB</field>
+                                <value name="image">
+                                  <block type="variables_get" id="61">
+                                    <field name="VAR">image</field>
+                                  </block>
+                                </value>
+                                <value name="mask">
+                                  <block type="none" id="62"></block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="imshow" id="18" inline="false">
+                            <field name="windowname">orb match</field>
+                            <value name="image">
+                              <block type="features2d_drawMatches" id="19" inline="false" collapsed="true">
+                                <value name="img1">
+                                  <block type="variables_get" id="20">
+                                    <field name="VAR">templ</field>
+                                  </block>
+                                </value>
+                                <value name="keypoints1">
+                                  <block type="indexed" id="21" inline="true">
+                                    <value name="input">
+                                      <block type="variables_get" id="22">
+                                        <field name="VAR">kp_desc1</field>
+                                      </block>
+                                    </value>
+                                    <value name="index">
+                                      <block type="math_number" id="23">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="img2">
+                                  <block type="variables_get" id="24">
+                                    <field name="VAR">image</field>
+                                  </block>
+                                </value>
+                                <value name="keypoints2">
+                                  <block type="indexed" id="25" inline="true">
+                                    <value name="input">
+                                      <block type="variables_get" id="26">
+                                        <field name="VAR">kp_desc2</field>
+                                      </block>
+                                    </value>
+                                    <value name="index">
+                                      <block type="math_number" id="27">
+                                        <field name="NUM">0</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="matches1to2">
+                                  <block type="features2d_DescriptorMatcher_match" id="28" inline="false">
+                                    <field name="DescriptorMatcher">BFMatcher</field>
+                                    <value name="queryDescriptors">
+                                      <block type="indexed" id="29" inline="true">
+                                        <value name="input">
+                                          <block type="variables_get" id="30">
+                                            <field name="VAR">kp_desc1</field>
+                                          </block>
+                                        </value>
+                                        <value name="index">
+                                          <block type="math_number" id="31">
+                                            <field name="NUM">1</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="trainDescriptors">
+                                      <block type="indexed" id="32" inline="true">
+                                        <value name="input">
+                                          <block type="variables_get" id="33">
+                                            <field name="VAR">kp_desc2</field>
+                                          </block>
+                                        </value>
+                                        <value name="index">
+                                          <block type="math_number" id="34">
+                                            <field name="NUM">1</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="outImg">
+                                  <block type="variables_get" id="35">
+                                    <field name="VAR">image</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="waitkey" id="36">
+                                <field name="millis">0</field>
+                                <field name="key">27</field>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

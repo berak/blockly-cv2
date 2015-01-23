@@ -55,7 +55,7 @@
     var theErrorCounter=0
     function getPyErr(s) {
       theError=s;
-      if (theError) theErrorCounter = 60;
+      if (theError) theErrorCounter = 100;
     }
     function runPy() {
       ajax("/code", pyCode(), getPyErr);
@@ -490,7 +490,6 @@
     <block type="calib3d_computeCorrespondEpilines"></block>
     <block type="calib3d_triangulatePoints"></block>
     <block type="calib3d_correctMatches"></block>
-    <block type="calib3d_filterSpeckles"></block>
     <block type="calib3d_getValidDisparityROI"></block>
     <block type="calib3d_validateDisparity"></block>
     <block type="calib3d_reprojectImageTo3D"></block>
@@ -513,6 +512,7 @@
     <block type="calib3d_StereoSGBM_setP1"></block>
     <block type="calib3d_StereoSGBM_setP2"></block>
     <block type="calib3d_StereoSGBM_setMode"></block>
+    <block type="calib3d_filterSpeckles"></block>
     <block type="calib3d_StereoMatcher_compute"></block>
     <block type="calib3d_StereoMatcher_setMinDisparity"></block>
     <block type="calib3d_StereoMatcher_setNumDisparities"></block>
@@ -692,8 +692,12 @@
     <block type="bioinspired_RetinaFastToneMapping_applyFastToneMapping"></block>
     <block type="bioinspired_RetinaFastToneMapping_setup"></block>
     <block type="bioinspired_Retina_setup"></block>
+    <block type="bioinspired_Retina_getParvo"></block>
+    <block type="bioinspired_Retina_getMagno"></block>
+    <block type="bioinspired_Retina_getParvoRAW"></block>
+    <block type="bioinspired_Retina_getMagnoRAW"></block>
+    <block type="bioinspired_Retina_setup"></block>
     <block type="bioinspired_Retina_printSetup"></block>
-    <block type="bioinspired_Retina_write"></block>
     <block type="bioinspired_Retina_setupOPLandIPLParvoChannel"></block>
     <block type="bioinspired_Retina_setupIPLMagnoChannel"></block>
     <block type="bioinspired_Retina_run"></block>
@@ -779,6 +783,7 @@
 <hr>
 
     <category name="Logic">
+      <block type="none"></block>
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>

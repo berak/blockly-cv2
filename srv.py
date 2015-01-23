@@ -1,3 +1,4 @@
+from cStringIO import StringIO
 import sys, socket, threading, time, datetime, os
 import cv2
 import numpy as np
@@ -51,12 +52,16 @@ def application(environ, start_response):
     if url == "/":
         url = "/Blockly.html"
     if url.startswith('/code'):
-        try:
+        sys.stdout = sys.stderr = mystdout = StringIO()
+        try:          
             #MyThread(request_body).start()
             exec( compile( postdata(environ), "blockly", "exec" ) )
+            data = mystdout.getvalue()
         except Exception,e:
             print e
             data = str(e)
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
     elif url.startswith('/save_code'):
         data = save(".py",environ)
     elif url.startswith('/save_xml'):
