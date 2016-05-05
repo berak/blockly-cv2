@@ -1,0 +1,45 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="variables_set" id="275" inline="true" x="87" y="165">
+    <field name="VAR">arr</field>
+    <value name="VALUE">
+      <block type="lists_create_empty" id="314"></block>
+    </value>
+    <next>
+      <block type="lists_append" id="253" inline="true">
+        <value name="list">
+          <block type="variables_get" id="280">
+            <field name="VAR">arr</field>
+          </block>
+        </value>
+        <value name="item">
+          <block type="math_number" id="254">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="lists_append" id="315" inline="true">
+            <value name="list">
+              <block type="variables_get" id="316">
+                <field name="VAR">arr</field>
+              </block>
+            </value>
+            <value name="item">
+              <block type="math_number" id="317">
+                <field name="NUM">2</field>
+              </block>
+            </value>
+            <next>
+              <block type="text_print" id="300" inline="false">
+                <value name="TEXT">
+                  <block type="variables_get" id="281">
+                    <field name="VAR">arr</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

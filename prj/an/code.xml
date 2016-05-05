@@ -1,0 +1,31 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="procedures_defreturn" id="1" inline="false" x="-249" y="54">
+    <mutation>
+      <arg name="p0"></arg>
+      <arg name="p1"></arg>
+      <arg name="p2"></arg>
+    </mutation>
+    <field name="NAME">angle</field>
+    <value name="RETURN">
+      <block type="math_single" id="2" inline="true">
+        <field name="OP">ABS</field>
+        <value name="NUM">
+          <block type="math_number" id="3">
+            <field name="NUM">12</field>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="text_print" id="4" inline="false" x="-241" y="193">
+    <value name="TEXT">
+      <block type="procedures_callreturn" id="5" inline="false">
+        <mutation name="angle">
+          <arg name="p0"></arg>
+          <arg name="p1"></arg>
+          <arg name="p2"></arg>
+        </mutation>
+      </block>
+    </value>
+  </block>
+</xml>

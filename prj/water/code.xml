@@ -1,0 +1,83 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="load" id="567" x="4" y="104">
+    <field name="image">image</field>
+    <field name="filename">media/lena.jpg</field>
+    <field name="grey">FALSE</field>
+    <next>
+      <block type="variables_set" id="666" inline="true">
+        <field name="VAR">markers</field>
+        <value name="VALUE">
+          <block type="lists_create_with" id="642" inline="false">
+            <mutation items="3"></mutation>
+            <value name="ADD0">
+              <block type="point" id="664">
+                <field name="x">10</field>
+                <field name="y">10</field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="point" id="665">
+                <field name="x">100</field>
+                <field name="y">100</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="628" inline="true">
+            <field name="VAR">water</field>
+            <value name="VALUE">
+              <block type="imgproc_watershed" id="578" inline="false">
+                <value name="image">
+                  <block type="variables_get" id="579">
+                    <field name="VAR">image</field>
+                  </block>
+                </value>
+                <value name="markers">
+                  <block type="variables_get" id="621">
+                    <field name="VAR">markers</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="text_print" id="687" inline="false">
+                <value name="TEXT">
+                  <block type="variables_get" id="688">
+                    <field name="VAR">water</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="imshow" id="568" inline="false">
+                    <field name="windowname">mywin</field>
+                    <value name="image">
+                      <block type="variables_get" id="569">
+                        <field name="VAR">image</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="imshow" id="622" inline="false">
+                        <field name="windowname">watershed</field>
+                        <value name="image">
+                          <block type="variables_get" id="623">
+                            <field name="VAR">water</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="waitkey" id="570">
+                            <field name="millis">0</field>
+                            <field name="key">27</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

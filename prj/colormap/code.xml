@@ -1,0 +1,28 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="load" id="1" x="4" y="104">
+    <field name="image">image</field>
+    <field name="filename">media/lena.jpg</field>
+    <field name="grey">TRUE</field>
+    <next>
+      <block type="imshow" id="2" inline="false">
+        <field name="windowname">mywin</field>
+        <value name="image">
+          <block type="imgproc_applyColorMap" id="24" inline="false">
+            <field name="colormap">4</field>
+            <value name="src">
+              <block type="variables_get" id="3">
+                <field name="VAR">image</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="waitkey" id="4">
+            <field name="millis">0</field>
+            <field name="key">27</field>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

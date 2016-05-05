@@ -1,0 +1,212 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="features2d_AKAZE_create" id="455" collapsed="true" x="141" y="271">
+    <field name="AKAZE">AKAZE</field>
+    <next>
+      <block type="features2d_BFMatcher_BFMatcher" id="405" collapsed="true">
+        <field name="BFMatcher">BFMatcher</field>
+        <next>
+          <block type="load" id="406">
+            <field name="image">image</field>
+            <field name="filename">media/lena.jpg</field>
+            <field name="grey">TRUE</field>
+            <next>
+              <block type="variables_set" id="407" inline="true" collapsed="true">
+                <field name="VAR">templ</field>
+                <value name="VALUE">
+                  <block type="core_flip" id="408" inline="false">
+                    <field name="flipCode">-1</field>
+                    <value name="src">
+                      <block type="roi" id="409" inline="true">
+                        <field name="y0">200</field>
+                        <field name="y1">400</field>
+                        <field name="x0">200</field>
+                        <field name="x1">400</field>
+                        <value name="input">
+                          <block type="variables_get" id="410">
+                            <field name="VAR">image</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="411" inline="true" collapsed="true">
+                    <field name="VAR">kp_desc1</field>
+                    <value name="VALUE">
+                      <block type="tuple" id="412" inline="false">
+                        <value name="X">
+                          <block type="features2d_Feature2D_detectAndCompute" id="413" inline="false">
+                            <field name="Feature2D">AKAZE</field>
+                            <value name="image">
+                              <block type="variables_get" id="414">
+                                <field name="VAR">templ</field>
+                              </block>
+                            </value>
+                            <value name="mask">
+                              <block type="none" id="415"></block>
+                            </value>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="variables_set" id="416" inline="true" collapsed="true">
+                        <field name="VAR">kp_desc2</field>
+                        <value name="VALUE">
+                          <block type="tuple" id="417" inline="false">
+                            <value name="X">
+                              <block type="features2d_Feature2D_detectAndCompute" id="418" inline="false">
+                                <field name="Feature2D">AKAZE</field>
+                                <value name="image">
+                                  <block type="variables_get" id="419">
+                                    <field name="VAR">image</field>
+                                  </block>
+                                </value>
+                                <value name="mask">
+                                  <block type="none" id="420"></block>
+                                </value>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_set" id="519" inline="true" collapsed="true">
+                            <field name="VAR">matches</field>
+                            <value name="VALUE">
+                              <block type="features2d_DescriptorMatcher_match" id="431" inline="false">
+                                <field name="DescriptorMatcher">BFMatcher</field>
+                                <value name="queryDescriptors">
+                                  <block type="indexed" id="432" inline="true">
+                                    <value name="input">
+                                      <block type="variables_get" id="433">
+                                        <field name="VAR">kp_desc1</field>
+                                      </block>
+                                    </value>
+                                    <value name="index">
+                                      <block type="math_number" id="434">
+                                        <field name="NUM">1</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <value name="trainDescriptors">
+                                  <block type="indexed" id="435" inline="true">
+                                    <value name="input">
+                                      <block type="variables_get" id="436">
+                                        <field name="VAR">kp_desc2</field>
+                                      </block>
+                                    </value>
+                                    <value name="index">
+                                      <block type="math_number" id="437">
+                                        <field name="NUM">1</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="text_print" id="538" inline="false" collapsed="true">
+                                <value name="TEXT">
+                                  <block type="math_arithmetic" id="607" inline="true">
+                                    <field name="OP">ADD</field>
+                                    <value name="A">
+                                      <block type="tostr" id="645" inline="false">
+                                        <value name="input">
+                                          <block type="lists_length" id="570" inline="false">
+                                            <value name="VALUE">
+                                              <block type="variables_get" id="555">
+                                                <field name="VAR">matches</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <value name="B">
+                                      <block type="text" id="626">
+                                        <field name="TEXT"> matches.</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="imshow" id="421" inline="false" collapsed="true">
+                                    <field name="windowname">akaze match</field>
+                                    <value name="image">
+                                      <block type="features2d_drawMatches" id="422" inline="false">
+                                        <value name="img1">
+                                          <block type="variables_get" id="423">
+                                            <field name="VAR">templ</field>
+                                          </block>
+                                        </value>
+                                        <value name="keypoints1">
+                                          <block type="indexed" id="424" inline="true">
+                                            <value name="input">
+                                              <block type="variables_get" id="425">
+                                                <field name="VAR">kp_desc1</field>
+                                              </block>
+                                            </value>
+                                            <value name="index">
+                                              <block type="math_number" id="426">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="img2">
+                                          <block type="variables_get" id="427">
+                                            <field name="VAR">image</field>
+                                          </block>
+                                        </value>
+                                        <value name="keypoints2">
+                                          <block type="indexed" id="428" inline="true">
+                                            <value name="input">
+                                              <block type="variables_get" id="429">
+                                                <field name="VAR">kp_desc2</field>
+                                              </block>
+                                            </value>
+                                            <value name="index">
+                                              <block type="math_number" id="430">
+                                                <field name="NUM">0</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <value name="matches1to2">
+                                          <block type="variables_get" id="556">
+                                            <field name="VAR">matches</field>
+                                          </block>
+                                        </value>
+                                        <value name="outImg">
+                                          <block type="variables_get" id="438">
+                                            <field name="VAR">image</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="waitkey" id="439" collapsed="true">
+                                        <field name="millis">0</field>
+                                        <field name="key">27</field>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
