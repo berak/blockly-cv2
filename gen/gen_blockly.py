@@ -105,7 +105,7 @@ class CWrapperGenerator(object):
      "optflow":231,
      }
 
-    contribs=["bioinspired","bgsegm","xphoto","xfeatures2d","optflow","ximgproc"]
+    contribs=["bioinspired","bgsegm","xphoto","xfeatures2d","optflow","ximgproc","face"]
 
     def internal_var(self,name): # aka 'this'
         s =  "  getVars: function(){return [this.getFieldValue('"+name+"')]},\n"
@@ -250,11 +250,6 @@ class CWrapperGenerator(object):
         # parse each of the files and store in a dictionary
         # as a separate "namespace"
         parser = CppHeaderParser()
-        rst    = rst_parser.RstParser(parser)
-        rst_parser.verbose = False
-        rst_parser.show_warnings = False
-        rst_parser.show_errors = False
-        rst_parser.show_critical_errors = False
 
         ns  = dict((key, []) for key in modules)
         doc = dict((key, []) for key in modules)
@@ -265,10 +260,6 @@ class CWrapperGenerator(object):
             header = os.path.join(module_root, path_template.substitute(module=module))
             # parse the definitions
             ns[module] = parser.parse(header)
-            # parse the documentation
-            rst.parse(module, os.path.join(module_root, module))
-            doc[module] = rst.definitions
-            rst.definitions = {}
 
         for extra in extras:
             module = extra.split("=")[0]
@@ -338,15 +329,12 @@ if __name__ == "__main__":
       1. constructs the headers to parse from the module root and list of modules
       2. parses the headers using CppHeaderParser
       3. refactors the definitions using ParseTree
-      4. parses .rst docs using RstParser
       5. populates the templates for classes, function, enums and docs from the
          definitions
 
     gen_capi.py requires the following inputs:
     --hdrparser    the path to the header parser directory
                    (opencv/modules/python/src2)
-    --rstparser    the path to the rst parser directory
-                   (opencv/modules/java/generator)
     --moduleroot   (optional) path to the opencv directory containing the modules
     --modules      (optional - required if --moduleroot specified) the modules
                    to produce bindings for. The path to the include directories
@@ -362,15 +350,6 @@ if __name__ == "__main__":
 
     # parse the input options
     import sys, re, os, time
-    #~ from argparse import ArgumentParser
-    #~ parser = ArgumentParser()
-    #~ parser.add_argument('--hdrparser')
-    #~ parser.add_argument('--rstparser')
-    #~ parser.add_argument('--moduleroot', default='', required=False)
-    #~ parser.add_argument('--modules', nargs='*', default=[], required=False)
-    #~ parser.add_argument('--extra', nargs='*', default=[], required=False)
-    #~ parser.add_argument('--outdir')
-    #~ args = parser.parse_args()
 
     #~ # add the hdr_parser and rst_parser modules to the path
     #~ sys.path.append(args.hdrparser)
@@ -378,17 +357,7 @@ if __name__ == "__main__":
 
     from string import Template
     from hdr_parser import CppHeaderParser
-    import rst_parser
     from parse_tree import ParseTree, todict, constants, Argument
-    #~ from filters import *
-    #~ from jinja2 import Environment, FileSystemLoader
-
-    #~ from gen_mod import moduleroot,modules,extras
-    #~ moduleroot="e:/code/opencv/modules"
-    #~ modules=["core","highgui","imgproc","contrib","ml","objdetect"] #,"features2d"]
-    #~ extras = ["core=e:/code/opencv/modules/core/include/opencv2/core/base.hpp",
-              #~ "video=e:/code/opencv/modules/video/include/opencv2/video/tracking.hpp",
-              #~ "video=e:/code/opencv/modules/video/include/opencv2/video/background_segm.hpp"]
 
     cg = CWrapperGenerator()
-    cg.gen(moduleroot, modules, extras, "js/gen", "blocks.js", "python.js", "blocks.xml")
+    cg.gen(moduleroot, modules, extras, "gen", "blocks.js", "python.js", "blocks.xml")

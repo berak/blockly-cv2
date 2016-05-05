@@ -152,7 +152,7 @@ Blockly.Blocks['imgsize'] = {
 };
 Blockly.Python['imgsize'] = function(block) {
   var image = Blockly.Python.valueToCode(block, 'image', Blockly.Python.ORDER_ATOMIC);
-  var code = "np.shape(" + image + ")[:-1]";
+  var code = "np.shape(" + image + ")[:2]";
   return [code, Blockly.Python.ORDER_NONE];
 };
 

@@ -4,7 +4,7 @@ modules=[
        "core",
        "stitching", "features2d","imgproc","video","imgcodecs", "calib3d",
        "photo","shape",
-] # ,"flann","optim"
+] # ,"flann"
 extras = [
           "core=e:/code/opencv/modules/core/include/opencv2/core/base.hpp",
           "core=e:/code/opencv/modules/core/include/opencv2/core/types.hpp",
@@ -24,12 +24,14 @@ extras = [
           "ximgproc=e:/code/opencv_contrib/modules/ximgproc/include/opencv2/ximgproc/edge_filter.hpp",
           "ximgproc=e:/code/opencv_contrib/modules/ximgproc/include/opencv2/ximgproc/structured_edge_detection.hpp",
           "xfeatures2d=e:/code/opencv_contrib/modules/xfeatures2d/include/opencv2/xfeatures2d.hpp",
-          "xfeatures2d=e:/code/opencv_contrib/modules/xfeatures2d/include/opencv2/xfeatures2d/nonfree.hpp"
+          "xfeatures2d=e:/code/opencv_contrib/modules/xfeatures2d/include/opencv2/xfeatures2d/nonfree.hpp",
+          "face=e:/code/opencv_contrib/modules/face/include/opencv2/face.hpp",
+          "face=e:/code/opencv_contrib/modules/face/include/opencv2/face/facerec.hpp",
           ]
-BLACK=("FaceRecognizer", # 'fixed unsafe' issue  ## ,"Moments" ,"FlannBasedMatcher"
-       "Algorithm","SimpleBlobDetector","PyramidAdaptedFeatureDetector","GridAdaptedFeatureDetector",
+BLACK=( # 'fixed unsafe' issue  ## ,"Moments" ,"FlannBasedMatcher"
+       "Algorithm","SimpleBlobDetector",
        "NB_SCALES","normType","DATA_AS_ROW","DEFAULT_SMALL_SIZE","StsOk","UNIFORM","HAAR","MODIFY_A","INT","DEFAULT","FMT_MATLAB","COUNT",
        "Params","Hamming","HammingMultilevel","Error","Param","Formatter","Subdiv2D",
        "BOWTrainer","BOWKMeansTrainer","BOWImgDescriptorExtractor","CvNormalBayesClassifier","CvDTree" ,"HOGDescriptor") #,"Algorithm",,"CvStatModel"
-IGNORE=("minEnclosingCircle", "createEigenFaceRecognizer","createFisherFaceRecognizer","createLBPHFaceRecognizer", # 'fixed unsafe' issue
-        "CamShift","checkRange","minMaxLoc","getTextSize","randShuffle","floodFill","phaseCorrelate","chamerMatching","moments","HuMoments","minAreaRect","fitEllipse")
+IGNORE=("minEnclosingCircle", # 'fixed unsafe' issue
+        "CamShift","checkRange","minMaxLoc","getTextSize","randShuffle","floodFill","phaseCorrelate","moments","HuMoments","minAreaRect","fitEllipse")
