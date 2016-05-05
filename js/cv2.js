@@ -730,3 +730,22 @@ Blockly.Python['forEnum'] = function(block) {
   return code;
 };
 
+
+Blockly.Blocks['text_eval'] = {
+  init: function() {
+    this.setColour(45);
+    this.setInputsInline(true);
+    this.appendDummyInput()
+        .appendField("eval")
+        .appendField(new Blockly.FieldTextInput(""), "text");
+    //~ this.appendStatementInput("statement");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('direct python eval');
+  }
+};
+Blockly.Python['text_eval'] = function(block) {
+  var c = block.getFieldValue('text');
+  var code = c + "\n";
+  return code;
+};
